@@ -4,7 +4,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
 
-import javax.swing.JPanel;
+import gui.DrawableUIElement;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -12,13 +12,13 @@ import java.awt.Dimension;
 import util.Vector2;
 
 
-public class StickyNote extends JPanel {
+public class StickyNote extends DrawableUIElement {
 
     public Color noteColor = NoteColor.PURPLE.getColor();
-    private Vector2 position = new Vector2(100, 10);
     private Vector2 dimensions = new Vector2(150, 150);
 
     public StickyNote() {
+        position = new Vector2(100, 10);
         setPreferredSize(new Dimension((int)dimensions.x, (int)dimensions.y));
 
     }
