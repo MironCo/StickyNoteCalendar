@@ -4,7 +4,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
 
-import gui.DrawableUIElement;
+import gui.DraggableUIElement;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -12,7 +12,7 @@ import java.awt.Dimension;
 import util.Vector2;
 
 
-public class StickyNote extends DrawableUIElement {
+public class StickyNote extends DraggableUIElement {
 
     public Color noteColor = NoteColor.PURPLE.getColor();
     private Vector2 dimensions = new Vector2(150, 150);
@@ -20,7 +20,7 @@ public class StickyNote extends DrawableUIElement {
     public StickyNote() {
         position = new Vector2(100, 10);
         setPreferredSize(new Dimension((int)dimensions.x, (int)dimensions.y));
-
+        
     }
 
     @Override
