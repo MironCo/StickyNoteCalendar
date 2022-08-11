@@ -1,37 +1,25 @@
 package gui;
 
-import javax.swing.event.MouseInputListener;
-import java.awt.event.MouseEvent;
+import javafx.scene.Node;
 
-public abstract class DraggableUIElement extends DrawableUIElement implements MouseInputListener {
-    
+public abstract class DraggableUIElement extends DrawableUIElement {
+
+    private double startX = 0;
+    private double startY = 0;
+
     public DraggableUIElement() {
-        addMouseListener(this);
+        //do nothing
     }
 
-    public void mousePressed(MouseEvent e) {
-    }
+    protected void makeDraggable(Node node) {
+        node.setOnMousePressed(e -> {
+            startX = e.getSceneX() - node.getTranslateX();
+            startY = e.getSceneY() - node.getTranslateY();
+        });
 
-    public void mouseReleased(MouseEvent e) {
-        
-    }
-
-    public void mouseEntered(MouseEvent e) {
-    
-    }
-
-    public void mouseExited(MouseEvent e) {
-      
-    }
-
-    public void mouseClicked(MouseEvent e) {
-   
-    }
-
-    public void mouseMoved(MouseEvent e) {
-    }
-
-    public void mouseDragged(MouseEvent e) {
-    
+        node.setOnMouseDragged(e -> {
+            node.setTranslateX(e.getSceneX() - startX);
+            node.setTranslateY(e.getSceneY() - startY);
+        });
     }
 } 

@@ -1,13 +1,16 @@
 package gui;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javafx.scene.Node;
 import util.Vector2;
-import javax.swing.JPanel;
-import java.awt.Graphics;
 
-public abstract class DrawableUIElement extends JPanel {
+public abstract class DrawableUIElement {
 
-    protected Vector2 position;
-
+    protected List<Node> nodes = new ArrayList<Node>();
+    protected Vector2 position = new Vector2(0, 0);
+    
     /**
      * Method to set the position of the UI element
      * @param _position new position as a Vector2
@@ -32,8 +35,11 @@ public abstract class DrawableUIElement extends JPanel {
         return position;
     }
 
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
+    public List<Node> getNodes() {
+        return nodes;
+    }
+
+    public void addTo(List<Node> drawableNodes) {
+        drawableNodes.addAll(getNodes());
     }
 };

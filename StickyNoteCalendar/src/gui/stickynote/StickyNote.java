@@ -1,34 +1,27 @@
 package gui.stickynote;
 
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.geom.Rectangle2D;
+import java.util.List;
 
 import gui.DraggableUIElement;
-
-import java.awt.Color;
-import java.awt.Dimension;
-
+import javafx.scene.shape.Rectangle;
+import javafx.scene.Node;
+import javafx.scene.paint.Color;
 import util.Vector2;
 
-
 public class StickyNote extends DraggableUIElement {
-
-    public Color noteColor = NoteColor.PURPLE.getColor();
     private Vector2 dimensions = new Vector2(150, 150);
+    private Rectangle rectangle = new Rectangle();
+    private NoteColor color = null;
 
     public StickyNote() {
-        position = new Vector2(100, 10);
-        setPreferredSize(new Dimension((int)dimensions.x, (int)dimensions.y));
-        
-    }
+        nodes.add(rectangle);
 
-    @Override
-    protected void paintComponent(Graphics g) {
-        Graphics2D g2d = (Graphics2D) g;
-        super.paintComponent(g);
-        Rectangle2D rect = new Rectangle2D.Double(position.x, position.y, dimensions.x, dimensions.y);
-        g2d.setColor(noteColor);
-        g2d.fill(rect);
+        color = NoteColor.PURPLE;
+        position = new Vector2(10, 10);
+        rectangle = new Rectangle(position.x, position.y, dimensions.x, dimensions.y);
+        nodes.add(rectangle);
+        rectangle.setFill(new Color(color.getColor().getRed() / 255.0f, color.getColor().getGreen() / 255.0f, color.getColor().getBlue() / 255.0f, 1));
+
+        makeDraggable(rectangle);
     }
 }
