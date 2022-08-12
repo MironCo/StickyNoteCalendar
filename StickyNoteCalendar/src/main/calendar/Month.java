@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javafx.scene.Node;
+import main.calendar.day.Day;
+import main.calendar.day.DayFactory;
 
 public class Month {
     private String name;
@@ -28,4 +30,8 @@ public class Month {
             d.resize();
         }
     }
-}
+
+    public String getName() {
+        return name;
+    }
+} 

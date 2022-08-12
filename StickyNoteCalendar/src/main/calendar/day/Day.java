@@ -1,4 +1,4 @@
-package main.calendar;
+package main.calendar.day;
 
 import gui.DrawableUIElement;
 import javafx.scene.shape.Rectangle;

@@ -1,7 +1,6 @@
 package main;
 
 import main.calendar.Calendar;
-import util.FontManager;
 import gui.Toolbar;
 import gui.stickynote.StickyNote;
 import javafx.application.Application;
@@ -9,15 +8,13 @@ import javafx.beans.value.ChangeListener;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.ToolBar;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
-import javafx.stage.Screen;
+
 import javafx.stage.Stage;
 
 public class App extends Application{
-    public static double screenWidth = 1600;
-    public static double screenHeight = 900;
+    public static double screenWidth = 1280;
+    public static double screenHeight = 720;
 
     public static void main (String[] args) {
         launch(args);

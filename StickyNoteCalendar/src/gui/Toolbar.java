@@ -1,7 +1,5 @@
 package gui;
 
-import javax.tools.Tool;
-
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import main.App;
