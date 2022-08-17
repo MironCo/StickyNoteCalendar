@@ -18,8 +18,10 @@ public abstract class DraggableUIElement extends DrawableUIElement {
         });
 
         node.setOnMouseDragged(e -> {
-            node.setTranslateX(e.getSceneX() - startX);
-            node.setTranslateY(e.getSceneY() - startY);
+            for(Node n : getNodes()) {
+                n.setTranslateX(e.getSceneX() - startX);
+                n.setTranslateY(e.getSceneY() - startY);
+            }
         });
     }
 } 

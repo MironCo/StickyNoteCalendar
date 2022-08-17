@@ -1,6 +1,9 @@
 package main;
 
 import main.calendar.Calendar;
+
+import java.util.List;
+
 import gui.Toolbar;
 import gui.stickynote.StickyNote;
 import javafx.application.Application;
@@ -8,13 +11,16 @@ import javafx.beans.value.ChangeListener;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
-
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class App extends Application{
     public static double screenWidth = 1280;
     public static double screenHeight = 720;
+    private static StickyNote currentlyEditingStickyNote = null;
 
     public static void main (String[] args) {
         launch(args);
@@ -48,5 +54,29 @@ public class App extends Application{
 
         stage.widthProperty().addListener(stageSizeListener);
         stage.heightProperty().addListener(stageSizeListener); 
+
+        stage.addEventHandler(KeyEvent.KEY_PRESSED, (key) -> {
+            if (currentlyEditingStickyNote != null && currentlyEditingStickyNote.isEditing()) {
+                Text currentText = currentlyEditingStickyNote.getStickyNoteText();
+                if (key.getCode() == KeyCode.BACK_SPACE && currentText.getText().length() > 0) {
+                    currentText.setText(currentText.getText().substring(0, currentText.getText().length()-1));
+                } else {
+                    currentText.setText(currentText.getText() + key.getText());
+                    if (currentlyEditingStickyNote.isTextOutsideBounds()) {
+                        currentText.setText(currentText.getText().substring(0, currentText.getText().length()-1));
+                        currentText.setText(currentText.getText() + "\n");
+                        currentText.setText(currentText.getText() + key.getText());
+                    }
+                }
+            }
+        });
+    }
+
+    public static KeyEvent broadcastKeyPressed(KeyEvent key) {
+        return key;
+    }
+
+    public static void setCurrentStickyNote(StickyNote note) {
+        currentlyEditingStickyNote = note;
     }
 }
