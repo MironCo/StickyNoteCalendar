@@ -11,16 +11,16 @@ import javafx.beans.value.ChangeListener;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class App extends Application{
     public static double screenWidth = 1280;
     public static double screenHeight = 720;
     private static StickyNote currentlyEditingStickyNote = null;
+
+    private static ObservableList<Node> objectList = null;
 
     public static void main (String[] args) {
         launch(args);
@@ -31,18 +31,16 @@ public class App extends Application{
         stage.setTitle("Sticky Note Calendar");
 
         Pane layout = new Pane();
-        ObservableList<Node> objectList = layout.getChildren();
+        objectList = layout.getChildren();
 
         Scene scene = new Scene(layout, screenWidth, screenHeight);
 
         Calendar.getInstance().Init();
+        Calendar.getInstance().addNodes(objectList);    
+
         Toolbar toolbar = new Toolbar();
         StickyNote note = new StickyNote();
-
-        Calendar.getInstance().addNodes(objectList);
-        toolbar.addTo(objectList);
-        note.addTo(objectList);
-
+            
         stage.setScene(scene);
         stage.show();
 
@@ -57,17 +55,13 @@ public class App extends Application{
 
         stage.addEventHandler(KeyEvent.KEY_PRESSED, (key) -> {
             if (currentlyEditingStickyNote != null && currentlyEditingStickyNote.isEditing()) {
-                Text currentText = currentlyEditingStickyNote.getStickyNoteText();
-                if (key.getCode() == KeyCode.BACK_SPACE && currentText.getText().length() > 0) {
-                    currentText.setText(currentText.getText().substring(0, currentText.getText().length()-1));
-                } else {
-                    currentText.setText(currentText.getText() + key.getText());
-                    if (currentlyEditingStickyNote.isTextOutsideBounds()) {
-                        currentText.setText(currentText.getText().substring(0, currentText.getText().length()-1));
-                        currentText.setText(currentText.getText() + "\n");
-                        currentText.setText(currentText.getText() + key.getText());
-                    }
-                }
+                currentlyEditingStickyNote.ChangeStickNoteText(key);
+            }
+        });
+       
+        stage.heightProperty().addListener((obs, oldVal, newVal) -> {
+            for (Node node : objectList) {
+                node.setScaleY((double)newVal / (double)screenHeight);
             }
         });
     }
@@ -78,5 +72,9 @@ public class App extends Application{
 
     public static void setCurrentStickyNote(StickyNote note) {
         currentlyEditingStickyNote = note;
+    }
+
+    public static void AddToScene(List<Node> nodes) {
+        objectList.addAll(nodes);
     }
 }

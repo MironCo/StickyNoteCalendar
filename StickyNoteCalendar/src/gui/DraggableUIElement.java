@@ -13,6 +13,7 @@ public abstract class DraggableUIElement extends DrawableUIElement {
 
     protected void makeDraggable(Node node) {
         node.setOnMousePressed(e -> {
+
             startX = e.getSceneX() - node.getTranslateX();
             startY = e.getSceneY() - node.getTranslateY();
         });
