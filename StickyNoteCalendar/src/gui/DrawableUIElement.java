@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javafx.scene.Node;
+import main.App;
 import util.Vector2;
 
 public abstract class DrawableUIElement {
@@ -11,6 +12,10 @@ public abstract class DrawableUIElement {
     protected List<Node> nodes = new ArrayList<Node>();
     protected Vector2 position = new Vector2(0, 0);
     
+    public DrawableUIElement() {
+
+    }
+
     /**
      * Method to set the position of the UI element
      * @param _position new position as a Vector2
@@ -41,5 +46,9 @@ public abstract class DrawableUIElement {
 
     public void addTo(List<Node> drawableNodes) {
         drawableNodes.addAll(getNodes());
+    }
+
+    public void addNodesToScene() {
+        App.AddToScene(nodes);
     }
 };

@@ -20,5 +20,7 @@ public class Toolbar extends DrawableUIElement {
         toolbarGraphic = new Rectangle(position.x, position.y, dimensions.x, dimensions.y);
         toolbarGraphic.setFill(ColorThemeManager.getInstance().getCurrentColorTheme().toolbarColor);
         nodes.add(toolbarGraphic);
+
+        addNodesToScene();
     }
 }
