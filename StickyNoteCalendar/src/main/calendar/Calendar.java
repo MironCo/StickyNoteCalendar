@@ -5,14 +5,10 @@ import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.tools.Tool;
-
 import gui.DrawableUIElement;
-import gui.Toolbar;
+import gui.colors.ColorThemeManager;
 import javafx.scene.Node;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
-import main.App;
 import util.FontManager;
 import util.Vector2;
 
@@ -21,7 +17,7 @@ public class Calendar extends DrawableUIElement {
    public static final Calendar instance = new Calendar();
 
    private LocalDate today;
-   private List<Month> months = new ArrayList();
+   private List<Month> months = new ArrayList<Month>();
    private Month currentMonth;
 
    public Vector2 dayOffset = new Vector2(10, 10);
@@ -51,6 +47,7 @@ public class Calendar extends DrawableUIElement {
       monthName.setX(textPosition.x);
       textHeight = monthName.getFont().getSize();
       monthName.setY(textPosition.y);
+      monthName.setFill(ColorThemeManager.getInstance().getCurrentColorTheme().textColor);
 
       Month initMonth = new Month(CalendarData.monthsOfTheYear[today.getMonthValue()-1], YearMonth.of(today.getYear(), today.getMonthValue()).lengthOfMonth());
       months.add(initMonth);

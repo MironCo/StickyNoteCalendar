@@ -2,9 +2,8 @@ package main;
 
 import main.calendar.Calendar;
 
-import java.util.List;
-
 import gui.Toolbar;
+import gui.colors.ColorThemeManager;
 import gui.stickynote.StickyNote;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
@@ -34,6 +33,7 @@ public class App extends Application{
         ObservableList<Node> objectList = layout.getChildren();
 
         Scene scene = new Scene(layout, screenWidth, screenHeight);
+        scene.setFill(ColorThemeManager.getInstance().getCurrentColorTheme().backgroundColor);
 
         Calendar.getInstance().Init();
         Toolbar toolbar = new Toolbar();

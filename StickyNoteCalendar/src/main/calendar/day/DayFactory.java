@@ -1,6 +1,7 @@
 package main.calendar.day;
 
 import gui.Toolbar;
+import gui.colors.ColorThemeManager;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
@@ -39,11 +40,12 @@ public class DayFactory {
         newDay.dayNumberText.setFont(FontManager.loadFont("Nunito-ExtraLight.ttf", 20));
         newDay.dayNumberText.setX(position.x + Calendar.getInstance().dayTextOffset.x);
         newDay.dayNumberText.setY(position.y + Calendar.getInstance().dayTextOffset.y);
+        newDay.dayNumberText.setFill(ColorThemeManager.getInstance().getCurrentColorTheme().textColor);
         newDay.getNodes().add(newDay.dayNumberText);
 
         newDay.rectangle = new Rectangle(position.x, position.y, Calendar.getInstance().dayDimensions.x, Calendar.getInstance().dayDimensions.y);
         newDay.rectangle.setFill(Color.TRANSPARENT);
-        newDay.rectangle.setStroke(Color.DARKGRAY);
+        newDay.rectangle.setStroke(ColorThemeManager.getInstance().getCurrentColorTheme().borderColor);
         newDay.rectangle.setStrokeWidth(2);
         newDay.getNodes().add(newDay.rectangle);
         return newDay;
