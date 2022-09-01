@@ -5,45 +5,62 @@ import gui.colors.ColorThemeManager;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import main.App;
 import main.calendar.Calendar;
+import main.calendar.CalendarData;
 import util.FontManager;
 import util.Vector2;
 
 public class DayFactory {
-    public static final DayFactory instance = new DayFactory();
+    public static Text buildDayOfWeekText (int day) {
+        Calendar calendar = Calendar.getInstance();
+
+        Text dayOfWeekText = new Text();
+        dayOfWeekText.setText(abbreviateWeekday(CalendarData.daysOfTheWeek[day]));
+        dayOfWeekText.setFont(FontManager.loadFont("Nunito-ExtraLight.ttf", calendar.weekdayNamesSize));
+        dayOfWeekText.setFill(ColorThemeManager.getInstance().getCurrentColorTheme().textColor);
+        dayOfWeekText.setTextAlignment(TextAlignment.LEFT);
+
+        calendar.dayXCenterOffset = Toolbar.dimensions.x + (calendar.dayOffset.x*2);
+        Vector2 position = new Vector2(((calendar.dayDimensions.x + calendar.dayOffset.x + calendar.weekdayNamesExtraOffsetX) * (day % 7)) + calendar.dayXCenterOffset, calendar.dayYPadding + calendar.textHeight + calendar.weekdayNamesYPadding);
     
-    private DayFactory() {
+        dayOfWeekText.setX(position.x);
+        dayOfWeekText.setY(position.y);
 
+        return dayOfWeekText;
     }
 
-    public static DayFactory getInstance() {
-        return instance;
+    private static String abbreviateWeekday(String weekdayString) {
+        return weekdayString.substring(0, 3);
     }
 
-    public Day buildDay(int day) {
+    public static Day buildDay(int day, int weekdayOffset) {
+        Calendar calendar = Calendar.getInstance();
+
         Day newDay = new Day();
 
         int numberOfRows = (int)Math.ceil(31.0 / 7.0);
-        double size = (App.screenHeight - ((numberOfRows * Calendar.getInstance().dayOffset.y) + Calendar.getInstance().dayOffset.y + Calendar.getInstance().textHeight + Calendar.getInstance().textHeight)) / numberOfRows;
-        
-        //Calendar.dayXCenterOffs = (App.screenWidth - (Calendar.getInstance().dayDimensions.x + Calendar.getInstance().dayOffset.x) * 7) / 2;
+        double size = (App.screenHeight - ((numberOfRows * calendar.dayOffset.y) + calendar.dayOffset.y + calendar.textHeight + calendar.textHeight)) / numberOfRows;
+        int adjustedDay = day + weekdayOffset;
 
-        Calendar.getInstance().dayDimensions = new Vector2((float)size, (float)size);
-        //Calendar.getInstance().dayXCenterOffset = Toolbar.dimensions.x + Calendar.getInstance().dayOffset.x + ((App.screenWidth-Toolbar.dimensions.x-(Calendar.getInstance().dayDimensions.x + Calendar.getInstance().dayOffset.x)*7)/2);
-        Calendar.getInstance().dayXCenterOffset = Toolbar.dimensions.x + (Calendar.getInstance().dayOffset.x*2);
-        Vector2 position = new Vector2(((Calendar.getInstance().dayDimensions.x + Calendar.getInstance().dayOffset.x) * (day % 7)) + Calendar.getInstance().dayXCenterOffset, ((Calendar.getInstance().dayDimensions.y + Calendar.getInstance().dayOffset.y) * (day / 7)) + (Calendar.getInstance().dayOffset.y + Calendar.getInstance().textHeight + Calendar.getInstance().dayYPadding));
+        //Calendar.dayXCenterOffs = (App.screenWidth - (calendar.dayDimensions.x + calendar.dayOffset.x) * 7) / 2;
+
+        calendar.dayDimensions = new Vector2((float)size, (float)size);
+        //calendar.dayXCenterOffset = Toolbar.dimensions.x + calendar.dayOffset.x + ((App.screenWidth-Toolbar.dimensions.x-(calendar.dayDimensions.x + calendar.dayOffset.x)*7)/2);
+        calendar.dayXCenterOffset = Toolbar.dimensions.x + (calendar.dayOffset.x*2);
+        Vector2 position = new Vector2(((calendar.dayDimensions.x + calendar.dayOffset.x) * (adjustedDay % 7)) + calendar.dayXCenterOffset, ((calendar.dayDimensions.y + calendar.dayOffset.y) * (adjustedDay / 7)) + (calendar.dayOffset.y + calendar.textHeight + calendar.dayYPadding + calendar.weekdayNamesYPadding));
         
         newDay.day = day + 1;
         
         newDay.dayNumberText = new Text(newDay.day.toString());
         newDay.dayNumberText.setFont(FontManager.loadFont("Nunito-ExtraLight.ttf", 20));
-        newDay.dayNumberText.setX(position.x + Calendar.getInstance().dayTextOffset.x);
-        newDay.dayNumberText.setY(position.y + Calendar.getInstance().dayTextOffset.y);
+        newDay.dayNumberText.setX(position.x + calendar.dayTextOffset.x);
+        newDay.dayNumberText.setY(position.y + calendar.dayTextOffset.y);
         newDay.dayNumberText.setFill(ColorThemeManager.getInstance().getCurrentColorTheme().textColor);
         newDay.getNodes().add(newDay.dayNumberText);
 
-        newDay.rectangle = new Rectangle(position.x, position.y, Calendar.getInstance().dayDimensions.x, Calendar.getInstance().dayDimensions.y);
+        newDay.rectangle = new Rectangle(position.x, position.y, calendar.dayDimensions.x, calendar.dayDimensions.y);
         newDay.rectangle.setFill(Color.TRANSPARENT);
         newDay.rectangle.setStroke(ColorThemeManager.getInstance().getCurrentColorTheme().borderColor);
         newDay.rectangle.setStrokeWidth(2);

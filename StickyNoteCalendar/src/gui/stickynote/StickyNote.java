@@ -1,10 +1,7 @@
 package gui.stickynote;
 
-import java.time.temporal.IsoFields;
-
 import gui.DraggableUIElement;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import main.App;
 import javafx.event.EventHandler;

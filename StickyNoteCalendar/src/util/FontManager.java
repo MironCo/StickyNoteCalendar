@@ -19,7 +19,6 @@ public class FontManager {
             Font fontToLoad = Font.loadFont(fontInput, size);
             return fontToLoad;
         } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
             return Font.getDefault();
         }

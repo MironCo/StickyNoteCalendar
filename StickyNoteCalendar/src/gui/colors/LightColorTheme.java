@@ -7,6 +7,6 @@ public class LightColorTheme extends ColorTheme {
         backgroundColor = Color.WHITESMOKE;
         textColor = Color.BLACK;
         borderColor = Color.DARKGRAY;
-        toolbarColor = new Color(0.85,0.86,0.89,1.0f);
+        toolbarColor = new Color(0.92,0.92,0.95,1.0f);
     }
 } 

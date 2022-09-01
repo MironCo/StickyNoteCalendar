@@ -9,12 +9,12 @@ import main.calendar.day.DayFactory;
 
 public class Month {
     private String name;
-    private List<Day> daysInMonth = new ArrayList();
+    private List<Day> daysInMonth = new ArrayList<Day>();
 
-    public Month(String monthName, int numberOfDays) {
+    public Month(String monthName, int numberOfDays, int weekdayOffset) {
         this.name = monthName;
         for (int i = 0; i < numberOfDays; i++) {
-            Day day = DayFactory.getInstance().buildDay(i);
+            Day day = DayFactory.buildDay(i, weekdayOffset);
             daysInMonth.add(day);
         }
     }
