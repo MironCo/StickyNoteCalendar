@@ -4,6 +4,11 @@ public class Vector2 {
     public double x;
     public double y;
 
+    public static double Distance(Vector2 a, Vector2 b) {
+        double distance = Math.sqrt(Math.pow((b.x - a.x), 2) + Math.pow((b.y - a.y), 2));
+        return distance;
+    }
+
     public Vector2(float _x, float _y) {
         x = _x;
         y = _y;
@@ -37,5 +42,10 @@ public class Vector2 {
     public void set(int newX, int newY) {
         x = (float)newX;
         y = (float)newY;
+    }
+
+    @Override
+    public String toString() {
+        return "(" + x + "," + y + ")";
     }
 }

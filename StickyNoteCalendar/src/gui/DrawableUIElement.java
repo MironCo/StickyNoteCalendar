@@ -21,7 +21,11 @@ public abstract class DrawableUIElement {
      * @param _position new position as a Vector2
      */
     public void setPosition(Vector2 _position) {
-        this.position = _position;
+        Vector2 changePosition = new Vector2(position.x - _position.x, position.y - _position.y);
+        for (Node node : nodes) {
+            node.setTranslateX(node.getTranslateX() + changePosition.x);
+            node.setTranslateY(node.getTranslateY() + changePosition.y);
+        }
     }
 
     /**
@@ -40,6 +44,10 @@ public abstract class DrawableUIElement {
         return position;
     }
 
+    public void addNode(Node node) {
+        nodes.add(node);
+    }
+
     public List<Node> getNodes() {
         return nodes;
     }
@@ -50,5 +58,11 @@ public abstract class DrawableUIElement {
 
     public void addNodesToScene() {
         App.AddToScene(nodes);
+    }
+
+    public void setMouseTransparent(boolean b) {
+        for(Node node : nodes) {
+            node.setMouseTransparent(b);
+        }
     }
 };

@@ -12,6 +12,7 @@ import gui.colors.ColorThemeManager;
 import javafx.scene.Node;
 import javafx.scene.text.Text;
 import main.calendar.day.DayFactory;
+import main.calendar.day.DayManager;
 import util.FontManager;
 import util.Vector2;
 
@@ -28,6 +29,7 @@ public class Calendar extends DrawableUIElement {
    public Vector2 dayDimensions = new Vector2(100, 100);
    public double dayXCenterOffset = 10;
    public double dayYPadding = 10;
+   public double dayStickyNoteSize = 60;
 
    private Text monthName = new Text();
    private List<Text> weekdayNames = new ArrayList<Text>();
@@ -63,6 +65,7 @@ public class Calendar extends DrawableUIElement {
       int weekdayOffset = CalendarData.findWeekdayIndex(YearMonth.of(today.getYear(), today.getMonthValue()).atDay(1).getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.US));
       Month initMonth = new Month(CalendarData.monthsOfTheYear[today.getMonthValue()-1], YearMonth.of(today.getYear(), today.getMonthValue()).lengthOfMonth(), weekdayOffset);
       months.add(initMonth);
+      DayManager.getInstance().setCurrentDays(initMonth.getDays());
 
       System.out.println();
       
@@ -70,6 +73,10 @@ public class Calendar extends DrawableUIElement {
 
       nodes.add(monthName);
       nodes.addAll(weekdayNames);
+   }
+
+   public Month getCurrentMonth() {
+      return currentMonth;
    }
 
    public void setCurrentMonth(Month month) {

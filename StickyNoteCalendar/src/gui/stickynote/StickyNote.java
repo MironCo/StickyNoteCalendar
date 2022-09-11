@@ -3,8 +3,10 @@ package gui.stickynote;
 import gui.DraggableUIElement;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
-import main.App;
+import main.calendar.day.Day;
+import main.calendar.day.DayManager;
 import javafx.event.EventHandler;
+import javafx.scene.Node;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
@@ -21,7 +23,7 @@ public class StickyNote extends DraggableUIElement {
     private NoteColor color = null;
 
     private Text noteText = new Text();
-    private String noteTextContents; 
+    private String noteTextContents;    
     private Vector2 noteTextOffset = new Vector2(7, 22);
     private boolean isEditing = false;
     private boolean isFull = false;
@@ -46,20 +48,36 @@ public class StickyNote extends DraggableUIElement {
         makeDraggable(noteText);
 
         setClickAction();
+        setReleaseAction();
         addNodesToScene();
     }
 
-    private void setClickAction() {
-        rectangle.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            public void handle(MouseEvent e) {
-                if (e.getButton().equals(MouseButton.PRIMARY)){
-                    if (e.getClickCount() == 1) {
+    private void setReleaseAction() {
+        rectangle.setOnMouseReleased(e -> {
+            ReleaseStickyNote();
+        });
+    }
 
-                    } else if (e.getClickCount() > 1) {
-                        startEditingText();
-                    }
-                } 
+    private void setClickAction() {
+        for(Node n : getNodes()) {
+            n.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                public void handle(MouseEvent e) {
+                    if (e.getButton().equals(MouseButton.PRIMARY)){
+                        if (e.getClickCount() == 1) {
+                            stopEditingText();
+                        } else if (e.getClickCount() > 1) {
+                            startEditingText();
+                        }
+                    } 
+                }
+            });
+        }
+        rectangle.setOnMouseDragged(e -> {
+            for(Node n : getNodes()) {
+                n.setTranslateX(e.getSceneX() - startX);
+                n.setTranslateY(e.getSceneY() - startY);
             }
+            StickyNoteManager.getInstance().setDraggedStickyNote(this);
         });
     }
 
@@ -73,12 +91,12 @@ public class StickyNote extends DraggableUIElement {
 
     public void startEditingText() {
         isEditing = true;
-        App.setCurrentStickyNote(this);
+        StickyNoteManager.getInstance().setCurrentlyEditingStickyNote(this);
     }
 
     public void stopEditingText() {
         isEditing = false;
-        App.setCurrentStickyNote(null);
+        StickyNoteManager.getInstance().setCurrentlyEditingStickyNote(null);
     }
 
     public boolean isEditing() {
@@ -98,7 +116,7 @@ public class StickyNote extends DraggableUIElement {
                 if (isTextOutsideBounds()) {
                     noteText.setText(noteText.getText().substring(0, noteText.getText().length()-1));
                     noteText.setText(noteText.getText() + "\n");
-                    noteText.setText(noteText.getText() + key.getText()); 
+                    noteText.setText(noteText.getText() + key.getText());
                 }
                 if (isStickyNoteFull()) {
                     noteText.setText(noteText.getText().substring(0, noteText.getText().length()-1));
@@ -106,4 +124,29 @@ public class StickyNote extends DraggableUIElement {
                 }
             }
     }
+
+    public void ReleaseStickyNote() {
+        Day mouseOverDay = DayManager.getInstance().getHoveredDay();
+        setMouseTransparent(false);
+        if (mouseOverDay != null) {
+            //System.out.println("Released Sticky Note Onto Day " + mouseOverDay.day);
+            mouseOverDay.AddStickyNote(this);
+        }
+    }
+    
+    public void hideMainStickyNote() {
+        for(Node n : nodes) {
+            n.setVisible(false);
+        }
+    }
+
+    public void showMainStickyNote() {
+        for(Node n : nodes) {
+            n.setVisible(true);
+        }
+    }
+
+    public Rectangle getRectangle() {
+        return rectangle;
+    }   
 }

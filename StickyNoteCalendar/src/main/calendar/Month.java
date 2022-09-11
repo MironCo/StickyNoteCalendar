@@ -27,11 +27,15 @@ public class Month {
 
     public void resizeMonth() {
         for (Day d : daysInMonth) {
-            d.resize();
+            
         }
     }
 
     public String getName() {
         return name;
     }
-} 
+
+    public List<Day> getDays() {
+        return daysInMonth;
+    }
+}  

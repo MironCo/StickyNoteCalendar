@@ -1,7 +1,7 @@
 package gui.colors;
 
 public class ColorThemeManager {
-    private static ColorThemeManager instance = new ColorThemeManager();
+    private static final ColorThemeManager instance = new ColorThemeManager();
 
     private ColorTheme currentColorTheme;
 

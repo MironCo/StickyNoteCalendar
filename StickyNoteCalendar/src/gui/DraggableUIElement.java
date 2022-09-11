@@ -4,8 +4,8 @@ import javafx.scene.Node;
 
 public abstract class DraggableUIElement extends DrawableUIElement {
 
-    private double startX = 0;
-    private double startY = 0;
+    protected double startX = 0;
+    protected double startY = 0;
 
     public DraggableUIElement() {
         //do nothing
@@ -13,7 +13,6 @@ public abstract class DraggableUIElement extends DrawableUIElement {
 
     protected void makeDraggable(Node node) {
         node.setOnMousePressed(e -> {
-
             startX = e.getSceneX() - node.getTranslateX();
             startY = e.getSceneY() - node.getTranslateY();
         });
@@ -22,6 +21,7 @@ public abstract class DraggableUIElement extends DrawableUIElement {
             for(Node n : getNodes()) {
                 n.setTranslateX(e.getSceneX() - startX);
                 n.setTranslateY(e.getSceneY() - startY);
+                n.setMouseTransparent(true);
             }
         });
     }
