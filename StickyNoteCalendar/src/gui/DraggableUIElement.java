@@ -21,7 +21,6 @@ public abstract class DraggableUIElement extends DrawableUIElement {
             for(Node n : getNodes()) {
                 n.setTranslateX(e.getSceneX() - startX);
                 n.setTranslateY(e.getSceneY() - startY);
-                n.setMouseTransparent(true);
             }
         });
     }

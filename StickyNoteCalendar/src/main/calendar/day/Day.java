@@ -1,9 +1,18 @@
+/*
+ * Program: StickyNoteCalendar
+ * File: Day.java
+ * Usage: Contains data for the object Day
+ * Author: Miron Sulicz
+ * Copyright: 2022 Miron Sulicz, All Rights Reserved
+ */
+
 package main.calendar.day;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import gui.DrawableUIElement;
+import gui.stickynote.DayStickyNoteGraphic;
 import gui.stickynote.StickyNote;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
@@ -11,16 +20,16 @@ import javafx.scene.text.Text;
 public class Day extends DrawableUIElement {
     public Integer day = 0;
     public Rectangle rectangle = new Rectangle();
-    public Rectangle dayStickyNote = new Rectangle();
+    public DayStickyNoteGraphic dayStickyNote = null;
     public Text dayNumberText = new Text();
     public List<StickyNote> stickyNotes = new ArrayList<StickyNote>();
 
     public Day() {
-        
+
     }
 
     public void AddStickyNote(StickyNote note) {
-        stickyNotes.add(note);
+        stickyNotes.add(0, note);
         note.hideMainStickyNote();
         updateStickyNoteGraphic();
     }
@@ -31,10 +40,15 @@ public class Day extends DrawableUIElement {
 
     public void updateStickyNoteGraphic() {
         if (stickyNotes.isEmpty()) {
+            rectangle.setMouseTransparent(false);
             dayStickyNote.setVisible(false);
+            System.out.println("Sticky notes: " + stickyNotes.size());
         } else {
-            dayStickyNote.setFill(stickyNotes.get(0).getRectangle().getFill());
+            rectangle.setMouseTransparent(true);
+            dayStickyNote.rectangle.setFill(stickyNotes.get(0).getRectangle().getFill());
             dayStickyNote.setVisible(true);
+            dayStickyNote.setStickyNote(stickyNotes.get(0));
+            System.out.println("Sticky notes: " + stickyNotes.size());
         }
     }
 }

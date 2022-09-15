@@ -1,11 +1,8 @@
 package main.calendar.day;
 
-import java.nio.channels.CancelledKeyException;
-
-import javax.swing.DebugGraphics;
-
 import gui.Toolbar;
 import gui.colors.ColorThemeManager;
+import gui.stickynote.DayStickyNoteGraphic;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
@@ -78,15 +75,13 @@ public class DayFactory {
         newDay.rectangle.setFill(Color.TRANSPARENT);
         newDay.rectangle.setStroke(ColorThemeManager.getInstance().getCurrentColorTheme().borderColor);
         newDay.rectangle.setStrokeWidth(2);
+        newDay.rectangle.setViewOrder(0);
         newDay.addNode(newDay.rectangle);
 
-        newDay.dayStickyNote = new Rectangle(position.x + ((calendar.dayDimensions.x - calendar.dayStickyNoteSize) / 2),
-                position.y + ((calendar.dayDimensions.y - calendar.dayStickyNoteSize) / 2), calendar.dayStickyNoteSize,
-                calendar.dayStickyNoteSize);
-        newDay.dayStickyNote.setFill(Color.WHITE);
+        newDay.dayStickyNote = new DayStickyNoteGraphic(position);
         newDay.dayStickyNote.setVisible(false);
-        newDay.addNode(newDay.dayStickyNote);
-
+        newDay.dayStickyNote.setDay(newDay.getDay());
+        newDay.addNodeToFront(newDay.dayStickyNote.rectangle);
         return newDay;
     }
 }

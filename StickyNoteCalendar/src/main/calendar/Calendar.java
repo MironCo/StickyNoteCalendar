@@ -16,7 +16,6 @@ import main.calendar.day.DayManager;
 import util.FontManager;
 import util.Vector2;
 
-
 public class Calendar extends DrawableUIElement {
    public static final Calendar instance = new Calendar();
 
@@ -37,11 +36,11 @@ public class Calendar extends DrawableUIElement {
    public int weekdayNamesSize = 30;
    public float weekdayNamesExtraOffsetX = 4;
 
-   private Vector2 textPosition = new Vector2(0,60);
+   private Vector2 textPosition = new Vector2(0, 60);
    public double textHeight = textPosition.y;
 
    private Calendar() {
-      //singleton class - do nothing
+      // singleton class - do nothing
    }
 
    public static final Calendar getInstance() {
@@ -51,7 +50,7 @@ public class Calendar extends DrawableUIElement {
    public void Init() {
       today = LocalDate.now();
 
-      monthName.setFont(FontManager.loadFont("Nunito-ExtraLight.ttf",70));
+      monthName.setFont(FontManager.loadFont("Nunito-ExtraLight.ttf", 70));
       monthName.setX(textPosition.x);
       textHeight = monthName.getFont().getSize();
       monthName.setY(textPosition.y);
@@ -61,14 +60,17 @@ public class Calendar extends DrawableUIElement {
          weekdayNames.add(DayFactory.buildDayOfWeekText(i));
       }
 
-      System.out.println(YearMonth.of(today.getYear(), today.getMonthValue()).atDay(1).getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.US));
-      int weekdayOffset = CalendarData.findWeekdayIndex(YearMonth.of(today.getYear(), today.getMonthValue()).atDay(1).getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.US));
-      Month initMonth = new Month(CalendarData.monthsOfTheYear[today.getMonthValue()-1], YearMonth.of(today.getYear(), today.getMonthValue()).lengthOfMonth(), weekdayOffset);
+      System.out.println(YearMonth.of(today.getYear(), today.getMonthValue()).atDay(1).getDayOfWeek()
+            .getDisplayName(TextStyle.FULL, Locale.US));
+      int weekdayOffset = CalendarData.findWeekdayIndex(YearMonth.of(today.getYear(), today.getMonthValue()).atDay(1)
+            .getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.US));
+      Month initMonth = new Month(CalendarData.monthsOfTheYear[today.getMonthValue() - 1],
+            YearMonth.of(today.getYear(), today.getMonthValue()).lengthOfMonth(), weekdayOffset);
       months.add(initMonth);
       DayManager.getInstance().setCurrentDays(initMonth.getDays());
 
       System.out.println();
-      
+
       setCurrentMonth(initMonth);
 
       nodes.add(monthName);
@@ -85,9 +87,9 @@ public class Calendar extends DrawableUIElement {
       monthName.setX(dayXCenterOffset);
       textHeight = monthName.getBoundsInLocal().getHeight();
    }
- 
+
    public void addNodes(List<Node> drawList) {
-      for(Node n : getNodes()) {
+      for (Node n : getNodes()) {
          drawList.add(n);
       }
       for (Month m : months) {

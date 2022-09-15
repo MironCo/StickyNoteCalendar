@@ -48,6 +48,10 @@ public abstract class DrawableUIElement {
         nodes.add(node);
     }
 
+    public void addNodeToFront(Node node) {
+        nodes.add(0, node);
+    }
+
     public List<Node> getNodes() {
         return nodes;
     }
@@ -64,5 +68,19 @@ public abstract class DrawableUIElement {
         for(Node node : nodes) {
             node.setMouseTransparent(b);
         }
+    }
+
+    public void setVisible(boolean isVisible) {
+        for(Node n : nodes) {
+            n.setVisible(isVisible);
+        }
+    }
+
+    public boolean isVisible() {
+        boolean isVisible = true;
+        for (Node n : nodes) {
+            isVisible &= n.isVisible();
+        }
+        return isVisible;
     }
 };

@@ -1,3 +1,11 @@
+/*
+ * Program: StickyNoteCalendar
+ * File: App.java
+ * Usage: Main file for the application
+ * Author: Miron Sulicz
+ * Copyright: 2022 Miron Sulicz, All Rights Reserved
+ */
+
 package main;
 
 import main.calendar.Calendar;
@@ -45,6 +53,7 @@ public class App extends Application {
 
         Toolbar toolbar = new Toolbar();
         StickyNote note = new StickyNote();
+        StickyNote note2 = new StickyNote();
 
         scene.setOnMouseMoved(e -> {
             mousePosition.x = e.getX();

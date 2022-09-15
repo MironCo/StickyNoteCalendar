@@ -1,12 +1,14 @@
 package gui.stickynote;
 
 import java.util.List;
+import java.util.Random;
 
 import javafx.event.EventHandler;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+
 import main.App;
 import main.calendar.day.Day;
 
@@ -17,6 +19,8 @@ public class StickyNoteManager {
     private Day hoveredDay = null;
     private StickyNote draggedStickyNote;
     private static StickyNote currentlyEditingStickyNote = null;
+    private static final NoteColor[] NOTE_COLORS = {NoteColor.BEIGE, NoteColor.PURPLE, NoteColor.BLUE, NoteColor.YELLOW};
+    private static final Random RANDOM = new Random();
 
     private StickyNoteManager() {
         setKeyListener();
@@ -42,6 +46,10 @@ public class StickyNoteManager {
                 }
             }
         });
+    }
+
+    public static NoteColor getRandomNoteColor() {
+        return NOTE_COLORS[RANDOM.nextInt(0, NOTE_COLORS.length)];
     }
 
     public static final StickyNoteManager getInstance() {

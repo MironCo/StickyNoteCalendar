@@ -1,3 +1,11 @@
+/*
+ * Program: StickyNoteCalendar
+ * File: StickyNote.java
+ * Usage: Contains data for the object StickyNote
+ * Author: Miron Sulicz
+ * Copyright: 2022 Miron Sulicz, All Rights Reserved
+ */
+
 package gui.stickynote;
 
 import gui.DraggableUIElement;
@@ -23,7 +31,7 @@ public class StickyNote extends DraggableUIElement {
     private NoteColor color = null;
 
     private Text noteText = new Text();
-    private String noteTextContents;    
+    private String noteTextContents;
     private Vector2 noteTextOffset = new Vector2(7, 22);
     private boolean isEditing = false;
     private boolean isFull = false;
@@ -31,10 +39,11 @@ public class StickyNote extends DraggableUIElement {
     public StickyNote() {
         nodes.add(rectangle);
 
-        color = NoteColor.PURPLE;
+        color = StickyNoteManager.getRandomNoteColor();
         position = new Vector2(10, 10);
         rectangle = new Rectangle(position.x, position.y, dimensions.x, dimensions.y);
-        rectangle.setFill(new Color(color.getColor().getRed() / 255.0f, color.getColor().getGreen() / 255.0f, color.getColor().getBlue() / 255.0f, 1));
+        rectangle.setFill(new Color(color.getColor().getRed() / 255.0f, color.getColor().getGreen() / 255.0f,
+                color.getColor().getBlue() / 255.0f, 1));
 
         noteText = new Text("Sticky Note");
         noteText.setFont(FontManager.loadFont("Nunito-Regular.ttf", 20));
@@ -59,21 +68,21 @@ public class StickyNote extends DraggableUIElement {
     }
 
     private void setClickAction() {
-        for(Node n : getNodes()) {
+        for (Node n : getNodes()) {
             n.setOnMouseClicked(new EventHandler<MouseEvent>() {
                 public void handle(MouseEvent e) {
-                    if (e.getButton().equals(MouseButton.PRIMARY)){
+                    if (e.getButton().equals(MouseButton.PRIMARY)) {
                         if (e.getClickCount() == 1) {
                             stopEditingText();
                         } else if (e.getClickCount() > 1) {
                             startEditingText();
                         }
-                    } 
+                    }
                 }
             });
         }
         rectangle.setOnMouseDragged(e -> {
-            for(Node n : getNodes()) {
+            for (Node n : getNodes()) {
                 n.setTranslateX(e.getSceneX() - startX);
                 n.setTranslateY(e.getSceneY() - startY);
             }
@@ -82,11 +91,13 @@ public class StickyNote extends DraggableUIElement {
     }
 
     public boolean isTextOutsideBounds() {
-        return noteText.getBoundsInLocal().getWidth() > (rectangle.getBoundsInLocal().getWidth() - rectanglePadding.x * 2);
+        return noteText.getBoundsInLocal()
+                .getWidth() > (rectangle.getBoundsInLocal().getWidth() - rectanglePadding.x * 2);
     }
 
     public boolean isStickyNoteFull() {
-        return noteText.getBoundsInLocal().getHeight() > (rectangle.getBoundsInLocal().getHeight() - rectanglePadding.y * 2);
+        return noteText.getBoundsInLocal()
+                .getHeight() > (rectangle.getBoundsInLocal().getHeight() - rectanglePadding.y * 2);
     }
 
     public void startEditingText() {
@@ -108,45 +119,47 @@ public class StickyNote extends DraggableUIElement {
     }
 
     public void ChangeStickNoteText(KeyEvent key) {
-            if (key.getCode() == KeyCode.BACK_SPACE && noteText.getText().length() > 0) {
-                noteText.setText(noteText.getText().substring(0, noteText.getText().length()-1));
-                if (isFull) isFull = false;
-            } else if (!isFull) {
+        if (key.getCode() == KeyCode.BACK_SPACE && noteText.getText().length() > 0) {
+            noteText.setText(noteText.getText().substring(0, noteText.getText().length() - 1));
+            if (isFull)
+                isFull = false;
+        } else if (!isFull) {
+            noteText.setText(noteText.getText() + key.getText());
+            if (isTextOutsideBounds()) {
+                noteText.setText(noteText.getText().substring(0, noteText.getText().length() - 1));
+                noteText.setText(noteText.getText() + "\n");
                 noteText.setText(noteText.getText() + key.getText());
-                if (isTextOutsideBounds()) {
-                    noteText.setText(noteText.getText().substring(0, noteText.getText().length()-1));
-                    noteText.setText(noteText.getText() + "\n");
-                    noteText.setText(noteText.getText() + key.getText());
-                }
-                if (isStickyNoteFull()) {
-                    noteText.setText(noteText.getText().substring(0, noteText.getText().length()-1));
-                    isFull = true;
-                }
             }
+            if (isStickyNoteFull()) {
+                noteText.setText(noteText.getText().substring(0, noteText.getText().length() - 1));
+                isFull = true;
+            }
+        }
     }
 
     public void ReleaseStickyNote() {
         Day mouseOverDay = DayManager.getInstance().getHoveredDay();
         setMouseTransparent(false);
         if (mouseOverDay != null) {
-            //System.out.println("Released Sticky Note Onto Day " + mouseOverDay.day);
+            // System.out.println("Released Sticky Note Onto Day " + mouseOverDay.day);
             mouseOverDay.AddStickyNote(this);
         }
+        StickyNoteManager.getInstance().setDraggedStickyNote(null);
     }
-    
+
     public void hideMainStickyNote() {
-        for(Node n : nodes) {
+        for (Node n : nodes) {
             n.setVisible(false);
         }
     }
 
     public void showMainStickyNote() {
-        for(Node n : nodes) {
+        for (Node n : nodes) {
             n.setVisible(true);
         }
     }
 
     public Rectangle getRectangle() {
         return rectangle;
-    }   
+    }
 }
