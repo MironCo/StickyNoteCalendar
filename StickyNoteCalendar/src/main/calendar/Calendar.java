@@ -54,7 +54,7 @@ public class Calendar extends DrawableUIElement {
       monthName.setX(textPosition.x);
       textHeight = monthName.getFont().getSize();
       monthName.setY(textPosition.y);
-      monthName.setFill(ColorThemeManager.getInstance().getCurrentColorTheme().textColor);
+      monthName.setFill(ColorThemeManager.getCurrentColorTheme().textColor);
 
       for (int i = 0; i < 7; i++) {
          weekdayNames.add(DayFactory.buildDayOfWeekText(i));

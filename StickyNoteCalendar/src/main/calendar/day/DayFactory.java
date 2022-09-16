@@ -1,8 +1,8 @@
 package main.calendar.day;
 
-import gui.Toolbar;
 import gui.colors.ColorThemeManager;
 import gui.stickynote.DayStickyNoteGraphic;
+import gui.toolbars.Toolbar;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
@@ -20,7 +20,7 @@ public class DayFactory {
         Text dayOfWeekText = new Text();
         dayOfWeekText.setText(abbreviateWeekday(CalendarData.daysOfTheWeek[day]));
         dayOfWeekText.setFont(FontManager.loadFont("Nunito-ExtraLight.ttf", calendar.weekdayNamesSize));
-        dayOfWeekText.setFill(ColorThemeManager.getInstance().getCurrentColorTheme().textColor);
+        dayOfWeekText.setFill(ColorThemeManager.getCurrentColorTheme().textColor);
         dayOfWeekText.setTextAlignment(TextAlignment.CENTER);
 
         calendar.dayXCenterOffset = Toolbar.dimensions.x + (calendar.dayOffset.x * 2);
@@ -68,12 +68,12 @@ public class DayFactory {
         newDay.dayNumberText.setFont(FontManager.loadFont("Nunito-ExtraLight.ttf", 20));
         newDay.dayNumberText.setX(position.x + calendar.dayTextOffset.x);
         newDay.dayNumberText.setY(position.y + calendar.dayTextOffset.y);
-        newDay.dayNumberText.setFill(ColorThemeManager.getInstance().getCurrentColorTheme().textColor);
+        newDay.dayNumberText.setFill(ColorThemeManager.getCurrentColorTheme().textColor);
         newDay.addNode(newDay.dayNumberText);
 
         newDay.rectangle = new Rectangle(position.x, position.y, calendar.dayDimensions.x, calendar.dayDimensions.y);
         newDay.rectangle.setFill(Color.TRANSPARENT);
-        newDay.rectangle.setStroke(ColorThemeManager.getInstance().getCurrentColorTheme().borderColor);
+        newDay.rectangle.setStroke(ColorThemeManager.getCurrentColorTheme().borderColor);
         newDay.rectangle.setStrokeWidth(2);
         newDay.rectangle.setViewOrder(0);
         newDay.addNode(newDay.rectangle);

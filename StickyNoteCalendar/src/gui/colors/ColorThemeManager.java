@@ -1,23 +1,14 @@
 package gui.colors;
 
+
 public class ColorThemeManager {
-    private static final ColorThemeManager instance = new ColorThemeManager();
-
-    private ColorTheme currentColorTheme;
-
-    private ColorThemeManager() {
-        setCurrentColorTheme(new DarkColorTheme());
-    }
-
-    public static ColorThemeManager getInstance() {
-        return instance;
-    }
-
-    public ColorTheme getCurrentColorTheme() {
+    private static ColorTheme currentColorTheme;
+    
+    public static ColorTheme getCurrentColorTheme() {
         return currentColorTheme;
     }
 
-    public void setCurrentColorTheme(ColorTheme colorTheme) {
-        this.currentColorTheme = colorTheme;
+    public static void setCurrentColorTheme(ColorTheme colorTheme) {
+        currentColorTheme = colorTheme;
     }
 }  

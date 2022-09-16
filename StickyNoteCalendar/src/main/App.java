@@ -13,14 +13,19 @@ import util.Vector2;
 
 import java.util.List;
 
-import gui.Toolbar;
 import gui.colors.ColorThemeManager;
+import gui.colors.DarkColorTheme;
 import gui.stickynote.StickyNote;
+import gui.toolbars.Toolbar;
 import javafx.application.Application;
+import javafx.beans.binding.Bindings;
+import javafx.beans.binding.NumberBinding;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class App extends Application {
@@ -44,14 +49,24 @@ public class App extends Application {
         Pane layout = new Pane();
         objectList = layout.getChildren();
 
-        Scene scene = new Scene(layout, screenWidth, screenHeight);
+        StackPane root = new StackPane(layout);
+        NumberBinding maxScale = Bindings.min(root.widthProperty().divide(1280), root.heightProperty().divide(720));
+
+        layout.scaleXProperty().bind(maxScale);
+        layout.scaleYProperty().bind(maxScale);
+
+        Scene scene = new Scene(root, screenWidth, screenHeight);
         mainScene = scene;
-        scene.setFill(ColorThemeManager.getInstance().getCurrentColorTheme().backgroundColor);
+
+        ColorThemeManager.setCurrentColorTheme(new DarkColorTheme());
+
+        scene.setFill(ColorThemeManager.getCurrentColorTheme().backgroundColor);
 
         Calendar.getInstance().Init();
         Calendar.getInstance().addNodes(objectList);
 
         Toolbar toolbar = new Toolbar();
+
         StickyNote note = new StickyNote();
         StickyNote note2 = new StickyNote();
 

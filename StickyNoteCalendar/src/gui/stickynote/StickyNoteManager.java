@@ -1,5 +1,6 @@
 package gui.stickynote;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -15,7 +16,7 @@ import main.calendar.day.Day;
 public class StickyNoteManager {
     public static final StickyNoteManager instance = new StickyNoteManager();
 
-    private List<StickyNote> stickyNotes;
+    private List<StickyNote> stickyNotes = new ArrayList<StickyNote>();
     private Day hoveredDay = null;
     private StickyNote draggedStickyNote;
     private static StickyNote currentlyEditingStickyNote = null;
@@ -78,6 +79,11 @@ public class StickyNoteManager {
 
     public void setDraggedStickyNote(StickyNote note) {
         draggedStickyNote = note;
+        if (note != null) {
+            draggedStickyNote.getNodes().forEach(e-> {
+                e.toFront();
+            });
+        }
     }
 
     public void setCurrentlyEditingStickyNote(StickyNote note) {
