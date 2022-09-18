@@ -1,5 +1,7 @@
 package main.calendar.day;
 
+import java.nio.channels.CancelledKeyException;
+
 import gui.colors.ColorThemeManager;
 import gui.stickynote.DayStickyNoteGraphic;
 import gui.toolbars.Toolbar;
@@ -44,7 +46,7 @@ public class DayFactory {
 
         Day newDay = new Day();
 
-        int numberOfRows = (int) Math.ceil(31.0 / 7.0);
+        int numberOfRows = (int) Math.ceil((31.0 + weekdayOffset) / 7.0);
         double size = (App.screenHeight - ((numberOfRows * calendar.dayOffset.y) + calendar.dayOffset.y
                 + calendar.textHeight + calendar.textHeight)) / numberOfRows;
         int adjustedDay = day + weekdayOffset;
@@ -58,7 +60,8 @@ public class DayFactory {
         // calendar.dayOffset.x)*7)/2);
         calendar.dayXCenterOffset = Toolbar.dimensions.x + (calendar.dayOffset.x * 2);
         Vector2 position = new Vector2(
-                ((calendar.dayDimensions.x + calendar.dayOffset.x) * (adjustedDay % 7)) + calendar.dayXCenterOffset,
+                //((calendar.dayDimensions.x + calendar.dayOffset.x) * (adjustedDay % 7)) + calendar.dayXCenterOffset,
+                Calendar.getInstance().getWeekdayNames().get(adjustedDay % 7).getX(),
                 ((calendar.dayDimensions.y + calendar.dayOffset.y) * (adjustedDay / 7)) + (calendar.dayOffset.y
                         + calendar.textHeight + calendar.dayYPadding + calendar.weekdayNamesYPadding));
         newDay.setPosition(position);
@@ -79,9 +82,9 @@ public class DayFactory {
         newDay.addNode(newDay.rectangle);
 
         newDay.dayStickyNote = new DayStickyNoteGraphic(position);
-        newDay.dayStickyNote.setVisible(false);
         newDay.dayStickyNote.setDay(newDay.getDay());
         newDay.addNodeToFront(newDay.dayStickyNote.rectangle);
+        newDay.dayStickyNote.setVisible(false);
         return newDay;
     }
 }

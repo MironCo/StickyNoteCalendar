@@ -10,6 +10,8 @@ import java.util.List;
 import gui.DrawableUIElement;
 import gui.button.AddStickyNoteButton;
 import gui.button.GUIButton;
+import gui.button.LastMonthButton;
+import gui.button.NextMonthButton;
 import gui.colors.ColorThemeManager;
 
 public class Toolbar extends DrawableUIElement {
@@ -26,9 +28,14 @@ public class Toolbar extends DrawableUIElement {
         nodes.add(toolbarGraphic);
         addNodesToScene();
 
-        addButton(new AddStickyNoteButton("Add Sticky Note", toolbarGraphic.getLayoutX() + toolbarPadding.x, getNextY(),
-                (int) getWidth() - (int) (toolbarPadding.x * 2), 50));
-        addButton(new AddStickyNoteButton("Add Sticky Note", toolbarGraphic.getLayoutX() + toolbarPadding.x, getNextY(),
+        addButton(new LastMonthButton(toolbarGraphic.getLayoutX() + toolbarPadding.x, toolbarPadding.y,
+                (int) (getWidth() - (int) (toolbarPadding.x * 2)) / 2, 50));
+        addButton(new NextMonthButton(
+                toolbarGraphic.getLayoutX() + toolbarPadding.x
+                        + getButtons().get(0).getNodes().get(0).getBoundsInLocal().getWidth(),
+                toolbarPadding.y,
+                (int) (getWidth() - (int) (toolbarPadding.x * 2)) / 2, 50));
+        addButton(new AddStickyNoteButton(toolbarGraphic.getLayoutX() + toolbarPadding.x, getNextY(),
                 (int) getWidth() - (int) (toolbarPadding.x * 2), 50));
     }
 

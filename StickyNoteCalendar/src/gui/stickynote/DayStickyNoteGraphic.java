@@ -8,8 +8,6 @@
 
 package gui.stickynote;
 
-import java.util.Vector;
-
 import gui.DraggableUIElement;
 import javafx.geometry.Point2D;
 import javafx.scene.Node;

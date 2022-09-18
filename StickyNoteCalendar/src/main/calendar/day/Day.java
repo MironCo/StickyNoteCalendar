@@ -14,6 +14,7 @@ import java.util.List;
 import gui.DrawableUIElement;
 import gui.stickynote.DayStickyNoteGraphic;
 import gui.stickynote.StickyNote;
+import javafx.scene.Node;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
@@ -38,6 +39,19 @@ public class Day extends DrawableUIElement {
         return this;
     }
 
+    @Override
+    public void setVisible(boolean isVisible) {
+        for(Node n : getNodes()) {
+            n.setVisible(isVisible);
+        }
+
+        updateStickyNoteGraphic();
+
+        if (!isVisible) {
+            dayStickyNote.setVisible(false);
+        }
+    }
+ 
     public void updateStickyNoteGraphic() {
         if (stickyNotes.isEmpty()) {
             rectangle.setMouseTransparent(false);

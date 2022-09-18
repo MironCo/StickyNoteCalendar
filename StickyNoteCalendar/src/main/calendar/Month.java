@@ -1,21 +1,36 @@
 package main.calendar;
 
+import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.List;
 
 import javafx.scene.Node;
 import main.calendar.day.Day;
 import main.calendar.day.DayFactory;
+import util.Vector2;
 
 public class Month {
     private String name;
     private List<Day> daysInMonth = new ArrayList<Day>();
+    private YearMonth yearMonth;
 
-    public Month(String monthName, int numberOfDays, int weekdayOffset) {
-        this.name = monthName;
+    public Month(YearMonth yearMonth, int weekdayOffset) {
+        this.yearMonth = yearMonth;
+
+        name = CalendarData.monthsOfTheYear[yearMonth.getMonthValue() - 1];
+        int numberOfDays = YearMonth.of(yearMonth.getYear(), yearMonth.getMonthValue()).lengthOfMonth();        
+        
         for (int i = 0; i < numberOfDays; i++) {
             Day day = DayFactory.buildDay(i, weekdayOffset);
             daysInMonth.add(day);
+        }
+
+        AddDaysToScene();
+    }
+
+    private void AddDaysToScene() {
+        for (Day d : daysInMonth) {
+            d.addNodesToScene();
         }
     }
 
@@ -25,9 +40,15 @@ public class Month {
         }
     }
 
-    public void resizeMonth() {
+    public void hideMonth() {
         for (Day d : daysInMonth) {
-            
+            d.setVisible(false);
+        }
+    }
+
+    public void showMonth() {
+        for (Day d :daysInMonth) {
+            d.setVisible(true);
         }
     }
 
@@ -37,5 +58,9 @@ public class Month {
 
     public List<Day> getDays() {
         return daysInMonth;
+    }
+
+    public YearMonth getYearMonth() {
+        return yearMonth;
     }
 }  

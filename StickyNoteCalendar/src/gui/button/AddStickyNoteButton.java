@@ -7,8 +7,8 @@ import util.Vector2;
 public class AddStickyNoteButton extends GUIButton {
     Vector2 dimesions = new Vector2(50, 0);
 
-    public AddStickyNoteButton(String buttonName, double x, double y, int width, int height) {
-        super(buttonName, x, y, width, height);
+    public AddStickyNoteButton(double x, double y, int width, int height) {
+        super("Add Sticky Note", x, y, width, height);
         graphic.setArcHeight(height / 2);
         graphic.setArcWidth(width / 10);
     }

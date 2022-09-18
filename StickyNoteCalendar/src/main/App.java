@@ -63,8 +63,7 @@ public class App extends Application {
         scene.setFill(ColorThemeManager.getCurrentColorTheme().backgroundColor);
 
         Calendar.getInstance().Init();
-        Calendar.getInstance().addNodes(objectList);
-
+        
         Toolbar toolbar = new Toolbar();
 
         StickyNote note = new StickyNote();
