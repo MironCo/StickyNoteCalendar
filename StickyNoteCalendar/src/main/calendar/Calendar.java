@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
+import javax.management.openmbean.OpenType;
+
 import gui.DrawableUIElement;
 import gui.colors.ColorThemeManager;
 import javafx.scene.Node;
@@ -149,6 +151,11 @@ public class Calendar extends DrawableUIElement {
       for (Month m : months.values()) {
          m.addNodes(drawList);
       }
+   }
+
+   public List<Month> getMonths() {
+      List<Month> returnMonths = new ArrayList<>(months.values());
+      return returnMonths;     
    }
 
    public LocalDate getToday() {

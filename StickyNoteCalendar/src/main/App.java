@@ -9,6 +9,7 @@
 package main;
 
 import main.calendar.Calendar;
+import util.SaveManager;
 import util.Vector2;
 
 import java.util.List;
@@ -81,6 +82,11 @@ public class App extends Application {
             stage.setScene(scene);
             stage.show();
         });
+    }
+
+    @Override
+    public void stop() {
+        SaveManager.SaveData();
     }
 
     public static void AddToScene(List<Node> nodes) {
