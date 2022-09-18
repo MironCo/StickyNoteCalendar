@@ -1,10 +1,10 @@
 package main.calendar.day;
 
-import java.nio.channels.CancelledKeyException;
-
 import gui.colors.ColorThemeManager;
 import gui.stickynote.DayStickyNoteGraphic;
 import gui.toolbars.Toolbar;
+import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
@@ -41,7 +41,7 @@ public class DayFactory {
         return weekdayString.substring(0, 3);
     }
 
-    public static Day buildDay(int day, int weekdayOffset) {
+    public synchronized static Day buildDay(int day, int weekdayOffset) {
         Calendar calendar = Calendar.getInstance();
 
         Day newDay = new Day();
@@ -51,14 +51,7 @@ public class DayFactory {
                 + calendar.textHeight + calendar.textHeight)) / numberOfRows;
         int adjustedDay = day + weekdayOffset;
 
-        // Calendar.dayXCenterOffs = (App.screenWidth - (calendar.dayDimensions.x +
-        // calendar.dayOffset.x) * 7) / 2;
-
         calendar.dayDimensions = new Vector2((float) size, (float) size);
-        // calendar.dayXCenterOffset = Toolbar.dimensions.x + calendar.dayOffset.x +
-        // ((App.screenWidth-Toolbar.dimensions.x-(calendar.dayDimensions.x +
-        // calendar.dayOffset.x)*7)/2);
-        calendar.dayXCenterOffset = Toolbar.dimensions.x + (calendar.dayOffset.x * 2);
         Vector2 position = new Vector2(
                 //((calendar.dayDimensions.x + calendar.dayOffset.x) * (adjustedDay % 7)) + calendar.dayXCenterOffset,
                 Calendar.getInstance().getWeekdayNames().get(adjustedDay % 7).getX(),
@@ -66,6 +59,7 @@ public class DayFactory {
                         + calendar.textHeight + calendar.dayYPadding + calendar.weekdayNamesYPadding));
         newDay.setPosition(position);
         newDay.day = day + 1;
+
 
         newDay.dayNumberText = new Text(newDay.day.toString());
         newDay.dayNumberText.setFont(FontManager.loadFont("Nunito-ExtraLight.ttf", 20));

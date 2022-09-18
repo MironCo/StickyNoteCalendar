@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.format.TextStyle;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -20,7 +21,7 @@ public class Calendar extends DrawableUIElement {
    public static final Calendar instance = new Calendar();
 
    private LocalDate today;
-   private List<Month> months = new ArrayList<Month>();
+   private HashMap<String, Month> months = new HashMap<String, Month>();
    private Month currentMonth;
 
    public Vector2 dayOffset = new Vector2(10, 10);
@@ -62,8 +63,8 @@ public class Calendar extends DrawableUIElement {
 
       YearMonth todayYearMonth = YearMonth.of(today.getYear(), today.getMonthValue());
       AddNewMonth(todayYearMonth);
-      setCurrentMonth(months.get(0));
-
+      setCurrentMonth(months.get(generateMonthName(todayYearMonth)));
+      
       nodes.add(monthName);
       nodes.addAll(weekdayNames);
 
@@ -74,8 +75,8 @@ public class Calendar extends DrawableUIElement {
       int weekdayOffset = CalendarData.findWeekdayIndex(newMonth.atDay(1)
             .getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.US));
 
-      Month initMonth = new Month(YearMonth.of(newMonth.getYear(), newMonth.getMonth()), weekdayOffset);
-      months.add(initMonth);
+      Month initMonth = new Month(YearMonth.of(newMonth.getYear(), newMonth.getMonth()), generateMonthName(newMonth), weekdayOffset);
+      months.putIfAbsent(generateMonthName(newMonth), initMonth);
       DayManager.getInstance().setCurrentDays(initMonth.getDays());
    }
 
@@ -90,9 +91,36 @@ public class Calendar extends DrawableUIElement {
                getCurrentMonth().getYearMonth().getMonthValue() + 1);
       }
 
-      if (nextYearMonth != null) {
+      if (nextYearMonth != null && months.get(generateMonthName(nextYearMonth)) != null) {
+         Month nextMonth = months.get(generateMonthName(nextYearMonth));
+         nextMonth.showMonth();
+         setCurrentMonth(nextMonth);
+      } else {
          AddNewMonth(nextYearMonth);
-         setCurrentMonth(months.get(months.size() - 1));
+         setCurrentMonth(months.get(generateMonthName(nextYearMonth)));
+         currentMonth.showMonth();
+      }
+   }
+
+   public void goToLastMonth() {
+      currentMonth.hideMonth();
+
+      YearMonth lastYearMonth = null;
+      if (getCurrentMonth().getYearMonth().getMonthValue() - 1 < 1) {
+         lastYearMonth = YearMonth.of(getCurrentMonth().getYearMonth().getYear() - 1, 12);
+      } else if (getCurrentMonth().getYearMonth().getMonthValue() - 1 >= 1) {
+         lastYearMonth = YearMonth.of(getCurrentMonth().getYearMonth().getYear(),
+               getCurrentMonth().getYearMonth().getMonthValue() - 1);
+      }
+
+      if (lastYearMonth != null && months.get(generateMonthName(lastYearMonth)) != null) {
+         Month lastMonth = months.get(generateMonthName(lastYearMonth));
+         lastMonth.showMonth();
+         setCurrentMonth(lastMonth);
+         return;
+      } else {
+         AddNewMonth(lastYearMonth);
+         setCurrentMonth(months.get(generateMonthName(lastYearMonth)));
          currentMonth.showMonth();
       }
    }
@@ -102,17 +130,23 @@ public class Calendar extends DrawableUIElement {
    }
 
    public void setCurrentMonth(Month month) {
+      if (currentMonth != null) currentMonth.hideMonth();
       currentMonth = month;
-      monthName.setText(currentMonth.getName() + " " + currentMonth.getYearMonth().getYear());
       monthName.setX(dayXCenterOffset);
+      monthName.setText(month.getName());
       textHeight = monthName.getBoundsInLocal().getHeight();
+      DayManager.getInstance().setCurrentDays(currentMonth.getDays());
+   }
+
+   private String generateMonthName(YearMonth yearMonth) {
+      return CalendarData.monthsOfTheYear[yearMonth.getMonthValue() - 1] + " " + yearMonth.getYear();
    }
 
    public void addNodes(List<Node> drawList) {
       for (Node n : getNodes()) {
          drawList.add(n);
       }
-      for (Month m : months) {
+      for (Month m : months.values()) {
          m.addNodes(drawList);
       }
    }

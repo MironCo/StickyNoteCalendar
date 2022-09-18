@@ -66,7 +66,6 @@ public class DayStickyNoteGraphic extends DraggableUIElement {
 
     public void setStickyNote(StickyNote note) {
         connectedStickyNote = note;
-        System.out.println(note.toString());
     }
 
     public void removeFromTop() {

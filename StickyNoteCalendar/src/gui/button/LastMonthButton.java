@@ -1,5 +1,7 @@
 package gui.button;
 
+import main.calendar.Calendar;
+
 public class LastMonthButton extends GUIButton {
 
     public LastMonthButton(double x, double y, int width, int height) {
@@ -11,6 +13,6 @@ public class LastMonthButton extends GUIButton {
     @Override
     public void performAction() {
         // TODO Auto-generated method stub
-        
+        Calendar.getInstance().goToLastMonth();
     }
 }

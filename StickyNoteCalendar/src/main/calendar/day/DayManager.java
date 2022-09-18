@@ -18,13 +18,12 @@ public class DayManager {
     }
 
     public Day getHoveredDay() {
-        Day hoveredDay = null;
         for (Day day : currentDays) {
-            if (day.rectangle.contains(new Point2D(App.getMousePosition().x, App.getMousePosition().y))) {
+            if (day.isVisible() && day.rectangle.contains(new Point2D(App.getMousePosition().x, App.getMousePosition().y))) {
                 return day;
             }
         }
-        return hoveredDay;
+        return null;
     }
 
     public List<Day> getCurrentDays() {

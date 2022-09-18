@@ -51,18 +51,25 @@ public class Day extends DrawableUIElement {
             dayStickyNote.setVisible(false);
         }
     }
- 
+    
+    @Override
+    public boolean isVisible() {
+        boolean isVisible = true;
+        isVisible &= rectangle.isVisible();
+        isVisible &= dayNumberText.isVisible();
+
+        return isVisible;
+    } 
+
     public void updateStickyNoteGraphic() {
         if (stickyNotes.isEmpty()) {
             rectangle.setMouseTransparent(false);
             dayStickyNote.setVisible(false);
-            System.out.println("Sticky notes: " + stickyNotes.size());
         } else {
             rectangle.setMouseTransparent(true);
             dayStickyNote.rectangle.setFill(stickyNotes.get(0).getRectangle().getFill());
             dayStickyNote.setVisible(true);
             dayStickyNote.setStickyNote(stickyNotes.get(0));
-            System.out.println("Sticky notes: " + stickyNotes.size());
         }
     }
 }

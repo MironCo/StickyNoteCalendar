@@ -18,6 +18,7 @@ import gui.colors.DarkColorTheme;
 import gui.stickynote.StickyNote;
 import gui.toolbars.Toolbar;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.NumberBinding;
 import javafx.collections.ObservableList;
@@ -43,44 +44,43 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        mainStage = stage;
-        stage.setTitle("Sticky Note Calendar");
+        Platform.runLater(() -> {
+            mainStage = stage;
+            stage.setTitle("Sticky Note Calendar");
 
-        Pane layout = new Pane();
-        objectList = layout.getChildren();
+            Pane layout = new Pane();
+            objectList = layout.getChildren();
 
-        StackPane root = new StackPane(layout);
-        NumberBinding maxScale = Bindings.min(root.widthProperty().divide(1280), root.heightProperty().divide(720));
+            StackPane root = new StackPane(layout);
+            NumberBinding maxScale = Bindings.min(root.widthProperty().divide(1280), root.heightProperty().divide(720));
 
-        layout.scaleXProperty().bind(maxScale);
-        layout.scaleYProperty().bind(maxScale);
+            layout.scaleXProperty().bind(maxScale);
+            layout.scaleYProperty().bind(maxScale);
 
-        Scene scene = new Scene(root, screenWidth, screenHeight);
-        mainScene = scene;
+            Scene scene = new Scene(root, screenWidth, screenHeight);
+            mainScene = scene;
 
-        ColorThemeManager.setCurrentColorTheme(new DarkColorTheme());
+            ColorThemeManager.setCurrentColorTheme(new DarkColorTheme());
 
-        scene.setFill(ColorThemeManager.getCurrentColorTheme().backgroundColor);
+            scene.setFill(ColorThemeManager.getCurrentColorTheme().backgroundColor);
 
-        Calendar.getInstance().Init();
-        
-        Toolbar toolbar = new Toolbar();
+            Calendar.getInstance().Init();
 
-        StickyNote note = new StickyNote();
-        StickyNote note2 = new StickyNote();
+            Toolbar toolbar = new Toolbar();
 
-        scene.setOnMouseMoved(e -> {
-            mousePosition.x = e.getX();
-            mousePosition.y = e.getY();
+            scene.setOnMouseMoved(e -> {
+                mousePosition.x = e.getX();
+                mousePosition.y = e.getY();
+            });
+
+            scene.setOnMouseDragged(e -> {
+                mousePosition.x = e.getX();
+                mousePosition.y = e.getY();
+            });
+
+            stage.setScene(scene);
+            stage.show();
         });
-
-        scene.setOnMouseDragged(e -> {
-            mousePosition.x = e.getX();
-            mousePosition.y = e.getY();
-        });
-
-        stage.setScene(scene);
-        stage.show();
     }
 
     public static void AddToScene(List<Node> nodes) {
