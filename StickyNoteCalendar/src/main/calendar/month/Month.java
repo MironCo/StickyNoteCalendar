@@ -1,4 +1,4 @@
-package main.calendar;
+package main.calendar.month;
 
 import java.time.YearMonth;
 import java.util.ArrayList;

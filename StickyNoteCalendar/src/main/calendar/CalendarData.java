@@ -20,4 +20,13 @@ public class CalendarData {
         }
         return -1;
     }
+
+    public static int findMonthIndex(String monthName) {
+        for (int i = 0; i < 12; i++) {
+            if (monthsOfTheYear[i].equals(monthName)) {
+                return i + 1;
+            }
+        }
+        return -1;
+    }
 }

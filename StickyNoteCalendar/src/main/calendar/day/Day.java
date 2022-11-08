@@ -72,4 +72,8 @@ public class Day extends DrawableUIElement {
             dayStickyNote.setStickyNote(stickyNotes.get(0));
         }
     }
+
+    public List<StickyNote> getStickyNotes() {
+        return stickyNotes;
+    }
 }

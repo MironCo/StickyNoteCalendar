@@ -16,7 +16,6 @@ import java.util.List;
 
 import gui.colors.ColorThemeManager;
 import gui.colors.DarkColorTheme;
-import gui.stickynote.StickyNote;
 import gui.toolbars.Toolbar;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -27,7 +26,6 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class App extends Application {

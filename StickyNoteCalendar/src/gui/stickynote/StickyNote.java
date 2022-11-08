@@ -22,7 +22,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import util.FontManager;
 import util.Vector2;
-
+ 
 public class StickyNote extends DraggableUIElement {
     private Vector2 dimensions = new Vector2(150, 150);
     private Rectangle rectangle = new Rectangle();
@@ -41,6 +41,7 @@ public class StickyNote extends DraggableUIElement {
 
         color = StickyNoteManager.getRandomNoteColor();
         position = new Vector2(10, 10);
+        
         rectangle = new Rectangle(position.x, position.y, dimensions.x, dimensions.y);
         rectangle.setFill(new Color(color.getColor().getRed() / 255.0f, color.getColor().getGreen() / 255.0f,
                 color.getColor().getBlue() / 255.0f, 1));
@@ -59,6 +60,11 @@ public class StickyNote extends DraggableUIElement {
         setClickAction();
         setReleaseAction();
         addNodesToScene();
+    }
+
+    public StickyNote(String noteText) {
+        this();
+        this.noteText.setText(noteText);
     }
 
     private void setReleaseAction() {
@@ -102,6 +108,9 @@ public class StickyNote extends DraggableUIElement {
 
     public void startEditingText() {
         isEditing = true;
+        if (noteText.getText().equals("Sticky Note")) {
+            noteText.setText("");
+        }
         StickyNoteManager.getInstance().setCurrentlyEditingStickyNote(this);
     }
 
@@ -147,6 +156,16 @@ public class StickyNote extends DraggableUIElement {
         StickyNoteManager.getInstance().setDraggedStickyNote(null);
     }
 
+    @Override
+    /**
+     * Method to set the position of the UI element
+     * @param _position new position as a Vector2
+     */
+    public void setPosition(Vector2 _position) {
+        position = _position;
+        
+    }
+
     public void hideMainStickyNote() {
         for (Node n : nodes) {
             n.setVisible(false);
@@ -161,5 +180,15 @@ public class StickyNote extends DraggableUIElement {
 
     public Rectangle getRectangle() {
         return rectangle;
+    }
+
+    public NoteColor getColor() {
+        return color;
+    }
+
+    public void setColor(NoteColor newColor) {
+        this.color = newColor;
+        rectangle.setFill(new Color(color.getColor().getRed() / 255.0f, color.getColor().getGreen() / 255.0f,
+                color.getColor().getBlue() / 255.0f, 1));
     }
 }

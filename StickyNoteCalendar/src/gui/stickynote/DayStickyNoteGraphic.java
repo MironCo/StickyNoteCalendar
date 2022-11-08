@@ -49,7 +49,7 @@ public class DayStickyNoteGraphic extends DraggableUIElement {
                 for (Node n : connectedStickyNote.getNodes()) {
                     n.setTranslateX(e.getSceneX());
                     n.setTranslateY(e.getSceneY());
-                }  
+                }
             }
         });
     }

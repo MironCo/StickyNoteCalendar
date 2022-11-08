@@ -2,21 +2,21 @@ package main.calendar;
 
 import java.time.LocalDate;
 import java.time.YearMonth;
-import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
-
-import javax.management.openmbean.OpenType;
 
 import gui.DrawableUIElement;
 import gui.colors.ColorThemeManager;
 import javafx.scene.Node;
+
 import javafx.scene.text.Text;
 import main.calendar.day.DayFactory;
 import main.calendar.day.DayManager;
+import main.calendar.month.Month;
+import main.calendar.month.MonthFactory;
 import util.FontManager;
+import util.LoadManager;
 import util.Vector2;
 
 public class Calendar extends DrawableUIElement {
@@ -63,23 +63,30 @@ public class Calendar extends DrawableUIElement {
          weekdayNames.add(DayFactory.buildDayOfWeekText(i));
       }
 
+      LoadManager.LoadSave();
       YearMonth todayYearMonth = YearMonth.of(today.getYear(), today.getMonthValue());
-      AddNewMonth(todayYearMonth);
-      setCurrentMonth(months.get(generateMonthName(todayYearMonth)));
-      
+      if (months.isEmpty() || months.get(MonthFactory.generateMonthName(todayYearMonth)) == null) {
+         addNewMonth(todayYearMonth);
+         setCurrentMonth(months.get(MonthFactory.generateMonthName(todayYearMonth)));
+      } else if (months.get(MonthFactory.generateMonthName(todayYearMonth)) != null) {
+         setCurrentMonth(months.get(MonthFactory.generateMonthName(todayYearMonth)));
+      }
+
       nodes.add(monthName);
       nodes.addAll(weekdayNames);
 
       addNodesToScene();
    }
 
-   public void AddNewMonth(YearMonth newMonth) {
-      int weekdayOffset = CalendarData.findWeekdayIndex(newMonth.atDay(1)
-            .getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.US));
+   public void addNewMonth(YearMonth newMonth) {
+      Month month = MonthFactory.buildMonth(newMonth);
+      months.putIfAbsent(MonthFactory.generateMonthName(newMonth), month);
+      months.get(MonthFactory.generateMonthName(newMonth)).hideMonth();
+   }
 
-      Month initMonth = new Month(YearMonth.of(newMonth.getYear(), newMonth.getMonth()), generateMonthName(newMonth), weekdayOffset);
-      months.putIfAbsent(generateMonthName(newMonth), initMonth);
-      DayManager.getInstance().setCurrentDays(initMonth.getDays());
+   public void addNewMonth(Month newMonth) {
+      months.putIfAbsent(MonthFactory.generateMonthName(newMonth.getYearMonth()), newMonth);
+      months.get(MonthFactory.generateMonthName(newMonth.getYearMonth())).hideMonth();
    }
 
    public void goToNextMonth() {
@@ -93,13 +100,13 @@ public class Calendar extends DrawableUIElement {
                getCurrentMonth().getYearMonth().getMonthValue() + 1);
       }
 
-      if (nextYearMonth != null && months.get(generateMonthName(nextYearMonth)) != null) {
-         Month nextMonth = months.get(generateMonthName(nextYearMonth));
+      if (nextYearMonth != null && months.get(MonthFactory.generateMonthName(nextYearMonth)) != null) {
+         Month nextMonth = months.get(MonthFactory.generateMonthName(nextYearMonth));
          nextMonth.showMonth();
          setCurrentMonth(nextMonth);
       } else {
-         AddNewMonth(nextYearMonth);
-         setCurrentMonth(months.get(generateMonthName(nextYearMonth)));
+         addNewMonth(nextYearMonth);
+         setCurrentMonth(months.get(MonthFactory.generateMonthName(nextYearMonth)));
          currentMonth.showMonth();
       }
    }
@@ -115,15 +122,14 @@ public class Calendar extends DrawableUIElement {
                getCurrentMonth().getYearMonth().getMonthValue() - 1);
       }
 
-      if (lastYearMonth != null && months.get(generateMonthName(lastYearMonth)) != null) {
-         Month lastMonth = months.get(generateMonthName(lastYearMonth));
+      if (lastYearMonth != null && months.get(MonthFactory.generateMonthName(lastYearMonth)) != null) {
+         Month lastMonth = months.get(MonthFactory.generateMonthName(lastYearMonth));
          lastMonth.showMonth();
          setCurrentMonth(lastMonth);
          return;
       } else {
-         AddNewMonth(lastYearMonth);
-         setCurrentMonth(months.get(generateMonthName(lastYearMonth)));
-         currentMonth.showMonth();
+         addNewMonth(lastYearMonth);
+         setCurrentMonth(months.get(MonthFactory.generateMonthName(lastYearMonth)));
       }
    }
 
@@ -138,18 +144,12 @@ public class Calendar extends DrawableUIElement {
       monthName.setText(month.getName());
       textHeight = monthName.getBoundsInLocal().getHeight();
       DayManager.getInstance().setCurrentDays(currentMonth.getDays());
-   }
-
-   private String generateMonthName(YearMonth yearMonth) {
-      return CalendarData.monthsOfTheYear[yearMonth.getMonthValue() - 1] + " " + yearMonth.getYear();
+      currentMonth.showMonth();
    }
 
    public void addNodes(List<Node> drawList) {
       for (Node n : getNodes()) {
          drawList.add(n);
-      }
-      for (Month m : months.values()) {
-         m.addNodes(drawList);
       }
    }
 

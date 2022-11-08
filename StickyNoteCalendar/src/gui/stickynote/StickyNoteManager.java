@@ -21,6 +21,7 @@ public class StickyNoteManager {
     private StickyNote draggedStickyNote;
     private static StickyNote currentlyEditingStickyNote = null;
     private static final NoteColor[] NOTE_COLORS = {NoteColor.BEIGE, NoteColor.PURPLE, NoteColor.BLUE, NoteColor.YELLOW};
+    private static final String[] NOTE_COLOR_NAMES = {"BEIGE", "PURPLE", "BLUE", "YELLOW"};
     private static final Random RANDOM = new Random();
 
     private StickyNoteManager() {
@@ -51,6 +52,15 @@ public class StickyNoteManager {
 
     public static NoteColor getRandomNoteColor() {
         return NOTE_COLORS[RANDOM.nextInt(0, NOTE_COLORS.length)];
+    }
+
+    public static NoteColor getNoteColorByName(String name) {
+        for (NoteColor noteColor : NOTE_COLORS) {
+            if (noteColor.getName().equals(name)) {
+                return noteColor;
+            }
+        }
+        return NoteColor.BEIGE;
     }
 
     public static final StickyNoteManager getInstance() {
