@@ -16,16 +16,14 @@ import java.util.List;
 
 import gui.colors.ColorThemeManager;
 import gui.colors.DarkColorTheme;
-import gui.toolbars.Toolbar;
+import gui.colors.LightColorTheme;
+import gui.toolbar.Toolbar;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.beans.binding.Bindings;
-import javafx.beans.binding.NumberBinding;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 public class App extends Application {
@@ -50,22 +48,17 @@ public class App extends Application {
             Pane layout = new Pane();
             objectList = layout.getChildren();
 
-            StackPane root = new StackPane(layout);
-            NumberBinding maxScale = Bindings.min(root.widthProperty().divide(1280), root.heightProperty().divide(720));
-
-            layout.scaleXProperty().bind(maxScale);
-            layout.scaleYProperty().bind(maxScale);
-
-            Scene scene = new Scene(root, screenWidth, screenHeight);
+            Scene scene = new Scene(layout, screenWidth, screenHeight);
             mainScene = scene;
 
             ColorThemeManager.setCurrentColorTheme(new DarkColorTheme());
 
             scene.setFill(ColorThemeManager.getCurrentColorTheme().backgroundColor);
+            System.out.println(App.getScene().getFill().toString());
 
             Calendar.getInstance().Init();
 
-            Toolbar toolbar = new Toolbar();
+            Toolbar toolbar = new Toolbar();            
 
             scene.setOnMouseMoved(e -> {
                 mousePosition.x = e.getX();
@@ -89,6 +82,10 @@ public class App extends Application {
 
     public static void AddToScene(List<Node> nodes) {
         objectList.addAll(nodes);
+    }
+
+    public static void AddToScene(Pane pane) {
+        objectList.addAll(pane);
     }
 
     public static Stage getStage() {

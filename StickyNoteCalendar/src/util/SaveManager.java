@@ -2,7 +2,7 @@ package util;
 
 import java.io.File;
 import java.io.FileWriter;
-import java.io.IOException; 
+import java.io.IOException;
 import java.util.List;
 
 import gui.stickynote.StickyNote;
@@ -23,7 +23,8 @@ public class SaveManager {
     }
 
     private static File GetFile() throws IOException, SecurityException {
-        File saveFile = new File(SaveData.USER_DIRECTORY + File.separator + SaveData.SAVE_FOLDER + File.separator + SaveData.FILE_NAME);
+        File saveFile = new File(
+                SaveData.USER_DIRECTORY + File.separator + SaveData.SAVE_FOLDER + File.separator + SaveData.FILE_NAME);
         System.out.println(saveFile.getAbsolutePath());
 
         if (!saveFile.exists()) {
@@ -37,11 +38,11 @@ public class SaveManager {
 
     public static void WriteData(File file) throws IOException {
         writer = new FileWriter(file);
-        
+
         for (Month month : Calendar.getInstance().getMonths()) {
             WriteMonth(month);
         }
-        
+
         writer.close();
     }
 

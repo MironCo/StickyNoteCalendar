@@ -1,9 +1,11 @@
 package gui.stickynote;
 
+import java.rmi.registry.RegistryHandler;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import gui.popupmenu.StickyNotePopupMenu;
 import javafx.event.EventHandler;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -20,8 +22,8 @@ public class StickyNoteManager {
     private Day hoveredDay = null;
     private StickyNote draggedStickyNote;
     private static StickyNote currentlyEditingStickyNote = null;
+    private static StickyNote rightClickedStickyNote = null;
     private static final NoteColor[] NOTE_COLORS = {NoteColor.BEIGE, NoteColor.PURPLE, NoteColor.BLUE, NoteColor.YELLOW};
-    private static final String[] NOTE_COLOR_NAMES = {"BEIGE", "PURPLE", "BLUE", "YELLOW"};
     private static final Random RANDOM = new Random();
 
     private StickyNoteManager() {
@@ -46,7 +48,13 @@ public class StickyNoteManager {
                         }
                     } 
                 }
-            }
+                if (e.getButton() == MouseButton.PRIMARY) {
+                    StickyNotePopupMenu.getInstance().hide();
+                }
+                if (e.getButton() == MouseButton.SECONDARY) {
+
+                }
+            } 
         });
     }
 
@@ -102,5 +110,13 @@ public class StickyNoteManager {
 
     public StickyNote getCurrentlyEditingStickyNote() {
         return currentlyEditingStickyNote;
+    }
+
+    public void setRightClickedStickyNote(StickyNote stickyNote) {
+        rightClickedStickyNote = stickyNote;
+    }
+    
+    public StickyNote getRightClickedStickyNote() {
+        return rightClickedStickyNote;
     }
 }

@@ -9,8 +9,11 @@
 package gui.stickynote;
 
 import gui.DraggableUIElement;
+import gui.popupmenu.PopupMenu;
+import gui.popupmenu.StickyNotePopupMenu;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
+import main.App;
 import main.calendar.day.Day;
 import main.calendar.day.DayManager;
 import javafx.event.EventHandler;
@@ -19,12 +22,14 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import util.FontManager;
 import util.Vector2;
- 
+
 public class StickyNote extends DraggableUIElement {
     private Vector2 dimensions = new Vector2(150, 150);
+    private Pane stickyNotePane;
     private Rectangle rectangle = new Rectangle();
     private Vector2 rectanglePadding = new Vector2(10, 10);
 
@@ -36,29 +41,29 @@ public class StickyNote extends DraggableUIElement {
     private boolean isEditing = false;
     private boolean isFull = false;
 
-    public StickyNote() {
-        nodes.add(rectangle);
+    private final PopupMenu menu = StickyNotePopupMenu.getInstance();
 
+    public StickyNote() {
+        stickyNotePane = new Pane();
         color = StickyNoteManager.getRandomNoteColor();
         position = new Vector2(10, 10);
-        
+
         rectangle = new Rectangle(position.x, position.y, dimensions.x, dimensions.y);
-        rectangle.setFill(new Color(color.getColor().getRed() / 255.0f, color.getColor().getGreen() / 255.0f,
-                color.getColor().getBlue() / 255.0f, 1));
+
+        rectangle.setFill(color.getColor());
 
         noteText = new Text("Sticky Note");
         noteText.setFont(FontManager.loadFont("Nunito-Regular.ttf", 20));
         noteText.setX(rectangle.getX() + rectanglePadding.x);
         noteText.setY(rectangle.getY() + rectanglePadding.y + noteTextOffset.y);
 
-        nodes.add(rectangle);
-        nodes.add(noteText);
-
-        makeDraggable(rectangle);
-        makeDraggable(noteText);
+        stickyNotePane.getChildren().addAll(rectangle, noteText);
+        nodes.add(stickyNotePane);
+        makeDraggable(stickyNotePane);
 
         setClickAction();
         setReleaseAction();
+
         addNodesToScene();
     }
 
@@ -83,6 +88,11 @@ public class StickyNote extends DraggableUIElement {
                         } else if (e.getClickCount() > 1) {
                             startEditingText();
                         }
+                    } else if (e.getButton().equals(MouseButton.SECONDARY)) {
+                        if (e.getClickCount() == 1) {
+                            menu.show(e.getSceneX(), e.getSceneY());
+                            setAsRightClicked();
+                        }
                     }
                 }
             });
@@ -92,6 +102,7 @@ public class StickyNote extends DraggableUIElement {
                 n.setTranslateX(e.getSceneX() - startX);
                 n.setTranslateY(e.getSceneY() - startY);
             }
+            menu.hide();
             StickyNoteManager.getInstance().setDraggedStickyNote(this);
         });
     }
@@ -111,6 +122,7 @@ public class StickyNote extends DraggableUIElement {
         if (noteText.getText().equals("Sticky Note")) {
             noteText.setText("");
         }
+        System.out.println(App.getScene().getFill().toString());
         StickyNoteManager.getInstance().setCurrentlyEditingStickyNote(this);
     }
 
@@ -130,8 +142,7 @@ public class StickyNote extends DraggableUIElement {
     public void ChangeStickNoteText(KeyEvent key) {
         if (key.getCode() == KeyCode.BACK_SPACE && noteText.getText().length() > 0) {
             noteText.setText(noteText.getText().substring(0, noteText.getText().length() - 1));
-            if (isFull)
-                isFull = false;
+            if (isFull) isFull = false;
         } else if (!isFull) {
             noteText.setText(noteText.getText() + key.getText());
             if (isTextOutsideBounds()) {
@@ -149,21 +160,19 @@ public class StickyNote extends DraggableUIElement {
     public void ReleaseStickyNote() {
         Day mouseOverDay = DayManager.getInstance().getHoveredDay();
         setMouseTransparent(false);
-        if (mouseOverDay != null) {
-            // System.out.println("Released Sticky Note Onto Day " + mouseOverDay.day);
-            mouseOverDay.AddStickyNote(this);
-        }
+        if (mouseOverDay != null) mouseOverDay.AddStickyNote(this);
         StickyNoteManager.getInstance().setDraggedStickyNote(null);
     }
 
     @Override
     /**
      * Method to set the position of the UI element
+     * 
      * @param _position new position as a Vector2
      */
     public void setPosition(Vector2 _position) {
         position = _position;
-        
+
     }
 
     public void hideMainStickyNote() {
@@ -185,10 +194,13 @@ public class StickyNote extends DraggableUIElement {
     public NoteColor getColor() {
         return color;
     }
+    
+    private void setAsRightClicked() {
+        StickyNoteManager.getInstance().setRightClickedStickyNote(this);
+    }
 
     public void setColor(NoteColor newColor) {
         this.color = newColor;
-        rectangle.setFill(new Color(color.getColor().getRed() / 255.0f, color.getColor().getGreen() / 255.0f,
-                color.getColor().getBlue() / 255.0f, 1));
+        rectangle.setFill(color.getColor());
     }
 }

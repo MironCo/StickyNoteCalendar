@@ -9,4 +9,6 @@ public abstract class ColorTheme {
     public Color toolbarColor;
     public Color buttonColor;
     public Color buttonHighlightColor;
+    public Color popupMenuColor;
+    public Color popupMenuTextColor;
 }

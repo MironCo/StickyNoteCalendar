@@ -1,4 +1,4 @@
-package gui.toolbars;
+package gui.toolbar;
 
 import javafx.scene.shape.Rectangle;
 import main.App;

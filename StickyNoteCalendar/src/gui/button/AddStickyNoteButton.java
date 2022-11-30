@@ -18,5 +18,6 @@ public class AddStickyNoteButton extends GUIButton {
         StickyNote note = new StickyNote();
         StickyNoteManager.getInstance().addStickyNote(note);
     }
+
     
 }

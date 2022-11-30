@@ -2,7 +2,7 @@ package main.calendar.day;
 
 import gui.colors.ColorThemeManager;
 import gui.stickynote.DayStickyNoteGraphic;
-import gui.toolbars.Toolbar;
+import gui.toolbar.Toolbar;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
