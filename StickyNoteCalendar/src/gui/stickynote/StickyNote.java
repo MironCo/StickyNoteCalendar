@@ -9,7 +9,7 @@
 package gui.stickynote;
 
 import gui.DraggableUIElement;
-import gui.popupmenu.PopupMenu;
+import gui.popupmenu.PopuppableUIElement;
 import gui.popupmenu.StickyNotePopupMenu;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
@@ -23,11 +23,10 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import util.FontManager;
 import util.Vector2;
 
-public class StickyNote extends DraggableUIElement {
+public class StickyNote extends DraggableUIElement implements PopuppableUIElement {
     private Vector2 dimensions = new Vector2(150, 150);
     private Pane stickyNotePane;
     private Rectangle rectangle = new Rectangle();
@@ -36,12 +35,9 @@ public class StickyNote extends DraggableUIElement {
     private NoteColor color = null;
 
     private Text noteText = new Text();
-    private String noteTextContents;
     private Vector2 noteTextOffset = new Vector2(7, 22);
     private boolean isEditing = false;
     private boolean isFull = false;
-
-    private final PopupMenu menu = StickyNotePopupMenu.getInstance();
 
     public StickyNote() {
         stickyNotePane = new Pane();
@@ -63,6 +59,7 @@ public class StickyNote extends DraggableUIElement {
 
         setClickAction();
         setReleaseAction();
+        setPopupMenu();
 
         addNodesToScene();
     }
@@ -88,11 +85,6 @@ public class StickyNote extends DraggableUIElement {
                         } else if (e.getClickCount() > 1) {
                             startEditingText();
                         }
-                    } else if (e.getButton().equals(MouseButton.SECONDARY)) {
-                        if (e.getClickCount() == 1) {
-                            menu.show(e.getSceneX(), e.getSceneY());
-                            setAsRightClicked();
-                        }
                     }
                 }
             });
@@ -102,7 +94,7 @@ public class StickyNote extends DraggableUIElement {
                 n.setTranslateX(e.getSceneX() - startX);
                 n.setTranslateY(e.getSceneY() - startY);
             }
-            menu.hide();
+            popupMenu.hide();
             StickyNoteManager.getInstance().setDraggedStickyNote(this);
         });
     }
@@ -165,11 +157,6 @@ public class StickyNote extends DraggableUIElement {
     }
 
     @Override
-    /**
-     * Method to set the position of the UI element
-     * 
-     * @param _position new position as a Vector2
-     */
     public void setPosition(Vector2 _position) {
         position = _position;
 
@@ -194,13 +181,29 @@ public class StickyNote extends DraggableUIElement {
     public NoteColor getColor() {
         return color;
     }
-    
-    private void setAsRightClicked() {
-        StickyNoteManager.getInstance().setRightClickedStickyNote(this);
-    }
 
     public void setColor(NoteColor newColor) {
         this.color = newColor;
         rectangle.setFill(color.getColor());
+    }
+
+    @Override
+    public void setPopupMenu() {
+        popupMenu = StickyNotePopupMenu.getInstance();
+        for (Node node : getNodes()) {
+            node.setOnMouseClicked(e -> {
+                if (e.getButton().equals(MouseButton.SECONDARY)) {
+                    popupMenu.show(e.getSceneX(), e.getSceneY());
+                    setAsRightClicked();
+                }
+            });
+        }
+    }
+
+    @Override
+    public void setAsRightClicked() {
+        if (popupMenu != null) {
+            StickyNoteManager.getInstance().setRightClickedStickyNote(this);
+        }
     }
 }

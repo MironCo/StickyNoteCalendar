@@ -4,7 +4,6 @@ import gui.DrawableUIElement;
 import gui.colors.ColorThemeManager;
 import gui.popupmenu.PopupMenu;
 import javafx.geometry.VPos;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
