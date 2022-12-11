@@ -1,6 +1,5 @@
 package gui.stickynote;
 
-import java.rmi.registry.RegistryHandler;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;

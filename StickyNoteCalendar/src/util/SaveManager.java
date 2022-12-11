@@ -75,7 +75,10 @@ public class SaveManager {
 
     public static void WriteStickyNote(StickyNote stickyNote) throws IOException {
         writer.write(SaveData.STICKY_NOTE_TYPE);
-        writer.write(stickyNote.getStickyNoteText().getText().replace("\n", ""));
+        String strippedString = stickyNote.getStickyNoteText().getText();
+        if (strippedString.contains("\r")) strippedString = strippedString.replace("\n", "").replace("\r", "\\n");
+        else strippedString = strippedString.replace("\n", "\\n");
+        writer.write(strippedString);
         writer.write(",");
         writer.write(stickyNote.getColor().getName());
         writer.write("\n");

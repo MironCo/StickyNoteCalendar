@@ -63,7 +63,7 @@ public class LoadManager {
                     int dayNumber = Integer.parseInt(line.substring(line.indexOf(":") + 1));
                     newDay = newMonth.getDays().get(dayNumber-1);
                 } else if (line.contains(SaveData.STICKY_NOTE_TYPE)) {
-                    String stickyNoteContents = line.substring(line.indexOf(":") + 1, line.indexOf(","));
+                    String stickyNoteContents = line.substring(line.indexOf(":") + 1, line.indexOf(",")).replace("\\n", "\n");
                     NoteColor noteColor = StickyNoteManager.getNoteColorByName(line.substring(line.indexOf(",") + 1));
                     StickyNote newNote = new StickyNote(stickyNoteContents);
                     newNote.setColor(noteColor);

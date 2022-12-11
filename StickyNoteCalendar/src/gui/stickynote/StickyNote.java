@@ -70,7 +70,7 @@ public class StickyNote extends DraggableUIElement implements PopuppableUIElemen
     }
 
     private void setReleaseAction() {
-        rectangle.setOnMouseReleased(e -> {
+        stickyNotePane.setOnMouseReleased(e -> {
             ReleaseStickyNote();
         });
     }
@@ -86,6 +86,7 @@ public class StickyNote extends DraggableUIElement implements PopuppableUIElemen
                             startEditingText();
                         }
                     }
+                    setAsRightClicked(e);
                 }
             });
         }
@@ -190,19 +191,12 @@ public class StickyNote extends DraggableUIElement implements PopuppableUIElemen
     @Override
     public void setPopupMenu() {
         popupMenu = StickyNotePopupMenu.getInstance();
-        for (Node node : getNodes()) {
-            node.setOnMouseClicked(e -> {
-                if (e.getButton().equals(MouseButton.SECONDARY)) {
-                    popupMenu.show(e.getSceneX(), e.getSceneY());
-                    setAsRightClicked();
-                }
-            });
-        }
     }
 
     @Override
-    public void setAsRightClicked() {
+    public void setAsRightClicked(MouseEvent e) {
         if (popupMenu != null) {
+            popupMenu.show(e.getSceneX(), e.getSceneY());
             StickyNoteManager.getInstance().setRightClickedStickyNote(this);
         }
     }
