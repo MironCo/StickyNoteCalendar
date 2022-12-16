@@ -13,7 +13,6 @@ import gui.popupmenu.PopuppableUIElement;
 import gui.popupmenu.StickyNotePopupMenu;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
-import main.App;
 import main.calendar.day.Day;
 import main.calendar.day.DayManager;
 import javafx.event.EventHandler;
@@ -90,14 +89,6 @@ public class StickyNote extends DraggableUIElement implements PopuppableUIElemen
                 }
             });
         }
-        rectangle.setOnMouseDragged(e -> {
-            for (Node n : getNodes()) {
-                n.setTranslateX(e.getSceneX() - startX);
-                n.setTranslateY(e.getSceneY() - startY);
-            }
-            popupMenu.hide();
-            StickyNoteManager.getInstance().setDraggedStickyNote(this);
-        });
     }
 
     public boolean isTextOutsideBounds() {
@@ -115,7 +106,6 @@ public class StickyNote extends DraggableUIElement implements PopuppableUIElemen
         if (noteText.getText().equals("Sticky Note")) {
             noteText.setText("");
         }
-        System.out.println(App.getScene().getFill().toString());
         StickyNoteManager.getInstance().setCurrentlyEditingStickyNote(this);
     }
 
@@ -160,7 +150,6 @@ public class StickyNote extends DraggableUIElement implements PopuppableUIElemen
     @Override
     public void setPosition(Vector2 _position) {
         position = _position;
-
     }
 
     public void hideMainStickyNote() {

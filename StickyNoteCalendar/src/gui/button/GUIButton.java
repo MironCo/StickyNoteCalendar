@@ -1,30 +1,27 @@
 package gui.button;
 
 import gui.DrawableUIElement;
+import gui.colors.ColorThemeChangableUIElement;
 import gui.colors.ColorThemeManager;
 import javafx.geometry.VPos;
-import javafx.scene.Node;
-import javafx.scene.paint.Color;
+import javafx.scene.input.MouseButton;
+import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
+import main.App;
 import util.FontManager;
 import util.Vector2;
 
-public abstract class GUIButton extends DrawableUIElement {
+public abstract class GUIButton extends DrawableUIElement implements ColorThemeChangableUIElement {
+    public static final double BUTTON_HEIGHT = 50.0;
+
+    private Pane buttonPane = new Pane();
     protected Rectangle graphic = new Rectangle();
     protected Text buttonText = new Text();
-    private Color originalColor = null;
 
-    private Vector2 textPadding = new Vector2(10, 10);
-
-    public GUIButton(String buttonName, double x, double y, int width, int height) {
-        graphic = new Rectangle(width, height, ColorThemeManager.getCurrentColorTheme().buttonColor);
-        originalColor = ColorThemeManager.getCurrentColorTheme().buttonColor;
-        
-        setPosition(new Vector2(x, y));
-        graphic.setLayoutX(x);
-        graphic.setLayoutY(y);
+    public GUIButton(String buttonName, double x, double y, int width) {
+        graphic = new Rectangle(width, BUTTON_HEIGHT, ColorThemeManager.getCurrentColorTheme().buttonColor);
 
         buttonText = new Text(buttonName);
         buttonText.setFont(FontManager.loadFont("Nunito-Regular.ttf", 20));
@@ -34,37 +31,49 @@ public abstract class GUIButton extends DrawableUIElement {
         buttonText.setTranslateY(graphic.getLayoutY() + (graphic.getHeight() / 2));
         buttonText.setFill(ColorThemeManager.getCurrentColorTheme().textColor);
         
-        addNode(graphic);
-        addNode(buttonText);
-        
-        for (Node n : getNodes()) {
-            n.setOnMouseClicked(e -> {
-                performAction();
-            });
-        }
+        buttonPane.getChildren().addAll(graphic, buttonText);
+        addNode(buttonPane);
+        buttonPane.setLayoutX(x);
+        buttonPane.setLayoutY(y);
 
-        for (Node n : getNodes()) {
-            n.setOnMouseEntered(e -> {
-                highlightButton();
-            });
-        }
-
-        for (Node n : getNodes()) {
-            n.setOnMouseExited(e -> {
-                unHighlightButton();
-            });
-        }
-
+        App.addColorThemeChangeable(this);
+        setActions();
         addNodesToScene();
     }
 
+    private void setActions() {
+        buttonPane.setOnMouseClicked(e -> {
+            if (e.getButton() == MouseButton.PRIMARY) {
+                performAction();
+            }
+        });
+
+        buttonPane.setOnMouseEntered(e -> {
+            highlightButton();
+        });
+
+        buttonPane.setOnMouseExited(e -> {
+            unHighlightButton();
+        });
+    }
+
     public abstract void performAction();
-    
+
+    @Override
+    public Vector2 getPosition() {
+        return new Vector2(buttonPane.getLayoutX(), buttonPane.getLayoutY());
+    }
+
     protected void highlightButton() {
         graphic.setFill(ColorThemeManager.getCurrentColorTheme().buttonHighlightColor);
     }
 
     protected void unHighlightButton() {
         graphic.setFill(ColorThemeManager.getCurrentColorTheme().buttonColor);
+    }
+
+    public void updateColors() {
+        graphic.setFill(ColorThemeManager.getCurrentColorTheme().buttonColor);
+        buttonText.setFill(ColorThemeManager.getCurrentColorTheme().textColor);
     }
 }

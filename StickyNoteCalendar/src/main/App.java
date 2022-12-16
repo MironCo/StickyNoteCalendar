@@ -12,17 +12,23 @@ import main.calendar.Calendar;
 import util.SaveManager;
 import util.Vector2;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import gui.colors.ColorTheme;
+import gui.colors.ColorThemeChangableUIElement;
 import gui.colors.ColorThemeManager;
 import gui.colors.DarkColorTheme;
-import gui.colors.LightColorTheme;
+import gui.popupmenu.PopupMenu;
 import gui.toolbar.Toolbar;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
@@ -34,6 +40,8 @@ public class App extends Application {
     private static Stage mainStage = null;
     private static Scene mainScene = null;
     private static ObservableList<Node> objectList = null;
+    private static List<ColorThemeChangableUIElement> changeableUIElements = new ArrayList<>();
+    private static List<PopupMenu> popupMenus = new ArrayList<>();
 
     public static void main(String[] args) {
         launch(args);
@@ -51,14 +59,16 @@ public class App extends Application {
             Scene scene = new Scene(layout, screenWidth, screenHeight);
             mainScene = scene;
 
-            ColorThemeManager.setCurrentColorTheme(new DarkColorTheme());
-
+            if (ColorThemeManager.getCurrentColorTheme() == null) {
+                ColorThemeManager.setCurrentColorTheme(new DarkColorTheme());
+            }
             scene.setFill(ColorThemeManager.getCurrentColorTheme().backgroundColor);
-            System.out.println(App.getScene().getFill().toString());
 
             Calendar.getInstance().Init();
 
             Toolbar toolbar = new Toolbar();            
+
+            updateColorTheme(ColorThemeManager.getCurrentColorTheme());
 
             scene.setOnMouseMoved(e -> {
                 mousePosition.x = e.getX();
@@ -70,6 +80,10 @@ public class App extends Application {
                 mousePosition.y = e.getY();
             });
 
+            KeyCombination saveCombination = new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_DOWN);
+            Runnable save = ()-> SaveManager.SaveData();
+            scene.getAccelerators().put(saveCombination, save);
+
             stage.setScene(scene);
             stage.show();
         });
@@ -80,12 +94,29 @@ public class App extends Application {
         SaveManager.SaveData();
     }
 
+    public static void updateColorTheme(ColorTheme newColorTheme) {
+        ColorThemeManager.setCurrentColorTheme(newColorTheme);
+        getScene().setFill(ColorThemeManager.getCurrentColorTheme().backgroundColor);
+    
+        for (ColorThemeChangableUIElement element : changeableUIElements) {
+            element.updateColors();
+        }
+    }
+
     public static void AddToScene(List<Node> nodes) {
         objectList.addAll(nodes);
     }
 
     public static void AddToScene(Pane pane) {
         objectList.addAll(pane);
+    }
+
+    public static void addColorThemeChangeable(ColorThemeChangableUIElement newElement) {
+        changeableUIElements.add(newElement);
+    }
+
+    public static void addPopupMenu(PopupMenu popupMenu) {
+        popupMenus.add(popupMenu);
     }
 
     public static Stage getStage() {

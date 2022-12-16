@@ -12,13 +12,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import gui.DrawableUIElement;
+import gui.colors.ColorThemeChangableUIElement;
+import gui.colors.ColorThemeManager;
 import gui.stickynote.DayStickyNoteGraphic;
 import gui.stickynote.StickyNote;
 import javafx.scene.Node;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
-public class Day extends DrawableUIElement {
+public class Day extends DrawableUIElement implements ColorThemeChangableUIElement{
     public Integer day = 0;
     public Rectangle rectangle = new Rectangle();
     public DayStickyNoteGraphic dayStickyNote = null;
@@ -75,5 +77,11 @@ public class Day extends DrawableUIElement {
 
     public List<StickyNote> getStickyNotes() {
         return stickyNotes;
+    }
+
+    @Override
+    public void updateColors() {
+        dayNumberText.setFill(ColorThemeManager.getCurrentColorTheme().textColor);
+        rectangle.setStroke(ColorThemeManager.getCurrentColorTheme().borderColor);
     }
 }

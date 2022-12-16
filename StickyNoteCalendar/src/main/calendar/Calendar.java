@@ -7,10 +7,12 @@ import java.util.HashMap;
 import java.util.List;
 
 import gui.DrawableUIElement;
-import gui.colors.ColorThemeManager;
+import gui.colors.ColorThemeChangableUIElement;
+import gui.colors.ColorThemeManager; 
 import javafx.scene.Node;
 
 import javafx.scene.text.Text;
+import main.App;
 import main.calendar.day.DayFactory;
 import main.calendar.day.DayManager;
 import main.calendar.month.Month;
@@ -19,7 +21,7 @@ import util.FontManager;
 import util.LoadManager;
 import util.Vector2;
 
-public class Calendar extends DrawableUIElement {
+public class Calendar extends DrawableUIElement implements ColorThemeChangableUIElement{
    public static final Calendar instance = new Calendar();
 
    private LocalDate today;
@@ -74,6 +76,9 @@ public class Calendar extends DrawableUIElement {
 
       nodes.add(monthName);
       nodes.addAll(weekdayNames);
+
+      updateColors();
+      App.addColorThemeChangeable(this);
 
       addNodesToScene();
    }
@@ -164,5 +169,13 @@ public class Calendar extends DrawableUIElement {
 
    public List<Text> getWeekdayNames() {
       return weekdayNames;
+   }
+
+   @Override
+   public void updateColors() {
+      for (Text name : getWeekdayNames()) {
+         name.setFill(ColorThemeManager.getCurrentColorTheme().textColor);
+      }      
+      monthName.setFill(ColorThemeManager.getCurrentColorTheme().textColor);
    }
 }

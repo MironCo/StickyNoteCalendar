@@ -39,7 +39,7 @@ public class DayFactory {
         return weekdayString.substring(0, 3);
     }
 
-    public synchronized static Day buildDay(int day, int weekdayOffset) {
+    public static Day buildDay(int day, int weekdayOffset) {
         Calendar calendar = Calendar.getInstance();
 
         Day newDay = new Day();
@@ -57,7 +57,6 @@ public class DayFactory {
                         + calendar.textHeight + calendar.dayYPadding + calendar.weekdayNamesYPadding));
         newDay.setPosition(position);
         newDay.day = day + 1;
-
 
         newDay.dayNumberText = new Text(newDay.day.toString());
         newDay.dayNumberText.setFont(FontManager.loadFont("Nunito-ExtraLight.ttf", 20));
@@ -77,6 +76,8 @@ public class DayFactory {
         newDay.dayStickyNote.setDay(newDay.getDay());
         newDay.addNodeToFront(newDay.dayStickyNote.rectangle);
         newDay.dayStickyNote.setVisible(false);
+
+        App.addColorThemeChangeable(newDay);
         return newDay;
     }
 }

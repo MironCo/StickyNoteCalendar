@@ -11,8 +11,9 @@ import javafx.scene.text.TextAlignment;
 import util.FontManager;
 
 public abstract class PopupMenuItem extends DrawableUIElement {
-    public static final double POPUP_MENU_ITEM_HEIGHT = 50;
+    public static final double POPUP_MENU_ITEM_HEIGHT = 35;
 
+    protected PopupMenu connectedPopupMenu;
     private Pane buttonPane = new Pane();
     private Rectangle graphic = new Rectangle();
     private Text buttonText = new Text();
@@ -21,8 +22,6 @@ public abstract class PopupMenuItem extends DrawableUIElement {
         buttonPane = new Pane();
         graphic = new Rectangle(PopupMenu.POPUP_MENU_WIDTH - PopupMenu.padding.y * 2, POPUP_MENU_ITEM_HEIGHT);
         graphic.setFill(ColorThemeManager.getCurrentColorTheme().buttonColor);
-        graphic.setArcHeight(graphic.getHeight() / 2);
-        graphic.setArcWidth(graphic.getWidth() / 10);
             
         buttonText = new Text(title);
         buttonText.setFont(FontManager.loadFont("Nunito-Regular.ttf", 20));
@@ -48,9 +47,17 @@ public abstract class PopupMenuItem extends DrawableUIElement {
         buttonPane.setLayoutY(y);
     }
 
+    public void setConnectedPopupMenu(PopupMenu menu) {
+        connectedPopupMenu = menu;
+    }
+
     protected Rectangle getGraphic() {
         return graphic;
     }
-    
+
+    protected Text getText() {
+        return buttonText;
+    }
+
     public abstract void performAction();
 }

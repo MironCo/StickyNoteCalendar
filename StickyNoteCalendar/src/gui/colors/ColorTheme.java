@@ -3,6 +3,7 @@ package gui.colors;
 import javafx.scene.paint.Color;
 
 public abstract class ColorTheme {
+    public String themeName;
     public Color backgroundColor;
     public Color textColor;
     public Color borderColor;

@@ -11,6 +11,7 @@ package gui.stickynote;
 import gui.DraggableUIElement;
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
+import javafx.scene.input.MouseButton;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import main.App;
@@ -26,7 +27,6 @@ public class DayStickyNoteGraphic extends DraggableUIElement {
 
     public DayStickyNoteGraphic(Vector2 _pos) {
         Calendar calendar = Calendar.getInstance();
-
         rectangle = new Rectangle(_pos.x + ((calendar.dayDimensions.x - calendar.dayStickyNoteSize) / 2),
         _pos.y + ((calendar.dayDimensions.y - calendar.dayStickyNoteSize) / 2), calendar.dayStickyNoteSize,
         calendar.dayStickyNoteSize);
@@ -40,15 +40,17 @@ public class DayStickyNoteGraphic extends DraggableUIElement {
         });
 
         rectangle.setOnMouseDragged(e -> {
-            if (!connectedDay.rectangle.contains(new Point2D(App.getMousePosition().x, App.getMousePosition().y))) {
-                removeFromTop();
-            } else {
-                returnToTop();
-            }
-            if (connectedStickyNote.isVisible()) {
-                for (Node n : connectedStickyNote.getNodes()) {
-                    n.setTranslateX(e.getSceneX());
-                    n.setTranslateY(e.getSceneY());
+            if (e.getButton() == MouseButton.PRIMARY) {
+                if (!connectedDay.rectangle.contains(new Point2D(App.getMousePosition().x, App.getMousePosition().y))) {
+                    removeFromTop();
+                } else {
+                    returnToTop();
+                }
+                if (connectedStickyNote.isVisible()) {
+                    for (Node n : connectedStickyNote.getNodes()) {
+                        n.setTranslateX(e.getSceneX());
+                        n.setTranslateY(e.getSceneY());
+                    }
                 }
             }
         });

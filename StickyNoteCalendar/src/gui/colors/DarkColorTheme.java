@@ -4,6 +4,7 @@ import javafx.scene.paint.Color;
 
 public class DarkColorTheme extends ColorTheme {
     public DarkColorTheme() {
+        themeName = "Dark";
         backgroundColor = Color.rgb(37, 35, 40);
         textColor = Color.WHITESMOKE;
         borderColor = Color.WHITESMOKE;

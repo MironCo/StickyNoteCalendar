@@ -16,7 +16,7 @@ public abstract class DrawableUIElement {
     protected PopupMenu popupMenu;
 
     public DrawableUIElement() {
-
+        
     }
 
     /**

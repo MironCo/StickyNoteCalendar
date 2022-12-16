@@ -4,20 +4,21 @@ import java.util.ArrayList;
 import java.util.List;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
-
+import main.App;
 import gui.DrawableUIElement;
+import gui.colors.ColorThemeChangableUIElement;
 import gui.colors.ColorThemeManager;
 import gui.popupmenu.popupmenuitems.PopupMenuItem;
 import util.Vector2;
 
-public abstract class PopupMenu extends DrawableUIElement {
+public abstract class PopupMenu extends DrawableUIElement implements ColorThemeChangableUIElement {
     public static final double POPUP_MENU_WIDTH = 200;
-    public static final Vector2 padding = new Vector2(10.0, 10.0);
+    public static final Vector2 padding = new Vector2(6.5, 6.5);
 
-    Pane popupMenu;
-    Rectangle popupMenuWindow;
-    List<PopupMenuItem> menuItems;
-    Vector2 dimensions = new Vector2(POPUP_MENU_WIDTH, 300);
+    private Pane popupMenu;
+    private Rectangle popupMenuWindow;
+    private List<PopupMenuItem> menuItems;
+    private Vector2 dimensions = new Vector2(POPUP_MENU_WIDTH, 300);
 
     public PopupMenu() {
         popupMenu = new Pane();
@@ -28,12 +29,14 @@ public abstract class PopupMenu extends DrawableUIElement {
         popupMenu.getChildren().addAll(popupMenuWindow);
         addNode(popupMenu);
 
+        App.addColorThemeChangeable(this);
         addNodesToScene();
         hide();
     }
 
     protected void addMenuItem(PopupMenuItem newMenuItem) {
         menuItems.add(newMenuItem);
+        newMenuItem.setConnectedPopupMenu(this);
     }
 
     protected abstract void addButtons();
@@ -60,5 +63,9 @@ public abstract class PopupMenu extends DrawableUIElement {
         for (int i = 0; i < menuItems.size(); i++) {
             menuItems.get(i).parentToPane(popupMenu, padding.x, i * (padding.y + PopupMenuItem.POPUP_MENU_ITEM_HEIGHT) + padding.y);
         }
+    }
+
+    public void updateColors() {
+        popupMenuWindow.setFill(ColorThemeManager.getCurrentColorTheme().popupMenuColor);
     }
 }

@@ -103,6 +103,11 @@ public class StickyNoteManager {
         }
     }
 
+    public void deleteStickyNote(StickyNote deleted) {
+        deleted.hideMainStickyNote();
+        stickyNotes.remove(deleted);
+    }
+
     public void setCurrentlyEditingStickyNote(StickyNote note) {
         currentlyEditingStickyNote = note;
     }

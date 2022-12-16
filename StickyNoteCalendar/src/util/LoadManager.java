@@ -9,6 +9,8 @@ import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.List;
 
+import gui.colors.ColorThemeManager;
+import gui.colors.LightColorTheme;
 import gui.stickynote.NoteColor;
 import gui.stickynote.StickyNote;
 import gui.stickynote.StickyNoteManager;
@@ -68,6 +70,9 @@ public class LoadManager {
                     StickyNote newNote = new StickyNote(stickyNoteContents);
                     newNote.setColor(noteColor);
                     newDay.AddStickyNote(newNote);
+                } else if (line.contains(SaveData.COLOR_THEME_TYPE)) {
+                    String colorThemeName = line.substring(line.indexOf(":") + 1);
+                    ColorThemeManager.setCurrentColorTheme(ColorThemeManager.getColorThemeFromName(colorThemeName));
                 }
             }
 

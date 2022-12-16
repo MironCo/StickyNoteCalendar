@@ -5,6 +5,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
+import gui.colors.ColorThemeManager;
 import gui.stickynote.StickyNote;
 import main.calendar.Calendar;
 import main.calendar.day.Day;
@@ -35,9 +36,10 @@ public class SaveManager {
 
         return saveFile;
     }
-
+    
     public static void WriteData(File file) throws IOException {
         writer = new FileWriter(file);
+        WriteColorTheme();
 
         for (Month month : Calendar.getInstance().getMonths()) {
             WriteMonth(month);
@@ -46,17 +48,32 @@ public class SaveManager {
         writer.close();
     }
 
+    public static void WriteColorTheme() throws IOException {
+        writer.write(SaveData.COLOR_THEME_TYPE);
+        writer.write(ColorThemeManager.getCurrentColorTheme().themeName);
+        writer.write("\n");
+    }
+
     public static void WriteMonth(Month month) throws IOException {
         String monthName = month.getName();
         int numberOfDays = month.getDays().size();
-
-        writer.write(SaveData.MONTH_TYPE);
-        writer.write(monthName);
-        writer.write("\n");
+        int actuallyWritten = 0;
 
         for (int i = 0; i < numberOfDays; i++) {
             if (!month.getDays().get(i).getStickyNotes().isEmpty()) {
-                WriteDay(month.getDays().get(i));
+                actuallyWritten ++;
+            }
+        }
+
+        if (actuallyWritten > 0) {
+            writer.write(SaveData.MONTH_TYPE);
+            writer.write(monthName);
+            writer.write("\n");
+
+            for (int i = 0; i < numberOfDays; i++) {
+                if (!month.getDays().get(i).getStickyNotes().isEmpty()) {
+                    WriteDay(month.getDays().get(i));
+                }
             }
         }
     }

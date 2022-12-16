@@ -17,6 +17,6 @@ public class ChangeStickyNoteColorMenuItem extends PopupMenuItem {
     public void performAction() {
         // TODO Auto-generated method stub
         StickyNoteManager.getInstance().getRightClickedStickyNote().setColor(color);
+        connectedPopupMenu.hide();
     }
-    
 }

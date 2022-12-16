@@ -12,9 +12,11 @@ import gui.button.AddStickyNoteButton;
 import gui.button.GUIButton;
 import gui.button.LastMonthButton;
 import gui.button.NextMonthButton;
+import gui.button.TitleButton;
+import gui.colors.ColorThemeChangableUIElement;
 import gui.colors.ColorThemeManager;
 
-public class Toolbar extends DrawableUIElement {
+public class Toolbar extends DrawableUIElement implements ColorThemeChangableUIElement {
 
     public static Vector2 dimensions = new Vector2(200, (int) App.screenHeight);
     public Rectangle toolbarGraphic;
@@ -27,16 +29,20 @@ public class Toolbar extends DrawableUIElement {
         toolbarGraphic.setFill(ColorThemeManager.getCurrentColorTheme().toolbarColor);
         nodes.add(toolbarGraphic);
         addNodesToScene();
+        App.addColorThemeChangeable(this);
 
-        addButton(new LastMonthButton(toolbarGraphic.getLayoutX() + toolbarPadding.x, toolbarPadding.y,
-                (int) (getWidth() - (int) (toolbarPadding.x * 2)) / 2, 50));
-        addButton(new NextMonthButton(
-                toolbarGraphic.getLayoutX() + toolbarPadding.x
-                        + getButtons().get(0).getNodes().get(0).getBoundsInLocal().getWidth(),
-                toolbarPadding.y,
-                (int) (getWidth() - (int) (toolbarPadding.x * 2)) / 2, 50));
-        addButton(new AddStickyNoteButton(toolbarGraphic.getLayoutX() + toolbarPadding.x, getNextY(),
-                (int) getWidth() - (int) (toolbarPadding.x * 2), 50));
+        AddButtons();
+    }
+
+    private void AddButtons() {
+        addButton(new TitleButton(getButtonX(), getNextY(0), getButtonWidth()));
+
+        addButton(new LastMonthButton(getButtonX(), getNextY(1), getButtonWidth() / 2));
+        
+        addButton(new NextMonthButton(getButtons().get(1).getPosition().x + getButtonWidth() / 2, getButtons().get(1).getPosition().y, 
+            getButtonWidth() / 2));
+        
+        addButton(new AddStickyNoteButton(getButtonX(), getNextY(2), getButtonWidth()));
     }
 
     public List<GUIButton> getButtons() {
@@ -47,16 +53,28 @@ public class Toolbar extends DrawableUIElement {
         buttons.add(button);
     }
 
+    private double getButtonX() {
+        return (double) toolbarGraphic.getLayoutX() + toolbarPadding.x;
+    }
+
+    private int getButtonWidth() {
+        return (int)(getWidth() - (int)(toolbarPadding.x * 2));
+    }
+
     public double getWidth() {
         return dimensions.x;
     }
 
-    public double getNextY() {
+    public double getNextY(int buttonNumber) {
         double lastY = toolbarPadding.y;
         if (!buttons.isEmpty()) {
-            lastY += buttons.get(buttons.size() - 1).getNodes().get(0).getBoundsInLocal().getHeight();
-            lastY += toolbarPadding.y;
+            lastY += buttonNumber * (GUIButton.BUTTON_HEIGHT + toolbarPadding.y);
         }
         return lastY;
+    }
+
+    @Override
+    public void updateColors() {
+        toolbarGraphic.setFill(ColorThemeManager.getCurrentColorTheme().toolbarColor);
     }
 }

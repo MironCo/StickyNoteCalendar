@@ -1,6 +1,7 @@
 package gui;
 
 import javafx.scene.Node;
+import javafx.scene.input.MouseButton;
 
 public abstract class DraggableUIElement extends DrawableUIElement {
 
@@ -18,9 +19,11 @@ public abstract class DraggableUIElement extends DrawableUIElement {
         });
 
         node.setOnMouseDragged(e -> {
-            for(Node n : getNodes()) {
-                n.setTranslateX(e.getSceneX() - startX);
-                n.setTranslateY(e.getSceneY() - startY);
+            if (e.getButton() == MouseButton.PRIMARY) {
+                for(Node n : getNodes()) {
+                    n.setTranslateX(e.getSceneX() - startX);
+                    n.setTranslateY(e.getSceneY() - startY);
+                }
             }
         });
     }
