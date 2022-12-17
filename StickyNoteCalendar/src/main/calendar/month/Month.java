@@ -22,7 +22,7 @@ public class Month {
         for (int i = 0; i < numberOfDays; i++) {
             //long startTime = System.currentTimeMillis();
 
-            Day day = DayFactory.buildDay(i, weekdayOffset);
+            Day day = DayFactory.buildDay(i, numberOfDays, weekdayOffset);
             daysInMonth.add(day);
 
             //long endTime = System.currentTimeMillis();

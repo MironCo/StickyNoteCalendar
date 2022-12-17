@@ -28,21 +28,21 @@ public class Calendar extends DrawableUIElement implements ColorThemeChangableUI
    private HashMap<String, Month> months = new HashMap<String, Month>();
    private Month currentMonth;
 
-   public Vector2 dayOffset = new Vector2(10, 10);
-   public Vector2 dayTextOffset = new Vector2(5, dayOffset.y * 2);
-   public Vector2 dayDimensions = new Vector2(100, 100);
-   public double dayXCenterOffset = 10;
-   public double dayYPadding = 10;
-   public double dayStickyNoteSize = 60;
-
    private Text monthName = new Text();
-   private List<Text> weekdayNames = new ArrayList<Text>();
-   public double weekdayNamesYPadding = 20;
-   public int weekdayNamesSize = 30;
-   public float weekdayNamesExtraOffsetX = 4;
+   private static final Vector2 MONTH_TEXT_POSITION = new Vector2(0, 60);
+   public double textHeight = 0;
 
-   private Vector2 textPosition = new Vector2(0, 60);
-   public double textHeight = textPosition.y;
+   private List<Text> weekdayNames = new ArrayList<Text>();
+   public static final double WEEKDAY_NAMES_Y_PADDING = 20;
+   public static final int WEEKDAY_NAMES_SIZE = 30;
+   public static final float WEEKDAY_NAMES_EXTRA_OFFSET_X = 4;
+   public double dayXCenterOffset = 10;
+
+   public static final double DAY_Y_PADDING = 10;
+   public static final double DAY_STICKY_NOTE_SIZE = 60;
+   public static final Vector2 dayOffset = new Vector2(10, 10);
+   public static final Vector2 dayTextOffset = new Vector2(5, 20);
+   public Vector2 dayDimensions = new Vector2(100, 100);
 
    private Calendar() {
       // singleton class - do nothing
@@ -56,10 +56,10 @@ public class Calendar extends DrawableUIElement implements ColorThemeChangableUI
       today = LocalDate.now();
 
       monthName.setFont(FontManager.loadFont("Nunito-ExtraLight.ttf", 70));
-      monthName.setX(textPosition.x);
       textHeight = monthName.getFont().getSize();
-      monthName.setY(textPosition.y);
-      monthName.setFill(ColorThemeManager.getCurrentColorTheme().textColor);
+      monthName.setX(MONTH_TEXT_POSITION.x);
+      monthName.setY(MONTH_TEXT_POSITION.y);
+      monthName.setFill(ColorThemeManager.getCurrentColorTheme().textColor); 
 
       for (int i = 0; i < 7; i++) {
          weekdayNames.add(DayFactory.buildDayOfWeekText(i));
@@ -147,7 +147,8 @@ public class Calendar extends DrawableUIElement implements ColorThemeChangableUI
       currentMonth = month;
       monthName.setX(dayXCenterOffset);
       monthName.setText(month.getName());
-      textHeight = monthName.getBoundsInLocal().getHeight();
+      //textHeight = monthName.getBoundsInLocal().getHeight();
+      textHeight = monthName.getFont().getSize();
       DayManager.getInstance().setCurrentDays(currentMonth.getDays());
       currentMonth.showMonth();
    }

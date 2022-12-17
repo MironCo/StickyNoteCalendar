@@ -27,9 +27,9 @@ public class DayStickyNoteGraphic extends DraggableUIElement {
 
     public DayStickyNoteGraphic(Vector2 _pos) {
         Calendar calendar = Calendar.getInstance();
-        rectangle = new Rectangle(_pos.x + ((calendar.dayDimensions.x - calendar.dayStickyNoteSize) / 2),
-        _pos.y + ((calendar.dayDimensions.y - calendar.dayStickyNoteSize) / 2), calendar.dayStickyNoteSize,
-        calendar.dayStickyNoteSize);
+        rectangle = new Rectangle(_pos.x + ((calendar.dayDimensions.x - Calendar.DAY_STICKY_NOTE_SIZE) / 2),
+        _pos.y + ((calendar.dayDimensions.y - Calendar.DAY_STICKY_NOTE_SIZE) / 2), Calendar.DAY_STICKY_NOTE_SIZE,
+        Calendar.DAY_STICKY_NOTE_SIZE);
         rectangle.setFill(Color.WHITE);
         
         addNode(rectangle);

@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import gui.colors.ColorThemeManager;
-import gui.colors.LightColorTheme;
 import gui.stickynote.NoteColor;
 import gui.stickynote.StickyNote;
 import gui.stickynote.StickyNoteManager;
