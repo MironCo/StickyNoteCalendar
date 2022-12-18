@@ -22,7 +22,7 @@ public class StickyNoteManager {
     private StickyNote draggedStickyNote;
     private static StickyNote currentlyEditingStickyNote = null;
     private static StickyNote rightClickedStickyNote = null;
-    private static final NoteColor[] NOTE_COLORS = {NoteColor.BEIGE, NoteColor.PURPLE, NoteColor.BLUE, NoteColor.YELLOW};
+    private static final NoteColor[] NOTE_COLORS = {NoteColor.BEIGE, NoteColor.PURPLE, NoteColor.BLUE, NoteColor.YELLOW, NoteColor.GREEN};
     private static final Random RANDOM = new Random();
 
     private StickyNoteManager() {

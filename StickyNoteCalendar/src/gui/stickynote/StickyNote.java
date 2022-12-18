@@ -70,7 +70,9 @@ public class StickyNote extends DraggableUIElement implements PopuppableUIElemen
 
     private void setReleaseAction() {
         stickyNotePane.setOnMouseReleased(e -> {
-            ReleaseStickyNote();
+            if (e.getButton() == MouseButton.PRIMARY) {
+                ReleaseStickyNote();
+            }
         });
     }
 

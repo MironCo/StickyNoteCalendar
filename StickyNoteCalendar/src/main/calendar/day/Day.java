@@ -75,6 +75,15 @@ public class Day extends DrawableUIElement implements ColorThemeChangableUIEleme
         }
     }
 
+    public void scrollThroughStickyNotes(double direction) {
+        if (direction > 0) {
+            stickyNotes.add(stickyNotes.remove(0));
+        } else if (direction < 0) {
+            stickyNotes.add(0, stickyNotes.remove(stickyNotes.size()-1));
+        }
+        updateStickyNoteGraphic();
+    }
+
     public List<StickyNote> getStickyNotes() {
         return stickyNotes;
     }

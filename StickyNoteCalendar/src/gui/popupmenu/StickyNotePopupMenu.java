@@ -21,6 +21,7 @@ public class StickyNotePopupMenu extends PopupMenu {
         addMenuItem(new ChangeStickyNoteColorMenuItem(NoteColor.PURPLE));
         addMenuItem(new ChangeStickyNoteColorMenuItem(NoteColor.BLUE));
         addMenuItem(new ChangeStickyNoteColorMenuItem(NoteColor.YELLOW));
+        addMenuItem(new ChangeStickyNoteColorMenuItem(NoteColor.GREEN));
         addMenuItem(new ChangeStickyNoteColorMenuItem(NoteColor.BEIGE));
         addMenuItem(new DeleteStickyNoteMenuItem());
         calculateHeight();

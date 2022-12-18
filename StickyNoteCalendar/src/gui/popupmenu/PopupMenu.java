@@ -30,6 +30,7 @@ public abstract class PopupMenu extends DrawableUIElement implements ColorThemeC
         addNode(popupMenu);
 
         App.addColorThemeChangeable(this);
+        App.addPopupMenu(this);
         addNodesToScene();
         hide();
     }
@@ -48,6 +49,7 @@ public abstract class PopupMenu extends DrawableUIElement implements ColorThemeC
     }
 
     public void show(double x, double y) {
+        App.hidePopupMenus();
         popupMenu.setLayoutX(x);
         popupMenu.setLayoutY(y);
         getNodes().forEach(node -> {

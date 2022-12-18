@@ -54,6 +54,10 @@ public class DayStickyNoteGraphic extends DraggableUIElement {
                 }
             }
         });
+
+        rectangle.setOnScroll(e -> {
+            connectedDay.scrollThroughStickyNotes(e.getDeltaY());
+        });
     }
 
     @Override

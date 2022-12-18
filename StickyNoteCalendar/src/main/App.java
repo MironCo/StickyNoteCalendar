@@ -29,6 +29,7 @@ import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
@@ -70,6 +71,12 @@ public class App extends Application {
 
             updateColorTheme(ColorThemeManager.getCurrentColorTheme());
 
+            scene.setOnMouseClicked(e -> {
+                if (e.getButton() == MouseButton.PRIMARY) {
+                    App.hidePopupMenus();
+                }
+            });
+
             scene.setOnMouseMoved(e -> {
                 mousePosition.x = e.getX();
                 mousePosition.y = e.getY();
@@ -100,6 +107,12 @@ public class App extends Application {
     
         for (ColorThemeChangableUIElement element : changeableUIElements) {
             element.updateColors();
+        }
+    }
+
+    public static void hidePopupMenus() {
+        for (PopupMenu menu : popupMenus) {
+            menu.hide();
         }
     }
 
