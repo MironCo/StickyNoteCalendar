@@ -1,11 +1,14 @@
 package gui.button;
 
+import java.util.GregorianCalendar;
+
 import gui.DrawableUIElement;
 import gui.colors.ColorThemeChangableUIElement;
 import gui.colors.ColorThemeManager;
 import javafx.geometry.VPos;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
@@ -19,9 +22,11 @@ public abstract class GUIButton extends DrawableUIElement implements ColorThemeC
     private Pane buttonPane = new Pane();
     protected Rectangle graphic = new Rectangle();
     protected Text buttonText = new Text();
+    private Color originalColor;
 
     public GUIButton(String buttonName, double x, double y, int width) {
         graphic = new Rectangle(width, BUTTON_HEIGHT, ColorThemeManager.getCurrentColorTheme().buttonColor);
+        originalColor = ColorThemeManager.getCurrentColorTheme().buttonColor;
 
         buttonText = new Text(buttonName);
         buttonText.setFont(FontManager.loadFont("Nunito-Regular.ttf", 20));
@@ -69,11 +74,21 @@ public abstract class GUIButton extends DrawableUIElement implements ColorThemeC
     }
 
     protected void unHighlightButton() {
-        graphic.setFill(ColorThemeManager.getCurrentColorTheme().buttonColor);
+        graphic.setFill(originalColor);
     }
 
     public void updateColors() {
-        graphic.setFill(ColorThemeManager.getCurrentColorTheme().buttonColor);
+        originalColor = ColorThemeManager.getCurrentColorTheme().buttonColor;
+        graphic.setFill(originalColor);
         buttonText.setFill(ColorThemeManager.getCurrentColorTheme().textColor);
     }
-}
+
+    public void setOriginalColor(Color newColor) {
+        originalColor = newColor;
+        graphic.setFill(originalColor);
+    }
+
+    protected Pane getButtonPane() {
+        return buttonPane;
+    }
+} 

@@ -67,6 +67,7 @@ public class LoadManager {
                     String stickyNoteContents = line.substring(line.indexOf(":") + 1, line.indexOf(",")).replace("\\n", "\n");
                     NoteColor noteColor = StickyNoteManager.getNoteColorByName(line.substring(line.indexOf(",") + 1));
                     StickyNote newNote = new StickyNote(stickyNoteContents);
+                    StickyNoteManager.getInstance().addStickyNote(newNote);
                     newNote.setColor(noteColor);
                     newDay.AddStickyNote(newNote);
                 } else if (line.contains(SaveData.COLOR_THEME_TYPE)) {

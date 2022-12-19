@@ -24,19 +24,27 @@ public class DayStickyNoteGraphic extends DraggableUIElement {
     private Day connectedDay = null;
     private StickyNote connectedStickyNote = null;
     private boolean isOnDay = true;
+    private Vector2 rectPosition;
+    private Vector2 connectedOffset = new Vector2(0, 0);
 
     public DayStickyNoteGraphic(Vector2 _pos) {
         Calendar calendar = Calendar.getInstance();
-        rectangle = new Rectangle(_pos.x + ((calendar.dayDimensions.x - Calendar.DAY_STICKY_NOTE_SIZE) / 2),
-        _pos.y + ((calendar.dayDimensions.y - Calendar.DAY_STICKY_NOTE_SIZE) / 2), Calendar.DAY_STICKY_NOTE_SIZE,
+        rectPosition = new Vector2(_pos.x + ((calendar.dayDimensions.x - Calendar.DAY_STICKY_NOTE_SIZE) / 2), 
+            _pos.y + ((calendar.dayDimensions.y - Calendar.DAY_STICKY_NOTE_SIZE) / 2));
+        rectangle = new Rectangle(rectPosition.x, rectPosition.y, Calendar.DAY_STICKY_NOTE_SIZE,
         Calendar.DAY_STICKY_NOTE_SIZE);
         rectangle.setFill(Color.WHITE);
         
         addNode(rectangle);
 
-        rectangle.setOnMouseClicked(e -> {
-            startX = e.getSceneX() - rectangle.getTranslateX();
-            startY = e.getSceneY() - rectangle.getTranslateY();
+        rectangle.setOnMousePressed(e -> {
+            if (e.getButton() == MouseButton.PRIMARY) {
+                startX = e.getSceneX() - rectPosition.x; 
+                startY = e.getSceneY() - rectPosition.y;
+
+                connectedOffset.x = (startX / rectangle.getBoundsInLocal().getWidth()) * connectedStickyNote.getRectangle().getBoundsInLocal().getWidth();
+                connectedOffset.y = (startY / rectangle.getBoundsInLocal().getHeight()) * connectedStickyNote.getRectangle().getBoundsInLocal().getHeight();
+            }
         });
 
         rectangle.setOnMouseDragged(e -> {
@@ -48,9 +56,17 @@ public class DayStickyNoteGraphic extends DraggableUIElement {
                 }
                 if (connectedStickyNote.isVisible()) {
                     for (Node n : connectedStickyNote.getNodes()) {
-                        n.setTranslateX(e.getSceneX());
-                        n.setTranslateY(e.getSceneY());
+                        n.setTranslateX(e.getSceneX() - connectedOffset.x);
+                        n.setTranslateY(e.getSceneY() - connectedOffset.y);
                     }
+                }
+            }
+        });
+
+        rectangle.setOnMouseReleased(e -> {
+            if (e.getButton() == MouseButton.PRIMARY) {
+                if (connectedStickyNote.isVisible()) {
+                    connectedStickyNote.ReleaseStickyNote();
                 }
             }
         });

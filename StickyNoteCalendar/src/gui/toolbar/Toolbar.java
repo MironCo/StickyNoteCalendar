@@ -13,8 +13,11 @@ import gui.button.GUIButton;
 import gui.button.LastMonthButton;
 import gui.button.NextMonthButton;
 import gui.button.TitleButton;
+import gui.button.presets.AddPresetStickyNote;
+import gui.button.presets.PresetTitleButton;
 import gui.colors.ColorThemeChangableUIElement;
 import gui.colors.ColorThemeManager;
+import gui.stickynote.NoteColor;
 
 public class Toolbar extends DrawableUIElement implements ColorThemeChangableUIElement {
 
@@ -43,6 +46,10 @@ public class Toolbar extends DrawableUIElement implements ColorThemeChangableUIE
             getButtonWidth() / 2));
         
         addButton(new AddStickyNoteButton(getButtonX(), getNextY(2), getButtonWidth()));
+
+        addButton(new PresetTitleButton(getButtonX(), getNextY(3), getButtonWidth()));
+
+        addButton(new AddPresetStickyNote("Test Preset", NoteColor.GREEN, getButtonX(), getNextY(4), getButtonWidth()));
     }
 
     public List<GUIButton> getButtons() {

@@ -17,7 +17,7 @@ import main.calendar.day.Day;
 public class StickyNoteManager {
     public static final StickyNoteManager instance = new StickyNoteManager();
 
-    private List<StickyNote> stickyNotes = new ArrayList<StickyNote>();
+    private final List<StickyNote> stickyNotes = new ArrayList<StickyNote>();
     private Day hoveredDay = null;
     private StickyNote draggedStickyNote;
     private static StickyNote currentlyEditingStickyNote = null;
@@ -104,8 +104,12 @@ public class StickyNoteManager {
     }
 
     public void deleteStickyNote(StickyNote deleted) {
-        deleted.hideMainStickyNote();
-        stickyNotes.remove(deleted);
+        if (stickyNotes.contains(deleted)) {
+            stickyNotes.remove(deleted);
+            deleted.hideMainStickyNote();
+            currentlyEditingStickyNote = null;
+            draggedStickyNote = null;
+        }
     }
 
     public void setCurrentlyEditingStickyNote(StickyNote note) {

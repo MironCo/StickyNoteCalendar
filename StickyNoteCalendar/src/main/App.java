@@ -43,6 +43,7 @@ public class App extends Application {
     private static ObservableList<Node> objectList = null;
     private static List<ColorThemeChangableUIElement> changeableUIElements = new ArrayList<>();
     private static List<PopupMenu> popupMenus = new ArrayList<>();
+    private static Toolbar mainToolbar;
 
     public static void main(String[] args) {
         launch(args);
@@ -67,7 +68,7 @@ public class App extends Application {
 
             Calendar.getInstance().Init();
 
-            Toolbar toolbar = new Toolbar();            
+            mainToolbar = new Toolbar();            
 
             updateColorTheme(ColorThemeManager.getCurrentColorTheme());
 
@@ -142,5 +143,9 @@ public class App extends Application {
 
     public static Vector2 getMousePosition() {
         return mousePosition;
+    }
+
+    public static Toolbar getMainToolbar() {
+        return mainToolbar;
     }
 }
