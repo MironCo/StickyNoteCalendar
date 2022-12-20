@@ -3,6 +3,8 @@ package gui.button.presets;
 import java.util.ArrayList;
 import java.util.List;
 
+import gui.popupmenu.PresetPopupMenu;
+import gui.popupmenu.popupmenuitems.OpenPresetMenuItem;
 import gui.toolbar.Toolbar;
 
 public class Preset {
@@ -23,6 +25,7 @@ public class Preset {
             presetStickyNotes.add(newAddPresetStickyNote);
             index++;
         }
+        PresetPopupMenu.getInstance().addPresetButton(new OpenPresetMenuItem(this));
     }
 
     public void setName(String newName) {

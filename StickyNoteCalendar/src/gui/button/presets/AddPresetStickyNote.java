@@ -5,7 +5,6 @@ import gui.stickynote.NoteColor;
 import gui.stickynote.StickyNote;
 import gui.stickynote.StickyNoteManager;
 import javafx.geometry.Point2D;
-import javafx.scene.control.Button;
 import javafx.scene.input.MouseButton;
 import javafx.scene.paint.Color;
 import main.App;

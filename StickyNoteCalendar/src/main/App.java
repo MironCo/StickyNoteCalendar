@@ -15,7 +15,6 @@ import util.Vector2;
 import java.util.ArrayList;
 import java.util.List;
 
-import gui.button.presets.defaults.DefaultPreset;
 import gui.colors.ColorTheme;
 import gui.colors.ColorThemeChangableUIElement;
 import gui.colors.ColorThemeManager;
@@ -70,7 +69,6 @@ public class App extends Application {
             Calendar.getInstance().Init();
 
             mainToolbar = new Toolbar();            
-            mainToolbar.addPreset(new DefaultPreset());
             mainToolbar.openDefaultPreset();
 
             updateColorTheme(ColorThemeManager.getCurrentColorTheme());

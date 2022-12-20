@@ -12,7 +12,7 @@ public class DarkColorTheme extends ColorTheme {
         buttonColor = Color.rgb((int)(45*1.5), (int)(42*1.5), (int)(54*1.5));
         buttonHighlightColor = Color.rgb(106, 111, 153);
         popupMenuColor = Color.rgb(100, 95, 110);
-        popupMenuTextColor = Color.BLACK;
+        popupMenuTextColor = Color.WHITESMOKE;
     }
 } 
 

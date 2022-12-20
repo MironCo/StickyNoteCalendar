@@ -35,7 +35,7 @@ public abstract class PopupMenu extends DrawableUIElement implements ColorThemeC
         hide();
     }
 
-    protected void addMenuItem(PopupMenuItem newMenuItem) {
+    public void addMenuItem(PopupMenuItem newMenuItem) {
         menuItems.add(newMenuItem);
         newMenuItem.setConnectedPopupMenu(this);
     }
@@ -63,7 +63,9 @@ public abstract class PopupMenu extends DrawableUIElement implements ColorThemeC
         popupMenuWindow.setHeight(yHeight);
 
         for (int i = 0; i < menuItems.size(); i++) {
-            menuItems.get(i).parentToPane(popupMenu, padding.x, i * (padding.y + PopupMenuItem.POPUP_MENU_ITEM_HEIGHT) + padding.y);
+            if (!popupMenu.getChildren().contains(menuItems.get(i).getNodes().get(0))) {
+                menuItems.get(i).parentToPane(popupMenu, padding.x, i * (padding.y + PopupMenuItem.POPUP_MENU_ITEM_HEIGHT) + padding.y);
+            }
         }
     }
 

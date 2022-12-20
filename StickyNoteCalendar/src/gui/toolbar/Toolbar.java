@@ -13,14 +13,12 @@ import gui.button.GUIButton;
 import gui.button.LastMonthButton;
 import gui.button.NextMonthButton;
 import gui.button.TitleButton;
-import gui.button.presets.AddPresetStickyNote;
 import gui.button.presets.Preset;
 import gui.button.presets.PresetTitleButton;
 import gui.button.presets.defaults.DefaultPreset;
 import gui.button.presets.defaults.StudentPreset;
 import gui.colors.ColorThemeChangableUIElement;
 import gui.colors.ColorThemeManager;
-import gui.stickynote.NoteColor;
 
 public class Toolbar extends DrawableUIElement implements ColorThemeChangableUIElement {
 
@@ -32,6 +30,7 @@ public class Toolbar extends DrawableUIElement implements ColorThemeChangableUIE
 
     public List<GUIButton> buttons = new ArrayList<>();
     private Vector2 toolbarPadding = new Vector2(10, 10);
+    private PresetTitleButton presetTitleButton;
 
     public Toolbar() {
         toolbarGraphic = new Rectangle(position.x, position.y, dimensions.x, dimensions.y);
@@ -53,7 +52,8 @@ public class Toolbar extends DrawableUIElement implements ColorThemeChangableUIE
         
         addButton(new AddStickyNoteButton(getButtonX(), getNextY(), getButtonWidth()));
 
-        addButton(new PresetTitleButton(getButtonX(), getNextY(), getButtonWidth()));
+        presetTitleButton = new PresetTitleButton(getButtonX(), getNextY(), getButtonWidth());
+        addButton(presetTitleButton);
     
         addPreset(new DefaultPreset());
         addPreset(new StudentPreset());
@@ -104,11 +104,16 @@ public class Toolbar extends DrawableUIElement implements ColorThemeChangableUIE
         if (presets.contains(preset)) {
             currentPreset = preset;
         }
-            presets.get(presets.indexOf(currentPreset)).showPresetStickyNotes();
+        presets.get(presets.indexOf(currentPreset)).showPresetStickyNotes();
+        presetTitleButton.setText(currentPreset.getName());
     }
 
     public void openDefaultPreset() {
         openPreset(presets.get(0));
+    }
+
+    public List<Preset> getPresets() {
+        return presets;
     }
 
     public void addPreset(Preset newPreset) {

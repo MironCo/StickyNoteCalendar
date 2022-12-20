@@ -59,5 +59,11 @@ public abstract class PopupMenuItem extends DrawableUIElement {
         return buttonText;
     }
 
+    public void setText(String title) {
+        buttonText.setText(title);
+        buttonText.setLayoutX(graphic.getLayoutX() + (graphic.getWidth() - buttonText.getBoundsInLocal().getWidth()) / 2);
+        buttonText.setLayoutY(graphic.getLayoutY() + (graphic.getHeight() / 2));
+    }
+
     public abstract void performAction();
 }
