@@ -2,7 +2,7 @@ package gui.button.presets;
 
 import gui.button.GUIButton;
 import gui.popupmenu.PopuppableUIElement;
-import gui.popupmenu.TitlePopupMenu;
+import gui.popupmenu.PresetPopupMenu;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import util.Vector2;
@@ -33,7 +33,7 @@ public class PresetTitleButton extends GUIButton implements PopuppableUIElement 
 
     @Override
     public void setPopupMenu() {
-        popupMenu = TitlePopupMenu.getInstance();
+        popupMenu = PresetPopupMenu.getInstance();
     }
 
     @Override

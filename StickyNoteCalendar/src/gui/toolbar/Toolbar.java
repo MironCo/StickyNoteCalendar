@@ -14,7 +14,10 @@ import gui.button.LastMonthButton;
 import gui.button.NextMonthButton;
 import gui.button.TitleButton;
 import gui.button.presets.AddPresetStickyNote;
+import gui.button.presets.Preset;
 import gui.button.presets.PresetTitleButton;
+import gui.button.presets.defaults.DefaultPreset;
+import gui.button.presets.defaults.StudentPreset;
 import gui.colors.ColorThemeChangableUIElement;
 import gui.colors.ColorThemeManager;
 import gui.stickynote.NoteColor;
@@ -23,6 +26,9 @@ public class Toolbar extends DrawableUIElement implements ColorThemeChangableUIE
 
     public static Vector2 dimensions = new Vector2(200, (int) App.screenHeight);
     public Rectangle toolbarGraphic;
+
+    public Preset currentPreset;
+    private List<Preset> presets = new ArrayList<>();
 
     public List<GUIButton> buttons = new ArrayList<>();
     private Vector2 toolbarPadding = new Vector2(10, 10);
@@ -38,18 +44,19 @@ public class Toolbar extends DrawableUIElement implements ColorThemeChangableUIE
     }
 
     private void AddButtons() {
-        addButton(new TitleButton(getButtonX(), getNextY(0), getButtonWidth()));
+        addButton(new TitleButton(getButtonX(), getNextY(), getButtonWidth()));
 
-        addButton(new LastMonthButton(getButtonX(), getNextY(1), getButtonWidth() / 2));
+        addButton(new LastMonthButton(getButtonX(), getNextY(), getButtonWidth() / 2));
         
         addButton(new NextMonthButton(getButtons().get(1).getPosition().x + getButtonWidth() / 2, getButtons().get(1).getPosition().y, 
             getButtonWidth() / 2));
         
-        addButton(new AddStickyNoteButton(getButtonX(), getNextY(2), getButtonWidth()));
+        addButton(new AddStickyNoteButton(getButtonX(), getNextY(), getButtonWidth()));
 
-        addButton(new PresetTitleButton(getButtonX(), getNextY(3), getButtonWidth()));
-
-        addButton(new AddPresetStickyNote("Test Preset", NoteColor.GREEN, getButtonX(), getNextY(4), getButtonWidth()));
+        addButton(new PresetTitleButton(getButtonX(), getNextY(), getButtonWidth()));
+    
+        addPreset(new DefaultPreset());
+        addPreset(new StudentPreset());
     }
 
     public List<GUIButton> getButtons() {
@@ -60,16 +67,25 @@ public class Toolbar extends DrawableUIElement implements ColorThemeChangableUIE
         buttons.add(button);
     }
 
-    private double getButtonX() {
+    public double getButtonX() {
         return (double) toolbarGraphic.getLayoutX() + toolbarPadding.x;
     }
 
-    private int getButtonWidth() {
+    public int getButtonWidth() {
         return (int)(getWidth() - (int)(toolbarPadding.x * 2));
     }
 
     public double getWidth() {
         return dimensions.x;
+    }
+
+    public double getNextY() {
+        double lastY = toolbarPadding.y;
+        if (!buttons.isEmpty()) {
+            GUIButton lastButton = buttons.get(buttons.size()-1);
+            lastY += lastButton.getPosition().y + GUIButton.BUTTON_HEIGHT; 
+        }
+        return lastY;
     }
 
     public double getNextY(int buttonNumber) {
@@ -78,6 +94,26 @@ public class Toolbar extends DrawableUIElement implements ColorThemeChangableUIE
             lastY += buttonNumber * (GUIButton.BUTTON_HEIGHT + toolbarPadding.y);
         }
         return lastY;
+    }
+
+    public void openPreset(Preset preset) {
+        presets.forEach(p -> {
+            p.hidePresetStickyNotes();
+        });
+        
+        if (presets.contains(preset)) {
+            currentPreset = preset;
+        }
+            presets.get(presets.indexOf(currentPreset)).showPresetStickyNotes();
+    }
+
+    public void openDefaultPreset() {
+        openPreset(presets.get(0));
+    }
+
+    public void addPreset(Preset newPreset) {
+        presets.add(newPreset);
+        newPreset.addToToolbar(this);
     }
 
     @Override
