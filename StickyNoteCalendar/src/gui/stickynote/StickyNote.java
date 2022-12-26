@@ -16,7 +16,9 @@ import javafx.scene.text.Text;
 import main.calendar.day.Day;
 import main.calendar.day.DayManager;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
+import javafx.scene.control.TextArea;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
@@ -29,11 +31,12 @@ public class StickyNote extends DraggableUIElement implements PopuppableUIElemen
     private Vector2 dimensions = new Vector2(150, 150);
     private Pane stickyNotePane;
     private Rectangle rectangle = new Rectangle();
-    private Vector2 rectanglePadding = new Vector2(10, 10);
+    private Vector2 rectanglePadding = new Vector2(5, 5);
 
     private NoteColor color = null;
 
     private Text noteText = new Text();
+    private TextArea textArea;
     private Vector2 noteTextOffset = new Vector2(7, 22);
     private boolean isEditing = false;
     private boolean isFull = false;
@@ -48,11 +51,22 @@ public class StickyNote extends DraggableUIElement implements PopuppableUIElemen
         rectangle.setFill(color.getColor());
 
         noteText = new Text("Sticky Note");
-        noteText.setFont(FontManager.loadFont("Nunito-Regular.ttf", 20));
-        noteText.setX(rectangle.getX() + rectanglePadding.x);
-        noteText.setY(rectangle.getY() + rectanglePadding.y + noteTextOffset.y);
+        noteText.setVisible(false);
 
-        stickyNotePane.getChildren().addAll(rectangle, noteText);
+        textArea = new TextArea("test");
+        textArea.setFont(FontManager.loadFont("Nunito-Regular.ttf", 19));
+        textArea.setLayoutX(rectangle.getX() + rectanglePadding.x);
+        textArea.setLayoutY(rectangle.getY() + rectanglePadding.y);
+
+        textArea.setEditable(false);
+        textArea.setMouseTransparent(true);
+
+        double size = rectangle.getBoundsInLocal().getWidth() - (2*rectanglePadding.x);
+
+        textArea.setMaxSize(size, size);
+        textArea.setWrapText(true);
+
+        stickyNotePane.getChildren().addAll(rectangle, noteText, textArea);
         nodes.add(stickyNotePane);
         makeDraggable(stickyNotePane);
 
@@ -65,7 +79,7 @@ public class StickyNote extends DraggableUIElement implements PopuppableUIElemen
 
     public StickyNote(String noteText) {
         this();
-        this.noteText.setText(noteText);
+        this.textArea.setText(noteText);
     }
 
     private void setReleaseAction() {
@@ -105,14 +119,18 @@ public class StickyNote extends DraggableUIElement implements PopuppableUIElemen
 
     public void startEditingText() {
         isEditing = true;
-        if (noteText.getText().equals("Sticky Note")) {
-            noteText.setText("");
+        if (textArea.getText().equals("Sticky Note")) {
+            textArea.setText("");
         }
+        textArea.setMouseTransparent(false);
+        textArea.setEditable(true);
         StickyNoteManager.getInstance().setCurrentlyEditingStickyNote(this);
     }
 
     public void stopEditingText() {
         isEditing = false;
+        textArea.setMouseTransparent(true);
+        textArea.setEditable(false);
         StickyNoteManager.getInstance().setCurrentlyEditingStickyNote(null);
     }
 
@@ -120,8 +138,8 @@ public class StickyNote extends DraggableUIElement implements PopuppableUIElemen
         return isEditing;
     }
 
-    public Text getStickyNoteText() {
-        return noteText;
+    public String getStickyNoteText() {
+        return textArea.getText();
     }
 
     public void ChangeStickNoteText(KeyEvent key) {

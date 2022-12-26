@@ -22,10 +22,8 @@ public abstract class DraggableUIElement extends DrawableUIElement {
 
         node.setOnMouseDragged(e -> {
             if (e.getButton() == MouseButton.PRIMARY) {
-                for(Node n : getNodes()) {
-                    n.setTranslateX(e.getSceneX() - startX);
-                    n.setTranslateY(e.getSceneY() - startY);
-                }
+                node.setTranslateX(Math.max(0, Math.min(App.screenWidth, e.getSceneX() - startX)));
+                node.setTranslateY(Math.max(0, Math.min(App.screenHeight, e.getSceneY() - startY)));
                 App.hidePopupMenus();
             }
         });

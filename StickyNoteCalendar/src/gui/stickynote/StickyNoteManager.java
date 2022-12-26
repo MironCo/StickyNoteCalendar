@@ -4,10 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import gui.colors.ColorThemeManager;
 import gui.popupmenu.StickyNotePopupMenu;
 import javafx.event.EventHandler;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 
@@ -30,13 +29,6 @@ public class StickyNoteManager {
     }
 
     private void setKeyListener() {
-        App.getStage().addEventHandler(KeyEvent.KEY_PRESSED, (key) -> {
-            if (currentlyEditingStickyNote != null && currentlyEditingStickyNote.isEditing()) {
-                if (key.getCode() != KeyCode.ESCAPE) {
-                    currentlyEditingStickyNote.ChangeStickNoteText(key);
-                }
-            }
-        });
         App.getScene().setOnMouseClicked(new EventHandler<MouseEvent>() {
             public void handle(MouseEvent e) {
                 if (currentlyEditingStickyNote != null && currentlyEditingStickyNote.isEditing()) {
@@ -48,10 +40,7 @@ public class StickyNoteManager {
                     } 
                 }
                 if (e.getButton() == MouseButton.PRIMARY) {
-                    StickyNotePopupMenu.getInstance().hide();
-                }
-                if (e.getButton() == MouseButton.SECONDARY) {
-
+                    App.hidePopupMenus();
                 }
             } 
         });
@@ -109,6 +98,7 @@ public class StickyNoteManager {
             deleted.hideMainStickyNote();
             currentlyEditingStickyNote = null;
             draggedStickyNote = null;
+            App.getScene().setFill(ColorThemeManager.getCurrentColorTheme().backgroundColor);
         }
     }
 

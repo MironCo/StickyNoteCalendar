@@ -20,6 +20,7 @@ import gui.colors.ColorThemeChangableUIElement;
 import gui.colors.ColorThemeManager;
 import gui.colors.DarkColorTheme;
 import gui.popupmenu.PopupMenu;
+import gui.stickynote.StickyNoteManager;
 import gui.toolbar.Toolbar;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -31,6 +32,7 @@ import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.Pane;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 public class App extends Application {
@@ -44,6 +46,7 @@ public class App extends Application {
     private static List<ColorThemeChangableUIElement> changeableUIElements = new ArrayList<>();
     private static List<PopupMenu> popupMenus = new ArrayList<>();
     private static Toolbar mainToolbar;
+    private static Rectangle backgroundRectangle;
 
     public static void main(String[] args) {
         launch(args);
@@ -57,14 +60,18 @@ public class App extends Application {
 
             Pane layout = new Pane();
             objectList = layout.getChildren();
+            backgroundRectangle = new Rectangle(0, 0, screenWidth, screenHeight);
+            objectList.add(backgroundRectangle);
 
             Scene scene = new Scene(layout, screenWidth, screenHeight);
+            System.out.println(System.getProperty("user.dir"));
+            scene.getStylesheets().add(this.getClass().getResource("styles.css").toExternalForm());
             mainScene = scene;
 
             if (ColorThemeManager.getCurrentColorTheme() == null) {
                 ColorThemeManager.setCurrentColorTheme(new DarkColorTheme());
             }
-            scene.setFill(ColorThemeManager.getCurrentColorTheme().backgroundColor);
+            backgroundRectangle.setFill(ColorThemeManager.getCurrentColorTheme().backgroundColor);
 
             Calendar.getInstance().Init();
 
@@ -72,12 +79,6 @@ public class App extends Application {
             mainToolbar.openDefaultPreset();
 
             updateColorTheme(ColorThemeManager.getCurrentColorTheme());
-
-            scene.setOnMouseClicked(e -> {
-                if (e.getButton() == MouseButton.PRIMARY) {
-                    App.hidePopupMenus();
-                }
-            });
 
             scene.setOnMouseMoved(e -> {
                 mousePosition.x = e.getX();
@@ -107,6 +108,7 @@ public class App extends Application {
         ColorThemeManager.setCurrentColorTheme(newColorTheme);
         getScene().setFill(ColorThemeManager.getCurrentColorTheme().backgroundColor);
     
+        backgroundRectangle.setFill(ColorThemeManager.getCurrentColorTheme().backgroundColor);
         for (ColorThemeChangableUIElement element : changeableUIElements) {
             element.updateColors();
         }
