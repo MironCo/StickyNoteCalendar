@@ -8,12 +8,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import gui.DrawableUIElement;
+import gui.button.AddNewPresetStickyNoteButton;
 import gui.button.AddStickyNoteButton;
 import gui.button.GUIButton;
 import gui.button.LastMonthButton;
 import gui.button.NextMonthButton;
 import gui.button.TitleButton;
 import gui.button.presets.Preset;
+import gui.button.presets.PresetManager;
 import gui.button.presets.PresetTitleButton;
 import gui.button.presets.defaults.DefaultPreset;
 import gui.button.presets.defaults.StudentPreset;
@@ -29,7 +31,7 @@ public class Toolbar extends DrawableUIElement implements ColorThemeChangableUIE
     private List<Preset> presets = new ArrayList<>();
 
     public List<GUIButton> buttons = new ArrayList<>();
-    private Vector2 toolbarPadding = new Vector2(10, 10);
+    private Vector2 toolbarPadding = new Vector2(10, 8);
     private PresetTitleButton presetTitleButton;
 
     public Toolbar() {
@@ -54,9 +56,16 @@ public class Toolbar extends DrawableUIElement implements ColorThemeChangableUIE
 
         presetTitleButton = new PresetTitleButton(getButtonX(), getNextY(), getButtonWidth());
         addButton(presetTitleButton);
-    
-        addPreset(new DefaultPreset());
-        addPreset(new StudentPreset());
+
+        if (PresetManager.getInstance().getPresets().isEmpty()) {
+            PresetManager.getInstance().loadDefaultPresets();
+        }
+        for (Preset preset : PresetManager.getInstance().getPresets()) {
+            System.out.println(preset.getName());
+            addPreset(preset);
+        }
+
+        addButton(new AddNewPresetStickyNoteButton(getButtonX(), getBottomY(), getButtonWidth()));
     }
 
     public List<GUIButton> getButtons() {
@@ -88,6 +97,10 @@ public class Toolbar extends DrawableUIElement implements ColorThemeChangableUIE
         return lastY;
     }
 
+    public double getBottomY() {
+        return toolbarGraphic.getBoundsInLocal().getHeight() - toolbarPadding.y - GUIButton.BUTTON_HEIGHT;
+    }
+
     public double getNextY(int buttonNumber) {
         double lastY = toolbarPadding.y;
         if (!buttons.isEmpty()) {
@@ -97,27 +110,22 @@ public class Toolbar extends DrawableUIElement implements ColorThemeChangableUIE
     }
 
     public void openPreset(Preset preset) {
-        presets.forEach(p -> {
+        PresetManager.getInstance().getPresets().forEach(p -> {
             p.hidePresetStickyNotes();
         });
         
-        if (presets.contains(preset)) {
+        if (PresetManager.getInstance().getPresets().contains(preset)) {
             currentPreset = preset;
         }
-        presets.get(presets.indexOf(currentPreset)).showPresetStickyNotes();
+        PresetManager.getInstance().getPresets().get(PresetManager.getInstance().getPresets().indexOf(currentPreset)).showPresetStickyNotes();
         presetTitleButton.setText(currentPreset.getName());
     }
 
     public void openDefaultPreset() {
-        openPreset(presets.get(0));
-    }
-
-    public List<Preset> getPresets() {
-        return presets;
+        openPreset(PresetManager.getInstance().getPresets().get(0));
     }
 
     public void addPreset(Preset newPreset) {
-        presets.add(newPreset);
         newPreset.addToToolbar(this);
     }
 

@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Random;
 
 import gui.colors.ColorThemeManager;
-import gui.popupmenu.StickyNotePopupMenu;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -17,6 +16,7 @@ public class StickyNoteManager {
     public static final StickyNoteManager instance = new StickyNoteManager();
 
     private final List<StickyNote> stickyNotes = new ArrayList<StickyNote>();
+
     private Day hoveredDay = null;
     private StickyNote draggedStickyNote;
     private static StickyNote currentlyEditingStickyNote = null;

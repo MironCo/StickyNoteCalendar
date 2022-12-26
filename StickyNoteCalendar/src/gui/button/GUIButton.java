@@ -1,7 +1,5 @@
 package gui.button;
 
-import java.util.GregorianCalendar;
-
 import gui.DrawableUIElement;
 import gui.colors.ColorThemeChangableUIElement;
 import gui.colors.ColorThemeManager;
@@ -18,7 +16,6 @@ import util.Vector2;
 
 public abstract class GUIButton extends DrawableUIElement implements ColorThemeChangableUIElement {
     public static final double BUTTON_HEIGHT = 50.0;
-
     private Pane buttonPane = new Pane();
     protected Rectangle graphic = new Rectangle();
     protected Text buttonText = new Text();

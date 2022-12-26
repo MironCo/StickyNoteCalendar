@@ -20,7 +20,6 @@ import gui.colors.ColorThemeChangableUIElement;
 import gui.colors.ColorThemeManager;
 import gui.colors.DarkColorTheme;
 import gui.popupmenu.PopupMenu;
-import gui.stickynote.StickyNoteManager;
 import gui.toolbar.Toolbar;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -30,7 +29,6 @@ import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
-import javafx.scene.input.MouseButton;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
@@ -75,7 +73,7 @@ public class App extends Application {
 
             Calendar.getInstance().Init();
 
-            mainToolbar = new Toolbar();            
+            mainToolbar = new Toolbar();         
             mainToolbar.openDefaultPreset();
 
             updateColorTheme(ColorThemeManager.getCurrentColorTheme());

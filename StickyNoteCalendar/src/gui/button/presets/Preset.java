@@ -6,15 +6,28 @@ import java.util.List;
 import gui.popupmenu.PresetPopupMenu;
 import gui.popupmenu.popupmenuitems.OpenPresetMenuItem;
 import gui.toolbar.Toolbar;
+import main.App;
 
 public class Preset {
     private String presetName = "";
     public List<PresetStickyNoteBean> presetStickyNoteData = new ArrayList<>();
     public List<AddPresetStickyNote> presetStickyNotes = new ArrayList<>();
 
+    public Preset(String name) {
+        presetName = name;
+    }
+
     public void addPresetStickyNote(PresetStickyNoteBean note) {
         presetStickyNoteData.add(note);
     }   
+
+    public void addNewPresetStickyNote(PresetStickyNoteBean newNote) {
+        presetStickyNoteData.add(newNote);
+
+        AddPresetStickyNote newAddPresetStickyNote = new AddPresetStickyNote(newNote.getPresetStickyNoteText(),
+        newNote.getPresetStickyNoteColor(), App.getMainToolbar().getButtonX(), App.getMainToolbar().getNextY(presetStickyNotes.size()+4), App.getMainToolbar().getButtonWidth());
+        presetStickyNotes.add(newAddPresetStickyNote);
+    }
 
     public void addToToolbar(Toolbar toolbar) {
         int index = 4;

@@ -16,7 +16,6 @@ import javafx.scene.text.Text;
 import main.calendar.day.Day;
 import main.calendar.day.DayManager;
 import javafx.event.EventHandler;
-import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.KeyCode;
@@ -37,7 +36,6 @@ public class StickyNote extends DraggableUIElement implements PopuppableUIElemen
 
     private Text noteText = new Text();
     private TextArea textArea;
-    private Vector2 noteTextOffset = new Vector2(7, 22);
     private boolean isEditing = false;
     private boolean isFull = false;
 

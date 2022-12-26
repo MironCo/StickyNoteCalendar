@@ -6,9 +6,8 @@ import gui.stickynote.NoteColor;
 
 public class StudentPreset extends Preset {
     public StudentPreset() {
-        super();
+        super("Student");
         
-        setName("Student");
         addPresetStickyNote(new PresetStickyNoteBean("Paper Due", NoteColor.PURPLE));
         addPresetStickyNote(new PresetStickyNoteBean("Test", NoteColor.BEIGE));
     }
