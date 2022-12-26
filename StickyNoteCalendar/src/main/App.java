@@ -15,6 +15,7 @@ import util.Vector2;
 import java.util.ArrayList;
 import java.util.List;
 
+import gui.button.presets.PresetManager;
 import gui.colors.ColorTheme;
 import gui.colors.ColorThemeChangableUIElement;
 import gui.colors.ColorThemeManager;
@@ -39,7 +40,7 @@ public class App extends Application {
     private static Vector2 mousePosition = new Vector2(0, 0);
 
     private static Stage mainStage = null;
-    private static Scene mainScene = null;
+    private static Scene scene;
     private static ObservableList<Node> objectList = null;
     private static List<ColorThemeChangableUIElement> changeableUIElements = new ArrayList<>();
     private static List<PopupMenu> popupMenus = new ArrayList<>();
@@ -61,10 +62,9 @@ public class App extends Application {
             backgroundRectangle = new Rectangle(0, 0, screenWidth, screenHeight);
             objectList.add(backgroundRectangle);
 
-            Scene scene = new Scene(layout, screenWidth, screenHeight);
-            System.out.println(System.getProperty("user.dir"));
+            scene = new Scene(layout, screenWidth, screenHeight);
             scene.getStylesheets().add(this.getClass().getResource("styles.css").toExternalForm());
-            mainScene = scene;
+            
 
             if (ColorThemeManager.getCurrentColorTheme() == null) {
                 ColorThemeManager.setCurrentColorTheme(new DarkColorTheme());
@@ -74,7 +74,7 @@ public class App extends Application {
             Calendar.getInstance().Init();
 
             mainToolbar = new Toolbar();         
-            mainToolbar.openDefaultPreset();
+            PresetManager.getInstance().openDefaultPreset();
 
             updateColorTheme(ColorThemeManager.getCurrentColorTheme());
 
@@ -139,7 +139,7 @@ public class App extends Application {
     }
 
     public static Scene getScene() {
-        return mainScene;
+        return scene;
     }
 
     public static Vector2 getMousePosition() {

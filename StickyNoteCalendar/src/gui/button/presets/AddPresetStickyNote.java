@@ -6,6 +6,7 @@ import gui.stickynote.StickyNote;
 import gui.stickynote.StickyNoteManager;
 import javafx.geometry.Point2D;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.scene.paint.Color;
 import main.App;
@@ -30,8 +31,16 @@ public class AddPresetStickyNote extends GUIButton {
         textField.setMaxWidth(graphic.getWidth());
         textField.setLayoutY(graphic.getLayoutY());
 
+        stopEditingText();
+
         textField.textProperty().addListener((o, oldValue, newValue) -> {
             this.textContents = newValue;
+        });
+
+        textField.setOnKeyPressed(e -> {
+            if (e.getCode() == KeyCode.ENTER) {
+                stopEditingText();
+            }
         });
 
         getButtonPane().getChildren().add(textField);
@@ -41,6 +50,14 @@ public class AddPresetStickyNote extends GUIButton {
     }
 
     public void setMouseActions() {
+        getButtonPane().setOnMouseClicked(e -> {
+            if (e.getButton() == MouseButton.PRIMARY) {
+                if (e.getClickCount() > 1) {
+                    PresetManager.getInstance().setCurrentlyEditingStickyNote(this);
+                }
+            }
+        });
+
         getButtonPane().setOnMouseDragged(e -> {
             if (e.getButton() == MouseButton.PRIMARY) {
                 if (!App.getMainToolbar().toolbarGraphic.contains(new Point2D(App.getMousePosition().x, App.getMousePosition().y))) {
@@ -77,9 +94,21 @@ public class AddPresetStickyNote extends GUIButton {
         });
     }
 
+    public void startEditingText() {
+        textField.setEditable(true);
+        textField.setMouseTransparent(false);
+    }
+
+    public void stopEditingText() {
+        textField.setEditable(false);
+        textField.setMouseTransparent(true);
+    }
+
     @Override
     public void performAction() {
-
+        StickyNote note = new StickyNote(textContents);
+        note.setColor(buttonColor);
+        StickyNoteManager.getInstance().addStickyNote(note);    
     }
 
     @Override

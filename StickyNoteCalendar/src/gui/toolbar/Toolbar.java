@@ -17,8 +17,6 @@ import gui.button.TitleButton;
 import gui.button.presets.Preset;
 import gui.button.presets.PresetManager;
 import gui.button.presets.PresetTitleButton;
-import gui.button.presets.defaults.DefaultPreset;
-import gui.button.presets.defaults.StudentPreset;
 import gui.colors.ColorThemeChangableUIElement;
 import gui.colors.ColorThemeManager;
 
@@ -26,9 +24,6 @@ public class Toolbar extends DrawableUIElement implements ColorThemeChangableUIE
 
     public static Vector2 dimensions = new Vector2(200, (int) App.screenHeight);
     public Rectangle toolbarGraphic;
-
-    public Preset currentPreset;
-    private List<Preset> presets = new ArrayList<>();
 
     public List<GUIButton> buttons = new ArrayList<>();
     private Vector2 toolbarPadding = new Vector2(10, 8);
@@ -109,24 +104,12 @@ public class Toolbar extends DrawableUIElement implements ColorThemeChangableUIE
         return lastY;
     }
 
-    public void openPreset(Preset preset) {
-        PresetManager.getInstance().getPresets().forEach(p -> {
-            p.hidePresetStickyNotes();
-        });
-        
-        if (PresetManager.getInstance().getPresets().contains(preset)) {
-            currentPreset = preset;
-        }
-        PresetManager.getInstance().getPresets().get(PresetManager.getInstance().getPresets().indexOf(currentPreset)).showPresetStickyNotes();
-        presetTitleButton.setText(currentPreset.getName());
-    }
-
-    public void openDefaultPreset() {
-        openPreset(PresetManager.getInstance().getPresets().get(0));
-    }
-
     public void addPreset(Preset newPreset) {
         newPreset.addToToolbar(this);
+    }
+
+    public void setPresetTitle(String name) {
+        presetTitleButton.setText(name);
     }
 
     @Override

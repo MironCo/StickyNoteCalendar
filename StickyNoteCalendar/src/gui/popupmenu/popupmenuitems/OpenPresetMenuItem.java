@@ -1,6 +1,7 @@
 package gui.popupmenu.popupmenuitems;
 
 import gui.button.presets.Preset;
+import gui.button.presets.PresetManager;
 import gui.colors.ColorThemeChangableUIElement;
 import gui.colors.ColorThemeManager;
 import main.App;
@@ -22,7 +23,8 @@ public class OpenPresetMenuItem extends PopupMenuItem implements ColorThemeChang
 
     @Override
     public void performAction() {
-        App.getMainToolbar().openPreset(preset);
+        PresetManager.getInstance().openPreset(preset);
+        App.getMainToolbar().setPresetTitle(preset.getName());
     }
     
     @Override

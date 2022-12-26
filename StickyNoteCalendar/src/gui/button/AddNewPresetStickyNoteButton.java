@@ -1,8 +1,8 @@
 package gui.button;
 
+import gui.button.presets.PresetManager;
 import gui.button.presets.PresetStickyNoteBean;
 import gui.stickynote.StickyNoteManager;
-import main.App;
 
 public class AddNewPresetStickyNoteButton extends GUIButton {
     public AddNewPresetStickyNoteButton(double x, double y, int width) {
@@ -11,6 +11,8 @@ public class AddNewPresetStickyNoteButton extends GUIButton {
 
     @Override
     public void performAction() {
-        App.getMainToolbar().currentPreset.addNewPresetStickyNote(new PresetStickyNoteBean("New Preset Sticky Note", StickyNoteManager.getRandomNoteColor()));
+        if (PresetManager.getInstance().getCurrentPreset().presetStickyNotes.size() < PresetManager.MAX_NOTES) {
+            PresetManager.getInstance().getCurrentPreset().addNewPresetStickyNote(new PresetStickyNoteBean("New Preset Sticky Note", StickyNoteManager.getRandomNoteColor()));
+        }
     }
 }

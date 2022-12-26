@@ -35,7 +35,8 @@ public class Preset {
         for (PresetStickyNoteBean bean : presetStickyNoteData) {
             AddPresetStickyNote newAddPresetStickyNote = new AddPresetStickyNote(bean.getPresetStickyNoteText(),
                 bean.getPresetStickyNoteColor(), toolbar.getButtonX(), toolbar.getNextY(index), toolbar.getButtonWidth());
-            presetStickyNotes.add(newAddPresetStickyNote);
+            newAddPresetStickyNote.stopEditingText();
+                presetStickyNotes.add(newAddPresetStickyNote);
             index++;
         }
         PresetPopupMenu.getInstance().addPresetButton(new OpenPresetMenuItem(this));

@@ -9,10 +9,15 @@ import gui.button.presets.defaults.StudentPreset;
 public class PresetManager {
     private static PresetManager instance = new PresetManager();
 
+    public static final int MAX_NOTES = 7;
+
     private final List<Preset> presets = new ArrayList<>();
+    private Preset currentPreset;
+
+    private AddPresetStickyNote editingNote = null;
 
     private PresetManager() {
-
+        
     }
 
     public static PresetManager getInstance() {
@@ -27,8 +32,46 @@ public class PresetManager {
         return presets;
     }
 
+    public Preset getCurrentPreset() {
+        return currentPreset;
+    }
+
+    public void setCurrentPreset(Preset preset) {
+        currentPreset = preset;
+    }
+
+    public void openPreset(Preset preset) {
+        getPresets().forEach(p -> {
+            p.hidePresetStickyNotes();
+        });
+        
+        if (getPresets().contains(preset)) {
+            setCurrentPreset(preset);
+            getPresets().get(getPresets().indexOf(currentPreset)).showPresetStickyNotes();
+        }
+    }
+
+    public void openDefaultPreset() {
+        openPreset(getPresets().get(0));
+    }
+
     public void loadDefaultPresets() {
         addPreset(new DefaultPreset());
         addPreset(new StudentPreset());
+    }
+
+    public void setCurrentlyEditingStickyNote(AddPresetStickyNote note) {
+        clearCurrentlyEditingStickyNote();
+        editingNote = note;
+        editingNote.startEditingText();
+    }
+
+    public void clearCurrentlyEditingStickyNote() {
+        editingNote = null;
+        for (Preset preset : presets) {
+            for (AddPresetStickyNote note : preset.presetStickyNotes) {
+                note.stopEditingText();
+            }
+        }
     }
 }
