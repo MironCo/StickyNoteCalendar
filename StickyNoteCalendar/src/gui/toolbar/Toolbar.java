@@ -56,7 +56,6 @@ public class Toolbar extends DrawableUIElement implements ColorThemeChangableUIE
             PresetManager.getInstance().loadDefaultPresets();
         }
         for (Preset preset : PresetManager.getInstance().getPresets()) {
-            System.out.println(preset.getName());
             addPreset(preset);
         }
 

@@ -112,12 +112,6 @@ public class App extends Application {
         }
     }
 
-    public static void hidePopupMenus() {
-        for (PopupMenu menu : popupMenus) {
-            menu.hide();
-        }
-    }
-
     public static void AddToScene(List<Node> nodes) {
         objectList.addAll(nodes);
     }

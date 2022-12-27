@@ -18,12 +18,12 @@ public class StickyNotePopupMenu extends PopupMenu {
 
     @Override
     protected void addButtons() {
-        addMenuItem(new ChangeStickyNoteColorMenuItem(NoteColor.PURPLE));
-        addMenuItem(new ChangeStickyNoteColorMenuItem(NoteColor.BLUE));
-        addMenuItem(new ChangeStickyNoteColorMenuItem(NoteColor.YELLOW));
-        addMenuItem(new ChangeStickyNoteColorMenuItem(NoteColor.GREEN));
-        addMenuItem(new ChangeStickyNoteColorMenuItem(NoteColor.BEIGE));
-        addMenuItem(new DeleteStickyNoteMenuItem());
-        calculateHeight();
+        addMenuItem(new ChangeStickyNoteColorMenuItem(NoteColor.PURPLE).getMenuItem());
+        addMenuItem(new ChangeStickyNoteColorMenuItem(NoteColor.BLUE).getMenuItem());
+        addMenuItem(new ChangeStickyNoteColorMenuItem(NoteColor.YELLOW).getMenuItem());
+        addMenuItem(new ChangeStickyNoteColorMenuItem(NoteColor.GREEN).getMenuItem());
+        addMenuItem(new ChangeStickyNoteColorMenuItem(NoteColor.BEIGE).getMenuItem());
+
+        addMenuItem(new DeleteStickyNoteMenuItem().getMenuItem());
     }
 }

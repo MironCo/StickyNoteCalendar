@@ -17,14 +17,12 @@ public abstract class DraggableUIElement extends DrawableUIElement {
         node.setOnMousePressed(e -> {
             startX = e.getSceneX() - node.getTranslateX();
             startY = e.getSceneY() - node.getTranslateY();
-            App.hidePopupMenus();
         });
 
         node.setOnMouseDragged(e -> {
             if (e.getButton() == MouseButton.PRIMARY) {
                 node.setTranslateX(Math.max(0, Math.min(App.screenWidth, e.getSceneX() - startX)));
                 node.setTranslateY(Math.max(0, Math.min(App.screenHeight, e.getSceneY() - startY)));
-                App.hidePopupMenus();
             }
         });
     }

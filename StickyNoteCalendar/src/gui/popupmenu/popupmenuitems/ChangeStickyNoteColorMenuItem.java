@@ -2,23 +2,17 @@ package gui.popupmenu.popupmenuitems;
 
 import gui.stickynote.NoteColor;
 import gui.stickynote.StickyNoteManager;
-import javafx.scene.paint.Color;
 
 public class ChangeStickyNoteColorMenuItem extends PopupMenuItem{
     NoteColor color;
-    
+
     public ChangeStickyNoteColorMenuItem(NoteColor color) {
-        super(color.getName().toUpperCase());
+        super("Change Color: " + color.getName());
         this.color = color;
-        
-        getGraphic().setFill(color.getColor());
-        getText().setFill(Color.BLACK);
     }
 
     @Override
     public void performAction() {
-        // TODO Auto-generated method stub
         StickyNoteManager.getInstance().getRightClickedStickyNote().setColor(color);
-        connectedPopupMenu.hide();
     }
 }

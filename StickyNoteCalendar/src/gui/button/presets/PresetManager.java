@@ -5,6 +5,7 @@ import java.util.List;
 
 import gui.button.presets.defaults.DefaultPreset;
 import gui.button.presets.defaults.StudentPreset;
+import main.App;
 
 public class PresetManager {
     private static PresetManager instance = new PresetManager();
@@ -15,6 +16,7 @@ public class PresetManager {
     private Preset currentPreset;
 
     private AddPresetStickyNote editingNote = null;
+    private AddPresetStickyNote rightClickedNote = null;
 
     private PresetManager() {
         
@@ -40,6 +42,14 @@ public class PresetManager {
         currentPreset = preset;
     }
 
+    public void setRightClickedPresetStickyNote(AddPresetStickyNote note) {
+        rightClickedNote = note;
+    } 
+    
+    public AddPresetStickyNote getRightClickedPresetStickyNote() {
+        return rightClickedNote;
+    }
+
     public void openPreset(Preset preset) {
         getPresets().forEach(p -> {
             p.hidePresetStickyNotes();
@@ -48,6 +58,7 @@ public class PresetManager {
         if (getPresets().contains(preset)) {
             setCurrentPreset(preset);
             getPresets().get(getPresets().indexOf(currentPreset)).showPresetStickyNotes();
+            App.getMainToolbar().setPresetTitle(getCurrentPreset().getName());
         }
     }
 
@@ -73,5 +84,9 @@ public class PresetManager {
                 note.stopEditingText();
             }
         }
+    }
+
+    public void deletePresetStickyNote(AddPresetStickyNote presetStickyNote) {
+        currentPreset.deletePresetStickyNote(presetStickyNote);
     }
 }

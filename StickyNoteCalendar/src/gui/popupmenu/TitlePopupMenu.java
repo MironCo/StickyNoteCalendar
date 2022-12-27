@@ -19,8 +19,7 @@ public class TitlePopupMenu extends PopupMenu {
 
     @Override
     protected void addButtons() {
-        addMenuItem(new ChangeColorThemeMenuItem(new LightColorTheme()));
-        addMenuItem(new ChangeColorThemeMenuItem(new DarkColorTheme()));
-        calculateHeight();
+        addMenuItem(new ChangeColorThemeMenuItem(new LightColorTheme()).getMenuItem());
+        addMenuItem(new ChangeColorThemeMenuItem(new DarkColorTheme()).getMenuItem());
     }
 }

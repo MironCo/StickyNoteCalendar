@@ -4,7 +4,6 @@ import gui.button.GUIButton;
 import gui.popupmenu.PopuppableUIElement;
 import gui.popupmenu.PresetPopupMenu;
 import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
 import util.Vector2;
 
 public class PresetTitleButton extends GUIButton implements PopuppableUIElement  {
@@ -18,9 +17,7 @@ public class PresetTitleButton extends GUIButton implements PopuppableUIElement 
         setPopupMenu();
 
         getNodes().get(0).setOnMouseClicked(e -> {
-            if (e.getButton() == MouseButton.SECONDARY) {
-                setAsRightClicked(e);
-            } else if (e.getButton() == MouseButton.PRIMARY) {
+            if (e.getButton() == MouseButton.PRIMARY) {
                 performAction();
             }
         });
@@ -33,14 +30,11 @@ public class PresetTitleButton extends GUIButton implements PopuppableUIElement 
 
     @Override
     public void setPopupMenu() {
-        popupMenu = PresetPopupMenu.getInstance();
-    }
+        popupMenu = PresetPopupMenu.getInstance().getContextMenu();
 
-    @Override
-    public void setAsRightClicked(MouseEvent e) {
-        if (popupMenu != null) {
-            popupMenu.show(e.getSceneX(), e.getSceneY());
-        }
+        getButtonPane().setOnContextMenuRequested(e -> {
+            popupMenu.show(getButtonPane(), e.getScreenX(), e.getScreenY());
+        });
     }
 
     public void setText(String text) {

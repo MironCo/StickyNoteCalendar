@@ -9,14 +9,10 @@ public class ChangeColorThemeMenuItem extends PopupMenuItem {
     public ChangeColorThemeMenuItem(ColorTheme colorTheme) {
         super(colorTheme.themeName);
         this.colorTheme = colorTheme;
-        
-        getGraphic().setFill(colorTheme.backgroundColor);
-        getText().setFill(colorTheme.textColor);
     }
 
     @Override
     public void performAction() {
         App.updateColorTheme(colorTheme);
-        connectedPopupMenu.hide();
     }
 }

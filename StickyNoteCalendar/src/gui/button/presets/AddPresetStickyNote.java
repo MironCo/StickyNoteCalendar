@@ -1,6 +1,8 @@
 package gui.button.presets;
 
 import gui.button.GUIButton;
+import gui.popupmenu.PopuppableUIElement;
+import gui.popupmenu.PresetStickyNotePopupMenu;
 import gui.stickynote.NoteColor;
 import gui.stickynote.StickyNote;
 import gui.stickynote.StickyNoteManager;
@@ -8,20 +10,21 @@ import javafx.geometry.Point2D;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
-import javafx.scene.paint.Color;
 import main.App;
 import util.FontManager;
 
-public class AddPresetStickyNote extends GUIButton {
-    String textContents = "";
-    NoteColor buttonColor;
-    StickyNote createdStickyNote;
-    TextField textField;
+public class AddPresetStickyNote extends GUIButton implements PopuppableUIElement {
+    private String textContents = "";
+    private NoteColor buttonColor;
+    private StickyNote createdStickyNote;
+    private TextField textField;
+    private PresetStickyNoteBean bean;
 
-    public AddPresetStickyNote(String textContents, NoteColor color, double x, double y, int width) {
+    public AddPresetStickyNote(PresetStickyNoteBean bean, double x, double y, int width) {
         super("", x, y, width);
-        this.textContents = textContents;
-        buttonColor = color;
+        this.bean = bean;
+        this.textContents = bean.getPresetStickyNoteText();
+        buttonColor = bean.getPresetStickyNoteColor();
 
         buttonText.setVisible(false);
 
@@ -35,6 +38,7 @@ public class AddPresetStickyNote extends GUIButton {
 
         textField.textProperty().addListener((o, oldValue, newValue) -> {
             this.textContents = newValue;
+            bean.setPresetStickyNoteText(this.textContents);
         });
 
         textField.setOnKeyPressed(e -> {
@@ -43,8 +47,8 @@ public class AddPresetStickyNote extends GUIButton {
             }
         });
 
+        setPopupMenu();
         getButtonPane().getChildren().add(textField);
-
         setOriginalColor(buttonColor.getColor());
         setMouseActions();
     }
@@ -97,11 +101,13 @@ public class AddPresetStickyNote extends GUIButton {
     public void startEditingText() {
         textField.setEditable(true);
         textField.setMouseTransparent(false);
+        textField.selectEnd();
     }
 
     public void stopEditingText() {
         textField.setEditable(false);
         textField.setMouseTransparent(true);
+        textField.deselect();
     }
 
     @Override
@@ -111,8 +117,29 @@ public class AddPresetStickyNote extends GUIButton {
         StickyNoteManager.getInstance().addStickyNote(note);    
     }
 
+    public void setColor(NoteColor color) {
+        buttonColor = color;
+        bean.setPresetStickyNoteColor(buttonColor);
+        setOriginalColor(buttonColor.getColor());
+        graphic.setFill(color.getColor());
+    }
+
     @Override
     public void updateColors() {
-        buttonText.setFill(Color.BLACK);
+
+    }
+
+    @Override
+    public void setPopupMenu() {        
+        popupMenu = PresetStickyNotePopupMenu.getInstance().getContextMenu();
+
+        getButtonPane().setOnContextMenuRequested(e -> {
+            PresetManager.getInstance().setRightClickedPresetStickyNote(this);
+            popupMenu.show(getButtonPane(), e.getScreenX(), e.getScreenY());
+        });
+    }
+
+    public PresetStickyNoteBean getBean() {
+        return bean;
     }
 }

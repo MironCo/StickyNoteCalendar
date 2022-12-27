@@ -12,14 +12,12 @@ import gui.DraggableUIElement;
 import gui.popupmenu.PopuppableUIElement;
 import gui.popupmenu.StickyNotePopupMenu;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Text;
 import main.calendar.day.Day;
 import main.calendar.day.DayManager;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -34,10 +32,8 @@ public class StickyNote extends DraggableUIElement implements PopuppableUIElemen
 
     private NoteColor color = null;
 
-    private Text noteText = new Text();
     private TextArea textArea;
     private boolean isEditing = false;
-    private boolean isFull = false;
 
     public StickyNote() {
         stickyNotePane = new Pane();
@@ -48,10 +44,7 @@ public class StickyNote extends DraggableUIElement implements PopuppableUIElemen
 
         rectangle.setFill(color.getColor());
 
-        noteText = new Text("Sticky Note");
-        noteText.setVisible(false);
-
-        textArea = new TextArea("test");
+        textArea = new TextArea("Sticky Note");
         textArea.setFont(FontManager.loadFont("Nunito-Regular.ttf", 19));
         textArea.setLayoutX(rectangle.getX() + rectanglePadding.x);
         textArea.setLayoutY(rectangle.getY() + rectanglePadding.y);
@@ -64,7 +57,7 @@ public class StickyNote extends DraggableUIElement implements PopuppableUIElemen
         textArea.setMaxSize(size, size);
         textArea.setWrapText(true);
 
-        stickyNotePane.getChildren().addAll(rectangle, noteText, textArea);
+        stickyNotePane.getChildren().addAll(rectangle, textArea);
         nodes.add(stickyNotePane);
         makeDraggable(stickyNotePane);
 
@@ -99,20 +92,15 @@ public class StickyNote extends DraggableUIElement implements PopuppableUIElemen
                             startEditingText();
                         }
                     }
-                    setAsRightClicked(e);
                 }
             });
         }
-    }
 
-    public boolean isTextOutsideBounds() {
-        return noteText.getBoundsInLocal()
-                .getWidth() > (rectangle.getBoundsInLocal().getWidth() - rectanglePadding.x * 2);
-    }
-
-    public boolean isStickyNoteFull() {
-        return noteText.getBoundsInLocal()
-                .getHeight() > (rectangle.getBoundsInLocal().getHeight() - rectanglePadding.y * 2);
+        stickyNotePane.setOnKeyPressed(e -> {
+            if (e.getCode() == KeyCode.ENTER) {
+                stopEditingText();
+            }
+        });
     }
 
     public void startEditingText() {
@@ -138,24 +126,6 @@ public class StickyNote extends DraggableUIElement implements PopuppableUIElemen
 
     public String getStickyNoteText() {
         return textArea.getText();
-    }
-
-    public void ChangeStickNoteText(KeyEvent key) {
-        if (key.getCode() == KeyCode.BACK_SPACE && noteText.getText().length() > 0) {
-            noteText.setText(noteText.getText().substring(0, noteText.getText().length() - 1));
-            if (isFull) isFull = false;
-        } else if (!isFull) {
-            noteText.setText(noteText.getText() + key.getText());
-            if (isTextOutsideBounds()) {
-                noteText.setText(noteText.getText().substring(0, noteText.getText().length() - 1));
-                noteText.setText(noteText.getText() + "\n");
-                noteText.setText(noteText.getText() + key.getText());
-            }
-            if (isStickyNoteFull()) {
-                noteText.setText(noteText.getText().substring(0, noteText.getText().length() - 1));
-                isFull = true;
-            }
-        }
     }
 
     public void ReleaseStickyNote() {
@@ -197,14 +167,11 @@ public class StickyNote extends DraggableUIElement implements PopuppableUIElemen
 
     @Override
     public void setPopupMenu() {
-        popupMenu = StickyNotePopupMenu.getInstance();
-    }
+        popupMenu = StickyNotePopupMenu.getInstance().getContextMenu();
 
-    @Override
-    public void setAsRightClicked(MouseEvent e) {
-        if (popupMenu != null) {
-            popupMenu.show(e.getSceneX(), e.getSceneY());
+        stickyNotePane.setOnContextMenuRequested(e -> {
             StickyNoteManager.getInstance().setRightClickedStickyNote(this);
-        }
+            popupMenu.show(stickyNotePane, e.getScreenX(), e.getScreenY());
+        });
     }
 }

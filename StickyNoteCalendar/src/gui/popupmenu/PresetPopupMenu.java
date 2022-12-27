@@ -14,12 +14,11 @@ public class PresetPopupMenu extends PopupMenu {
     }
 
     public void addPresetButton(OpenPresetMenuItem item) {
-        addMenuItem(item);
-        calculateHeight();
+        addMenuItem(item.getMenuItem());
     }
 
     @Override
     protected void addButtons() {
-        calculateHeight();
+        
     }
 }

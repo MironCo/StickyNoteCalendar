@@ -1,7 +1,6 @@
 package gui.popupmenu.popupmenuitems;
 
 import gui.stickynote.StickyNoteManager;
-import javafx.scene.paint.Color;
 
 public class DeleteStickyNoteMenuItem extends PopupMenuItem{
 
@@ -9,9 +8,6 @@ public class DeleteStickyNoteMenuItem extends PopupMenuItem{
 
     public DeleteStickyNoteMenuItem() {
         super(TITLE);
-
-        getGraphic().setFill(Color.BLACK);
-        getText().setFill(Color.WHITESMOKE);
     }
 
     @Override

@@ -39,9 +39,6 @@ public class StickyNoteManager {
                         }
                     } 
                 }
-                if (e.getButton() == MouseButton.PRIMARY) {
-                    App.hidePopupMenus();
-                }
             } 
         });
     }

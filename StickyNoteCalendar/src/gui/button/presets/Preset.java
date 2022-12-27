@@ -24,8 +24,7 @@ public class Preset {
     public void addNewPresetStickyNote(PresetStickyNoteBean newNote) {
         presetStickyNoteData.add(newNote);
 
-        AddPresetStickyNote newAddPresetStickyNote = new AddPresetStickyNote(newNote.getPresetStickyNoteText(),
-        newNote.getPresetStickyNoteColor(), App.getMainToolbar().getButtonX(), App.getMainToolbar().getNextY(presetStickyNotes.size()+4), App.getMainToolbar().getButtonWidth());
+        AddPresetStickyNote newAddPresetStickyNote = new AddPresetStickyNote(newNote, App.getMainToolbar().getButtonX(), App.getMainToolbar().getNextY(presetStickyNotes.size()+4), App.getMainToolbar().getButtonWidth());
         presetStickyNotes.add(newAddPresetStickyNote);
     }
 
@@ -33,8 +32,7 @@ public class Preset {
         int index = 4;
 
         for (PresetStickyNoteBean bean : presetStickyNoteData) {
-            AddPresetStickyNote newAddPresetStickyNote = new AddPresetStickyNote(bean.getPresetStickyNoteText(),
-                bean.getPresetStickyNoteColor(), toolbar.getButtonX(), toolbar.getNextY(index), toolbar.getButtonWidth());
+            AddPresetStickyNote newAddPresetStickyNote = new AddPresetStickyNote(bean, toolbar.getButtonX(), toolbar.getNextY(index), toolbar.getButtonWidth());
             newAddPresetStickyNote.stopEditingText();
                 presetStickyNotes.add(newAddPresetStickyNote);
             index++;
@@ -59,6 +57,25 @@ public class Preset {
     public void hidePresetStickyNotes() {
         presetStickyNotes.forEach(note -> {
             note.setVisible(false);
+            note.stopEditingText();
         });
+    }
+
+    public void deletePresetStickyNote(AddPresetStickyNote presetStickyNote) {
+        if (presetStickyNotes.contains(presetStickyNote)){
+            presetStickyNotes.remove(presetStickyNote);
+            presetStickyNoteData.remove(presetStickyNote.getBean());
+            presetStickyNote.setVisible(false);
+            refeshStickyNotePositions();
+        }
+    }
+
+    public void refeshStickyNotePositions() {
+        int index = 4;
+
+        for (AddPresetStickyNote presetStickyNote : presetStickyNotes) {
+            presetStickyNote.getNodes().get(0).setLayoutY(App.getMainToolbar().getNextY(index));
+            index++;
+        }
     }
 }

@@ -26,11 +26,12 @@ public class DayStickyNoteGraphic extends DraggableUIElement {
     private boolean isOnDay = true;
     private Vector2 rectPosition;
     private Vector2 connectedOffset = new Vector2(0, 0);
+    private Vector2 padding = new Vector2(0, 3);
 
     public DayStickyNoteGraphic(Vector2 _pos) {
         Calendar calendar = Calendar.getInstance();
         rectPosition = new Vector2(_pos.x + ((calendar.dayDimensions.x - Calendar.DAY_STICKY_NOTE_SIZE) / 2), 
-            _pos.y + ((calendar.dayDimensions.y - Calendar.DAY_STICKY_NOTE_SIZE) / 2));
+            _pos.y + padding.y + ((calendar.dayDimensions.y - Calendar.DAY_STICKY_NOTE_SIZE) / 2));
         rectangle = new Rectangle(rectPosition.x, rectPosition.y, Calendar.DAY_STICKY_NOTE_SIZE,
         Calendar.DAY_STICKY_NOTE_SIZE);
         rectangle.setFill(Color.WHITE);

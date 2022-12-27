@@ -3,8 +3,8 @@ package gui;
 import java.util.ArrayList;
 import java.util.List;
 
-import gui.popupmenu.PopupMenu;
 import javafx.scene.Node;
+import javafx.scene.control.ContextMenu;
 import main.App;
 import util.Vector2;
 
@@ -13,7 +13,7 @@ public abstract class DrawableUIElement {
     protected List<Node> nodes = new ArrayList<Node>();
     protected Vector2 position = new Vector2(0, 0);
     
-    protected PopupMenu popupMenu;
+    protected ContextMenu popupMenu;
 
     public DrawableUIElement() {
         
