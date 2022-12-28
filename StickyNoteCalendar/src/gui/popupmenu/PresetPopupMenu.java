@@ -1,12 +1,16 @@
 package gui.popupmenu;
 
+import gui.popupmenu.popupmenuitems.AddPresetMenuItem;
+import gui.popupmenu.popupmenuitems.DeletePresetMenuItem;
 import gui.popupmenu.popupmenuitems.OpenPresetMenuItem;
+import javafx.scene.control.SeparatorMenuItem;
 
 public class PresetPopupMenu extends PopupMenu {
     private final static PresetPopupMenu instance = new PresetPopupMenu();
 
     private PresetPopupMenu() {
         super();
+        addButtons();
     }
 
     public static final PresetPopupMenu getInstance() {
@@ -17,8 +21,14 @@ public class PresetPopupMenu extends PopupMenu {
         addMenuItem(item.getMenuItem());
     }
 
+    public void removePresetButton(OpenPresetMenuItem item) {
+        if (getContextMenu().getItems().contains(item.getMenuItem())) getContextMenu().getItems().remove(item.getMenuItem());
+    }
+
     @Override
     protected void addButtons() {
-        
+        addMenuItem(new AddPresetMenuItem().getMenuItem());
+        addMenuItem(new DeletePresetMenuItem().getMenuItem());
+        getContextMenu().getItems().add(new SeparatorMenuItem());
     }
 }

@@ -45,7 +45,7 @@ public class DayFactory {
         Day newDay = new Day();
 
         int numberOfRows = (int) Math.ceil((numberOfDays + weekdayOffset) / 7.0);
-        double size = (App.screenHeight - (((numberOfRows+1) * Calendar.dayOffset.y) + calendar.textHeight * 2)) / numberOfRows;
+         double size = (App.screenHeight - (((numberOfRows+1) * Calendar.dayOffset.y) + calendar.textHeight * 2)) / numberOfRows;
         int adjustedDay = day + weekdayOffset;
 
         calendar.dayDimensions = new Vector2(size, size);

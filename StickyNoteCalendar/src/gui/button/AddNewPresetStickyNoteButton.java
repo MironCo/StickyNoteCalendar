@@ -11,7 +11,7 @@ public class AddNewPresetStickyNoteButton extends GUIButton {
 
     @Override
     public void performAction() {
-        if (PresetManager.getInstance().getCurrentPreset().presetStickyNotes.size() < PresetManager.MAX_NOTES) {
+        if (PresetManager.getInstance().getCurrentPreset().presetStickyNotes.size() < PresetManager.MAX_NOTES && !PresetManager.getInstance().getPresets().isEmpty()) {
             PresetManager.getInstance().getCurrentPreset().addNewPresetStickyNote(new PresetStickyNoteBean("New Preset Sticky Note", StickyNoteManager.getRandomNoteColor()));
         }
     }

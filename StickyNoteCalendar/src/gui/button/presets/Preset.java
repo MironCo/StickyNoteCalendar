@@ -12,9 +12,11 @@ public class Preset {
     private String presetName = "";
     public List<PresetStickyNoteBean> presetStickyNoteData = new ArrayList<>();
     public List<AddPresetStickyNote> presetStickyNotes = new ArrayList<>();
+    private OpenPresetMenuItem connectedItem;
 
     public Preset(String name) {
         presetName = name;
+        PresetPopupMenu.getInstance().addPresetButton(new OpenPresetMenuItem(this));
     }
 
     public void addPresetStickyNote(PresetStickyNoteBean note) {
@@ -37,11 +39,11 @@ public class Preset {
                 presetStickyNotes.add(newAddPresetStickyNote);
             index++;
         }
-        PresetPopupMenu.getInstance().addPresetButton(new OpenPresetMenuItem(this));
     }
 
     public void setName(String newName) {
         presetName = newName;
+        if (connectedItem != null) connectedItem.updateText(newName);
     }
 
     public String getName() {
@@ -66,16 +68,24 @@ public class Preset {
             presetStickyNotes.remove(presetStickyNote);
             presetStickyNoteData.remove(presetStickyNote.getBean());
             presetStickyNote.setVisible(false);
-            refeshStickyNotePositions();
+            refreshStickyNotePositions();
         }
     }
 
-    public void refeshStickyNotePositions() {
+    public void refreshStickyNotePositions() {
         int index = 4;
 
         for (AddPresetStickyNote presetStickyNote : presetStickyNotes) {
             presetStickyNote.getNodes().get(0).setLayoutY(App.getMainToolbar().getNextY(index));
             index++;
         }
+    }
+
+    public void setConnectedMenuItem(OpenPresetMenuItem item) {
+        this.connectedItem = item;
+    }
+
+    public OpenPresetMenuItem getConnectedMenuItem() {
+        return connectedItem;
     }
 }

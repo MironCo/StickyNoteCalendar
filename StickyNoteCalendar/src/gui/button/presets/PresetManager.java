@@ -5,6 +5,7 @@ import java.util.List;
 
 import gui.button.presets.defaults.DefaultPreset;
 import gui.button.presets.defaults.StudentPreset;
+import gui.popupmenu.PresetPopupMenu;
 import main.App;
 
 public class PresetManager {
@@ -88,5 +89,19 @@ public class PresetManager {
 
     public void deletePresetStickyNote(AddPresetStickyNote presetStickyNote) {
         currentPreset.deletePresetStickyNote(presetStickyNote);
+    }
+
+    public void deletePreset(Preset preset) {
+        int index = getPresets().indexOf(preset);
+        if (index > -1) {
+            preset.hidePresetStickyNotes();
+            PresetPopupMenu.getInstance().removePresetButton(preset.getConnectedMenuItem());
+            getPresets().remove(index);
+            if (presets.size() > 0) { 
+                openDefaultPreset();
+            } else {
+                App.getMainToolbar().setPresetTitle("No Presets");
+            }
+        }
     }
 }

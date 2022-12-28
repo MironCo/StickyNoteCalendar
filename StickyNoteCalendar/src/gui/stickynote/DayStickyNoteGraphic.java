@@ -55,19 +55,18 @@ public class DayStickyNoteGraphic extends DraggableUIElement {
                 } else {
                     returnToTop();
                 }
-                if (connectedStickyNote.isVisible()) {
-                    for (Node n : connectedStickyNote.getNodes()) {
-                        n.setTranslateX(e.getSceneX() - connectedOffset.x);
-                        n.setTranslateY(e.getSceneY() - connectedOffset.y);
-                    }
+                StickyNote draggedNote = StickyNoteManager.getInstance().getDraggedStickyNote();
+                if (draggedNote != null) {
+                    draggedNote.getNodes().get(0).setTranslateX(e.getSceneX() - connectedOffset.x);
+                    draggedNote.getNodes().get(0).setTranslateY(e.getSceneY() - connectedOffset.y);
                 }
             }
         });
 
         rectangle.setOnMouseReleased(e -> {
             if (e.getButton() == MouseButton.PRIMARY) {
-                if (connectedStickyNote.isVisible()) {
-                    connectedStickyNote.ReleaseStickyNote();
+                if (StickyNoteManager.getInstance().getDraggedStickyNote() != null) {
+                    StickyNoteManager.getInstance().getDraggedStickyNote().ReleaseStickyNote();
                 }
             }
         });
@@ -97,12 +96,13 @@ public class DayStickyNoteGraphic extends DraggableUIElement {
             connectedStickyNote = connectedDay.stickyNotes.remove(0);
             StickyNoteManager.getInstance().setDraggedStickyNote(connectedStickyNote);
             connectedStickyNote.setVisible(true);
+            connectedStickyNote.setMouseTransparent(false);
             connectedDay.updateStickyNoteGraphic();
         }
     }
 
     public void returnToTop() {
-        if (!isOnDay && connectedStickyNote != null) {
+        if (!isOnDay && connectedStickyNote != null && StickyNoteManager.getInstance().getDraggedStickyNote() != null) {
             isOnDay = true;
             connectedDay.stickyNotes.add(0, connectedStickyNote);
             StickyNoteManager.getInstance().setDraggedStickyNote(null);

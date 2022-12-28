@@ -10,10 +10,15 @@ public class OpenPresetMenuItem extends PopupMenuItem {
     public OpenPresetMenuItem(Preset preset) {
         super("Open Preset: " + preset.getName());
         this.preset = preset;
+        preset.setConnectedMenuItem(this);
     }
 
     public void setPreset(Preset newPreset) {
         preset = newPreset;
+    }
+
+    public void updateText(String title) {
+        menuItem.setText("Open Preset: " + title);
     }
 
     @Override
