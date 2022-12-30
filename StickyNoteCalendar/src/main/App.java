@@ -73,11 +73,12 @@ public class App extends Application {
             }
             backgroundRectangle.setFill(ColorThemeManager.getCurrentColorTheme().backgroundColor);
 
+            dayToolbar = new DayToolbar();
+            dayToolbar.closeDayToolbar();
+
             Calendar.getInstance().Init();
 
             mainToolbar = new MainToolbar();         
-            dayToolbar = new DayToolbar();
-            dayToolbar.closeDayToolbar();
 
             PresetManager.getInstance().openDefaultPreset();
 

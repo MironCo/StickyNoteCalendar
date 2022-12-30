@@ -19,6 +19,7 @@ import gui.stickynote.StickyNote;
 import javafx.scene.Node;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
+import main.App;
 
 public class Day extends DrawableUIElement implements ColorThemeChangableUIElement{
     public Integer day = 0;
@@ -82,6 +83,7 @@ public class Day extends DrawableUIElement implements ColorThemeChangableUIEleme
         } else if (direction < 0) {
             stickyNotes.add(0, stickyNotes.remove(stickyNotes.size()-1));
         }
+        App.getDayToolbar().refreshStickyNotes();
         updateStickyNoteGraphic();
     }
 

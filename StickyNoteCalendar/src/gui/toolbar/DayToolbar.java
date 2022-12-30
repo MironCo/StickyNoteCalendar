@@ -74,8 +74,8 @@ public class DayToolbar extends Toolbar {
 
     public void closeDayToolbar() {
         openDay = null;
-        openStickyNotes.clear();
         hideDayToolbar();
+        openStickyNotes = new ArrayList<>();
     } 
 
     private void showDayToolbar() {
@@ -118,7 +118,7 @@ public class DayToolbar extends Toolbar {
     }
 
     public void refreshStickyNotes() {
-        if (openDay != null) {
+        if (openDay != null && isOpen()) {
             openStickyNotes = openDay.getStickyNotes();
         
             for (StickyNote note : openStickyNotes) {
@@ -136,12 +136,18 @@ public class DayToolbar extends Toolbar {
             openStickyNotes.remove(note);
             openDay.removeStickyNote(note);
             if (openDay.getStickyNotes().isEmpty()) {
-                hideDayToolbar();
+                closeDayToolbar();
             }
         }
 
         refreshStickyNotes();
     } 
+
+    public void clearStickyNotes() {
+        while(!openStickyNotes.isEmpty()) {
+            openStickyNotes.get(0).delete();
+        }
+    }
 
     private boolean scrollAtMin() {
         if (!openStickyNotes.isEmpty()) {

@@ -134,9 +134,26 @@ public class StickyNote extends DraggableUIElement implements PopuppableUIElemen
     }
 
     public void ReleaseStickyNote() {     
+        setMouseTransparent(true);
+        boolean isOnStickyNote = false;
+
         if (isOnToolbar) { 
-            if (!App.getDayToolbar().getNodes().get(0).contains(new Point2D(App.getMousePosition().x, App.getMousePosition().y))) {
-                isOnToolbar = false;
+            for (StickyNote other : App.getDayToolbar().getOpenDay().getStickyNotes()) {
+                if (other.isOnToolbar && other.getGraphic().contains(new Point2D(App.getMousePosition().x, App.getMousePosition().y))) {
+                    System.out.println("isOnStickyNote");
+                    isOnStickyNote = true;
+                    int index = connectedDay.getStickyNotes().indexOf(this);
+                    connectedDay.getStickyNotes().set(connectedDay.getStickyNotes().indexOf(other), this);
+                    connectedDay.getStickyNotes().set(index, other);
+                    App.getDayToolbar().refreshStickyNotes();
+                    break;
+                } else {
+                    break;
+                }
+            }
+
+            if (!isOnStickyNote && !App.getDayToolbar().getToolbarGraphic().contains(new Point2D(App.getMousePosition().x, App.getMousePosition().y))) {
+                isOnToolbar = false; 
                 App.getDayToolbar().removeStickyNote(this);
             }
         }
@@ -144,7 +161,7 @@ public class StickyNote extends DraggableUIElement implements PopuppableUIElemen
         connectedDay = DayManager.getInstance().getHoveredDay();
         if (connectedDay != null) {
             connectedDay.AddStickyNote(this);
-            if (App.getDayToolbar().getOpenDay() == connectedDay) {
+            if (App.getDayToolbar().getOpenDay() == connectedDay && App.getDayToolbar().isOpen()) {
                 App.getDayToolbar().refreshStickyNotes();
             }
         }
@@ -210,7 +227,7 @@ public class StickyNote extends DraggableUIElement implements PopuppableUIElemen
         if (isOnToolbar) {
             isOnToolbar = false;
             App.getDayToolbar().removeStickyNote(this);
-            if (connectedDay.getStickyNotes().isEmpty()) {
+            if (connectedDay != null && connectedDay.getStickyNotes().isEmpty()) {
                 App.getDayToolbar().closeDayToolbar();
             }
         }

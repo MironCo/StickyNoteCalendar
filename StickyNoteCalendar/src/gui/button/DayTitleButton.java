@@ -1,8 +1,8 @@
 package gui.button;
 
 import gui.colors.ColorThemeManager;
+import gui.popupmenu.DayTitlePopupMenu;
 import gui.popupmenu.PopuppableUIElement;
-import gui.popupmenu.TitlePopupMenu;
 import gui.toolbar.Toolbar;
 import javafx.scene.input.MouseButton;
 import javafx.scene.shape.Rectangle;
@@ -45,7 +45,7 @@ public class DayTitleButton extends GUIButton implements PopuppableUIElement  {
 
     @Override
     public void setPopupMenu() {
-        popupMenu = TitlePopupMenu.getInstance().getContextMenu();
+        popupMenu = DayTitlePopupMenu.getInstance().getContextMenu();
         
         getButtonPane().setOnContextMenuRequested(e -> {
             popupMenu.show(getButtonPane(), e.getScreenX(), e.getScreenY());
