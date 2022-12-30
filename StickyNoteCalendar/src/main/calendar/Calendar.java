@@ -41,7 +41,7 @@ public class Calendar extends DrawableUIElement implements ColorThemeChangableUI
    public static final double DAY_Y_PADDING = 10;
    public static final double DAY_STICKY_NOTE_SIZE = 60;
    public static final Vector2 dayOffset = new Vector2(10, 10);
-   public static final Vector2 dayTextOffset = new Vector2(5, 20);
+   public static final Vector2 dayTextOffset = new Vector2(10, 20);
    public Vector2 dayDimensions = new Vector2(100, 100);
 
    private Calendar() {

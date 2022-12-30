@@ -1,6 +1,5 @@
 package gui.popupmenu.popupmenuitems;
 
-import gui.button.presets.Preset;
 import gui.button.presets.PresetManager;
 
 public class DeletePresetMenuItem extends PopupMenuItem {

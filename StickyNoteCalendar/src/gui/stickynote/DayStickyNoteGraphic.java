@@ -10,7 +10,6 @@ package gui.stickynote;
 
 import gui.DraggableUIElement;
 import javafx.geometry.Point2D;
-import javafx.scene.Node;
 import javafx.scene.input.MouseButton;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -40,11 +39,15 @@ public class DayStickyNoteGraphic extends DraggableUIElement {
 
         rectangle.setOnMousePressed(e -> {
             if (e.getButton() == MouseButton.PRIMARY) {
-                startX = e.getSceneX() - rectPosition.x; 
-                startY = e.getSceneY() - rectPosition.y;
+                if (e.getClickCount() == 1) {
+                    startX = e.getSceneX() - rectPosition.x; 
+                    startY = e.getSceneY() - rectPosition.y;
 
-                connectedOffset.x = (startX / rectangle.getBoundsInLocal().getWidth()) * connectedStickyNote.getRectangle().getBoundsInLocal().getWidth();
-                connectedOffset.y = (startY / rectangle.getBoundsInLocal().getHeight()) * connectedStickyNote.getRectangle().getBoundsInLocal().getHeight();
+                    connectedOffset.x = (startX / rectangle.getBoundsInLocal().getWidth()) * connectedStickyNote.getRectangle().getBoundsInLocal().getWidth();
+                    connectedOffset.y = (startY / rectangle.getBoundsInLocal().getHeight()) * connectedStickyNote.getRectangle().getBoundsInLocal().getHeight();
+                } else if (e.getClickCount() > 1) {
+                    App.getDayToolbar().openDayToolbar(connectedDay);
+                }
             }
         });
 

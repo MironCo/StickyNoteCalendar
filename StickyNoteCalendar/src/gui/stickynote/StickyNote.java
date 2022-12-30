@@ -12,9 +12,11 @@ import gui.DraggableUIElement;
 import gui.popupmenu.PopuppableUIElement;
 import gui.popupmenu.StickyNotePopupMenu;
 import javafx.scene.shape.Rectangle;
+import main.App;
 import main.calendar.day.Day;
 import main.calendar.day.DayManager;
 import javafx.event.EventHandler;
+import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.KeyCode;
@@ -25,7 +27,7 @@ import util.FontManager;
 import util.Vector2;
 
 public class StickyNote extends DraggableUIElement implements PopuppableUIElement {
-    private Vector2 dimensions = new Vector2(150, 150);
+    public static final Vector2 DIMENSIONS = new Vector2(150, 150);
     private Pane stickyNotePane;
     private Rectangle rectangle = new Rectangle();
     private Vector2 rectanglePadding = new Vector2(5, 5);
@@ -34,13 +36,16 @@ public class StickyNote extends DraggableUIElement implements PopuppableUIElemen
 
     private TextArea textArea;
     private boolean isEditing = false;
+    public boolean isOnToolbar = false;
+
+    private Day connectedDay = null;
 
     public StickyNote() {
         stickyNotePane = new Pane();
         color = StickyNoteManager.getRandomNoteColor();
         position = new Vector2(10, 10);
 
-        rectangle = new Rectangle(position.x, position.y, dimensions.x, dimensions.y);
+        rectangle = new Rectangle(position.x, position.y, DIMENSIONS.x, DIMENSIONS.y);
 
         rectangle.setFill(color.getColor());
 
@@ -97,7 +102,7 @@ public class StickyNote extends DraggableUIElement implements PopuppableUIElemen
         }
 
         stickyNotePane.setOnKeyPressed(e -> {
-            if (e.getCode() == KeyCode.ENTER) {
+            if (e.getCode() == KeyCode.ENTER || e.getCode() == KeyCode.ESCAPE) {
                 stopEditingText();
             }
         });
@@ -117,7 +122,7 @@ public class StickyNote extends DraggableUIElement implements PopuppableUIElemen
         isEditing = false;
         textArea.setMouseTransparent(true);
         textArea.setEditable(false);
-        StickyNoteManager.getInstance().setCurrentlyEditingStickyNote(null);
+        StickyNoteManager.getInstance().setCurrentlyEditingStickyNote(null); 
     }
 
     public boolean isEditing() {
@@ -128,11 +133,24 @@ public class StickyNote extends DraggableUIElement implements PopuppableUIElemen
         return textArea.getText();
     }
 
-    public void ReleaseStickyNote() {
-        Day mouseOverDay = DayManager.getInstance().getHoveredDay();
-        setMouseTransparent(false);
-        if (mouseOverDay != null) mouseOverDay.AddStickyNote(this);
+    public void ReleaseStickyNote() {     
+        if (isOnToolbar) { 
+            if (!App.getDayToolbar().getNodes().get(0).contains(new Point2D(App.getMousePosition().x, App.getMousePosition().y))) {
+                isOnToolbar = false;
+                App.getDayToolbar().removeStickyNote(this);
+            }
+        }
+
+        connectedDay = DayManager.getInstance().getHoveredDay();
+        if (connectedDay != null) {
+            connectedDay.AddStickyNote(this);
+            if (App.getDayToolbar().getOpenDay() == connectedDay) {
+                App.getDayToolbar().refreshStickyNotes();
+            }
+        }
+
         StickyNoteManager.getInstance().setDraggedStickyNote(null);
+        setMouseTransparent(false);
     }
 
     @Override
@@ -165,6 +183,14 @@ public class StickyNote extends DraggableUIElement implements PopuppableUIElemen
         rectangle.setFill(color.getColor());
     }
 
+    public Pane getGraphic() {
+        return stickyNotePane;
+    }
+
+    public boolean isOnToolbar() {
+        return isOnToolbar;
+    }
+
     @Override
     public void setPopupMenu() {
         popupMenu = StickyNotePopupMenu.getInstance().getContextMenu();
@@ -173,5 +199,20 @@ public class StickyNote extends DraggableUIElement implements PopuppableUIElemen
             StickyNoteManager.getInstance().setRightClickedStickyNote(this);
             popupMenu.show(stickyNotePane, e.getScreenX(), e.getScreenY());
         });
+    }
+
+    public void delete() {
+        hideMainStickyNote();
+        if (connectedDay != null) {
+            connectedDay.getStickyNotes().remove(this);
+            connectedDay.updateStickyNoteGraphic();
+        }
+        if (isOnToolbar) {
+            isOnToolbar = false;
+            App.getDayToolbar().removeStickyNote(this);
+            if (connectedDay.getStickyNotes().isEmpty()) {
+                App.getDayToolbar().closeDayToolbar();
+            }
+        }
     }
 }

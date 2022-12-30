@@ -23,7 +23,7 @@ public class DayFactory {
         dayOfWeekText.setFill(ColorThemeManager.getCurrentColorTheme().textColor);
         dayOfWeekText.setTextAlignment(TextAlignment.CENTER);
 
-        calendar.dayXCenterOffset = Toolbar.dimensions.x + (Calendar.dayOffset.x * 2);
+        calendar.dayXCenterOffset = Toolbar.DIMENSIONS.x + (Calendar.dayOffset.x * 2);
         Vector2 position = new Vector2(
                 ((calendar.dayDimensions.x + Calendar.dayOffset.x + Calendar.WEEKDAY_NAMES_EXTRA_OFFSET_X) * (day % 7))
                         + calendar.dayXCenterOffset,

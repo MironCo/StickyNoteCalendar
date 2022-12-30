@@ -64,7 +64,7 @@ public class AddPresetStickyNote extends GUIButton implements PopuppableUIElemen
 
         getButtonPane().setOnMouseDragged(e -> {
             if (e.getButton() == MouseButton.PRIMARY) {
-                if (!App.getMainToolbar().toolbarGraphic.contains(new Point2D(App.getMousePosition().x, App.getMousePosition().y))) {
+                if (!App.getMainToolbar().getToolbarGraphic().contains(new Point2D(App.getMousePosition().x, App.getMousePosition().y))) {
                     double centerOffset = 0;
                     
                     if (createdStickyNote == null) {

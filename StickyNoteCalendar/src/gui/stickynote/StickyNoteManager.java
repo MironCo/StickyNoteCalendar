@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import gui.colors.ColorThemeManager;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -92,10 +91,9 @@ public class StickyNoteManager {
     public void deleteStickyNote(StickyNote deleted) {
         if (stickyNotes.contains(deleted)) {
             stickyNotes.remove(deleted);
-            deleted.hideMainStickyNote();
+            deleted.delete();
             currentlyEditingStickyNote = null;
             draggedStickyNote = null;
-            App.getScene().setFill(ColorThemeManager.getCurrentColorTheme().backgroundColor);
         }
     }
 

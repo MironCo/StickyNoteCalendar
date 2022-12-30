@@ -35,6 +35,7 @@ public class Day extends DrawableUIElement implements ColorThemeChangableUIEleme
         stickyNotes.add(0, note);
         note.hideMainStickyNote();
         updateStickyNoteGraphic();
+
     }
 
     public Day getDay() {
@@ -69,8 +70,8 @@ public class Day extends DrawableUIElement implements ColorThemeChangableUIEleme
             dayStickyNote.setVisible(false);
         } else {
             rectangle.setMouseTransparent(true);
-            dayStickyNote.rectangle.setFill(stickyNotes.get(0).getRectangle().getFill());
             dayStickyNote.setVisible(true);
+            dayStickyNote.rectangle.setFill(stickyNotes.get(0).getRectangle().getFill());
             dayStickyNote.setStickyNote(stickyNotes.get(0));
         }
     }
@@ -86,6 +87,11 @@ public class Day extends DrawableUIElement implements ColorThemeChangableUIEleme
 
     public List<StickyNote> getStickyNotes() {
         return stickyNotes;
+    }
+
+    public void removeStickyNote(StickyNote note) {
+        stickyNotes.remove(note);
+        updateStickyNoteGraphic();
     }
 
     @Override

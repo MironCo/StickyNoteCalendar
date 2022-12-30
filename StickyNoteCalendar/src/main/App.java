@@ -21,7 +21,8 @@ import gui.colors.ColorThemeChangableUIElement;
 import gui.colors.ColorThemeManager;
 import gui.colors.DarkColorTheme;
 import gui.popupmenu.PopupMenu;
-import gui.toolbar.Toolbar;
+import gui.toolbar.DayToolbar;
+import gui.toolbar.MainToolbar;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
@@ -44,7 +45,8 @@ public class App extends Application {
     private static ObservableList<Node> objectList = null;
     private static List<ColorThemeChangableUIElement> changeableUIElements = new ArrayList<>();
     private static List<PopupMenu> popupMenus = new ArrayList<>();
-    private static Toolbar mainToolbar;
+    private static MainToolbar mainToolbar;
+    private static DayToolbar dayToolbar;
     private static Rectangle backgroundRectangle;
 
     public static void main(String[] args) {
@@ -73,7 +75,10 @@ public class App extends Application {
 
             Calendar.getInstance().Init();
 
-            mainToolbar = new Toolbar();         
+            mainToolbar = new MainToolbar();         
+            dayToolbar = new DayToolbar();
+            dayToolbar.closeDayToolbar();
+
             PresetManager.getInstance().openDefaultPreset();
 
             updateColorTheme(ColorThemeManager.getCurrentColorTheme());
@@ -140,7 +145,11 @@ public class App extends Application {
         return mousePosition;
     }
 
-    public static Toolbar getMainToolbar() {
+    public static MainToolbar getMainToolbar() {
         return mainToolbar;
+    }
+    
+    public static DayToolbar getDayToolbar() {
+        return dayToolbar;
     }
 }

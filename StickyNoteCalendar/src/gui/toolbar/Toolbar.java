@@ -1,5 +1,6 @@
 package gui.toolbar;
 
+import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 import main.App;
 import util.Vector2;
@@ -8,59 +9,34 @@ import java.util.ArrayList;
 import java.util.List;
 
 import gui.DrawableUIElement;
-import gui.button.AddNewPresetStickyNoteButton;
-import gui.button.AddStickyNoteButton;
 import gui.button.GUIButton;
-import gui.button.LastMonthButton;
-import gui.button.NextMonthButton;
-import gui.button.TitleButton;
-import gui.button.presets.Preset;
-import gui.button.presets.PresetManager;
-import gui.button.presets.PresetTitleButton;
 import gui.colors.ColorThemeChangableUIElement;
 import gui.colors.ColorThemeManager;
 
-public class Toolbar extends DrawableUIElement implements ColorThemeChangableUIElement {
+public abstract class Toolbar extends DrawableUIElement implements ColorThemeChangableUIElement {
 
-    public static Vector2 dimensions = new Vector2(200, (int) App.screenHeight);
-    public Rectangle toolbarGraphic;
+    public static final Vector2 DIMENSIONS = new Vector2(200, (int) App.screenHeight);
+    protected Pane toolbarPane;
+    protected Rectangle toolbarGraphic;
 
     public List<GUIButton> buttons = new ArrayList<>();
-    private Vector2 toolbarPadding = new Vector2(10, 8);
-    private PresetTitleButton presetTitleButton;
+    protected Vector2 toolbarPadding = new Vector2(10, 8);
 
     public Toolbar() {
-        toolbarGraphic = new Rectangle(position.x, position.y, dimensions.x, dimensions.y);
+        toolbarPane = new Pane();
+        toolbarPane.setLayoutX(position.x);
+        toolbarPane.setLayoutY(position.y);
+        toolbarGraphic = new Rectangle(position.x, position.y, DIMENSIONS.x, DIMENSIONS.y);
         toolbarGraphic.setFill(ColorThemeManager.getCurrentColorTheme().toolbarColor);
-        nodes.add(toolbarGraphic);
+
+        toolbarPane.getChildren().add(toolbarGraphic);
+
+        nodes.add(toolbarPane);
         addNodesToScene();
         App.addColorThemeChangeable(this);
-
-        AddButtons();
     }
 
-    private void AddButtons() {
-        addButton(new TitleButton(getButtonX(), getNextY(), getButtonWidth()));
-
-        addButton(new LastMonthButton(getButtonX(), getNextY(), getButtonWidth() / 2));
-        
-        addButton(new NextMonthButton(getButtons().get(1).getPosition().x + getButtonWidth() / 2, getButtons().get(1).getPosition().y, 
-            getButtonWidth() / 2));
-        
-        addButton(new AddStickyNoteButton(getButtonX(), getNextY(), getButtonWidth()));
-
-        presetTitleButton = new PresetTitleButton(getButtonX(), getNextY(), getButtonWidth());
-        addButton(presetTitleButton);
-
-        if (PresetManager.getInstance().getPresets().isEmpty()) {
-            PresetManager.getInstance().loadDefaultPresets();
-        }
-        for (Preset preset : PresetManager.getInstance().getPresets()) {
-            addPreset(preset);
-        }
-
-        addButton(new AddNewPresetStickyNoteButton(getButtonX(), getBottomY(), getButtonWidth()));
-    }
+    protected abstract void AddButtons();
 
     public List<GUIButton> getButtons() {
         return this.buttons;
@@ -71,7 +47,7 @@ public class Toolbar extends DrawableUIElement implements ColorThemeChangableUIE
     }
 
     public double getButtonX() {
-        return (double) toolbarGraphic.getLayoutX() + toolbarPadding.x;
+        return (double) toolbarPane.getTranslateX() + toolbarPadding.x;
     }
 
     public int getButtonWidth() {
@@ -79,7 +55,7 @@ public class Toolbar extends DrawableUIElement implements ColorThemeChangableUIE
     }
 
     public double getWidth() {
-        return dimensions.x;
+        return DIMENSIONS.x;
     }
 
     public double getNextY() {
@@ -103,16 +79,16 @@ public class Toolbar extends DrawableUIElement implements ColorThemeChangableUIE
         return lastY;
     }
 
-    public void addPreset(Preset newPreset) {
-        newPreset.addToToolbar(this);
-    }
-
-    public void setPresetTitle(String name) {
-        presetTitleButton.setText(name);
-    }
-
     @Override
     public void updateColors() {
         toolbarGraphic.setFill(ColorThemeManager.getCurrentColorTheme().toolbarColor);
+    }
+
+    public Rectangle getToolbarGraphic() {
+        return toolbarGraphic;
+    }
+
+    protected void setXPosition(double x) {
+        toolbarPane.setTranslateX(x);
     }
 }
