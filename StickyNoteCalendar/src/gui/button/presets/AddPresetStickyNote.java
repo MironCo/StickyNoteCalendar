@@ -99,6 +99,7 @@ public class AddPresetStickyNote extends GUIButton implements PopuppableUIElemen
     }
 
     public void startEditingText() {
+        App.getMainToolbar().stopEditingText();
         textField.setEditable(true);
         textField.setMouseTransparent(false);
         textField.selectEnd();

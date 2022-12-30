@@ -16,7 +16,6 @@ import main.App;
 import main.calendar.day.Day;
 import main.calendar.day.DayManager;
 import javafx.event.EventHandler;
-import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.KeyCode;
@@ -104,6 +103,9 @@ public class StickyNote extends DraggableUIElement implements PopuppableUIElemen
         stickyNotePane.setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.ENTER || e.getCode() == KeyCode.ESCAPE) {
                 stopEditingText();
+                if (connectedDay != null) {
+                    connectedDay.updateStickyNoteGraphic();
+                }
             }
         });
     }
@@ -139,30 +141,36 @@ public class StickyNote extends DraggableUIElement implements PopuppableUIElemen
 
         if (isOnToolbar) { 
             for (StickyNote other : App.getDayToolbar().getOpenDay().getStickyNotes()) {
-                if (other.isOnToolbar && other.getGraphic().contains(new Point2D(App.getMousePosition().x, App.getMousePosition().y))) {
-                    System.out.println("isOnStickyNote");
+                if (other != this && other.isOnToolbar && other.isMouseOver()) {
                     isOnStickyNote = true;
-                    int index = connectedDay.getStickyNotes().indexOf(this);
-                    connectedDay.getStickyNotes().set(connectedDay.getStickyNotes().indexOf(other), this);
-                    connectedDay.getStickyNotes().set(index, other);
+                    Day currentDay = App.getDayToolbar().getOpenDay();
+                    int index = currentDay.getStickyNotes().indexOf(this);
+                    currentDay.getStickyNotes().set(currentDay.getStickyNotes().indexOf(other), this);
+                    currentDay.getStickyNotes().set(index, other);
+                    currentDay.updateStickyNoteGraphic();
                     App.getDayToolbar().refreshStickyNotes();
-                    break;
-                } else {
                     break;
                 }
             }
-
-            if (!isOnStickyNote && !App.getDayToolbar().getToolbarGraphic().contains(new Point2D(App.getMousePosition().x, App.getMousePosition().y))) {
+        
+            if (!isOnStickyNote && !App.getDayToolbar().isMouseOver()) {
                 isOnToolbar = false; 
                 App.getDayToolbar().removeStickyNote(this);
+            } else if (!isOnStickyNote) {
+                App.getDayToolbar().refreshStickyNotes();
             }
+        } else if (!isOnToolbar && App.getDayToolbar().isMouseOver()) {
+            App.getDayToolbar().getOpenDay().AddStickyNote(this);
+            App.getDayToolbar().refreshStickyNotes();
         }
 
-        connectedDay = DayManager.getInstance().getHoveredDay();
-        if (connectedDay != null) {
-            connectedDay.AddStickyNote(this);
-            if (App.getDayToolbar().getOpenDay() == connectedDay && App.getDayToolbar().isOpen()) {
-                App.getDayToolbar().refreshStickyNotes();
+        if (!isOnToolbar) {
+            connectedDay = DayManager.getInstance().getHoveredDay();
+            if (connectedDay != null) {
+                connectedDay.AddStickyNote(this);
+                if (App.getDayToolbar().getOpenDay() == connectedDay && App.getDayToolbar().isOpen()) {
+                    App.getDayToolbar().refreshStickyNotes();
+                }
             }
         }
 
@@ -185,6 +193,7 @@ public class StickyNote extends DraggableUIElement implements PopuppableUIElemen
         for (Node n : nodes) {
             n.setVisible(true);
         }
+        stickyNotePane.toFront();
     }
 
     public Rectangle getRectangle() {
@@ -198,6 +207,10 @@ public class StickyNote extends DraggableUIElement implements PopuppableUIElemen
     public void setColor(NoteColor newColor) {
         this.color = newColor;
         rectangle.setFill(color.getColor());
+
+        if (isOnToolbar) {
+            connectedDay.updateStickyNoteGraphic();
+        }
     }
 
     public Pane getGraphic() {
@@ -206,6 +219,10 @@ public class StickyNote extends DraggableUIElement implements PopuppableUIElemen
 
     public boolean isOnToolbar() {
         return isOnToolbar;
+    }
+
+    public void setConnectedDay(Day day) {
+        this.connectedDay = day;
     }
 
     @Override
@@ -231,5 +248,28 @@ public class StickyNote extends DraggableUIElement implements PopuppableUIElemen
                 App.getDayToolbar().closeDayToolbar();
             }
         }
+    }
+
+    public boolean isMouseOver() {
+        boolean contains = false;
+        
+        double mouseX = App.getMousePosition().x;
+        double mouseY = App.getMousePosition().y;
+
+        if (mouseX > stickyNotePane.getTranslateX() && mouseX < stickyNotePane.getTranslateX() + StickyNote.DIMENSIONS.x) {
+            if (mouseY > stickyNotePane.getTranslateY() && mouseY < stickyNotePane.getTranslateY() + StickyNote.DIMENSIONS.y) {
+                contains = true;
+            }
+        }
+
+        return contains;
+    }
+
+    public Pane getStickyNotePane() {
+        return stickyNotePane;
+    }
+
+    public void bringToFront() {
+        stickyNotePane.toFront();
     }
 }

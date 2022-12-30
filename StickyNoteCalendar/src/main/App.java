@@ -94,6 +94,11 @@ public class App extends Application {
                 mousePosition.y = e.getY();
             });
 
+            scene.setOnMouseReleased(e -> {
+                mousePosition.x = e.getX();
+                mousePosition.y = e.getY();
+            });
+
             KeyCombination saveCombination = new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_DOWN);
             Runnable save = ()-> SaveManager.SaveData();
             scene.getAccelerators().put(saveCombination, save);
@@ -149,7 +154,7 @@ public class App extends Application {
     public static MainToolbar getMainToolbar() {
         return mainToolbar;
     }
-    
+
     public static DayToolbar getDayToolbar() {
         return dayToolbar;
     }

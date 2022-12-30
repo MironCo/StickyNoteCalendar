@@ -10,33 +10,52 @@ package gui.stickynote;
 
 import gui.DraggableUIElement;
 import javafx.geometry.Point2D;
+import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseButton;
-import javafx.scene.paint.Color;
+import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 import main.App;
 import main.calendar.Calendar;
 import main.calendar.day.Day;
+import util.FontManager;
 import util.Vector2;
 
 public class DayStickyNoteGraphic extends DraggableUIElement {
+    public Pane dayStickyNotePane;
     public Rectangle rectangle = null;
     private Day connectedDay = null;
     private StickyNote connectedStickyNote = null;
     private boolean isOnDay = true;
+
     private Vector2 rectPosition;
     private Vector2 connectedOffset = new Vector2(0, 0);
-    private Vector2 padding = new Vector2(0, 3);
+    private final Vector2 padding = new Vector2(0, 3);
 
-    public DayStickyNoteGraphic(Vector2 _pos) {
+    public TextArea textArea = null;
+
+    public DayStickyNoteGraphic(Vector2 _pos, Day connectedDay) {
         Calendar calendar = Calendar.getInstance();
         rectPosition = new Vector2(_pos.x + ((calendar.dayDimensions.x - Calendar.DAY_STICKY_NOTE_SIZE) / 2), 
             _pos.y + padding.y + ((calendar.dayDimensions.y - Calendar.DAY_STICKY_NOTE_SIZE) / 2));
         rectangle = new Rectangle(rectPosition.x, rectPosition.y, Calendar.DAY_STICKY_NOTE_SIZE,
         Calendar.DAY_STICKY_NOTE_SIZE);
-        rectangle.setFill(Color.WHITE);
-        
-        addNode(rectangle);
 
+        textArea = new TextArea("");
+        textArea.setTranslateX(rectangle.getX());
+        textArea.setTranslateY(rectangle.getY());
+        textArea.setMaxWidth(Calendar.DAY_STICKY_NOTE_SIZE);
+        textArea.setMaxHeight(Calendar.DAY_STICKY_NOTE_SIZE);
+        textArea.setWrapText(true);
+        textArea.setFont(FontManager.loadFont("Nunito-ExtraLight.ttf", 10));
+        textArea.setEditable(false);
+        textArea.setMouseTransparent(true);
+
+        this.connectedDay = connectedDay;
+
+        setMouseActions();        
+    }
+
+    public void setMouseActions() {
         rectangle.setOnMousePressed(e -> {
             if (e.getButton() == MouseButton.PRIMARY) {
                 if (e.getClickCount() == 1) {
@@ -73,7 +92,7 @@ public class DayStickyNoteGraphic extends DraggableUIElement {
                 }
             }
         });
-
+    
         rectangle.setOnScroll(e -> {
             connectedDay.scrollThroughStickyNotes(e.getDeltaY());
         });
@@ -82,11 +101,9 @@ public class DayStickyNoteGraphic extends DraggableUIElement {
     @Override
     public void setVisible(boolean isVisible) {
         rectangle.setVisible(isVisible);
+        textArea.setVisible(isVisible);
+        textArea.toFront();
         if (isVisible) isOnDay = isVisible;
-    }
-
-    public void setDay(Day newDay) {
-        connectedDay = newDay;
     }
 
     public void setStickyNote(StickyNote note) {
@@ -101,6 +118,7 @@ public class DayStickyNoteGraphic extends DraggableUIElement {
             connectedStickyNote.setVisible(true);
             connectedStickyNote.setMouseTransparent(false);
             connectedDay.updateStickyNoteGraphic();
+            connectedStickyNote.bringToFront();
         }
     }
 

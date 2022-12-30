@@ -43,6 +43,7 @@ public class DayToolbar extends Toolbar {
         toolbarPane.getChildren().add(scrollPane);
 
         scrollPane.setOnScroll(e -> {
+                dayTitleButton.bringToFront();
                 double zoomFactor = e.getDeltaY() > 0 ? 1 : -1;
                 if (zoomFactor < 0 && scrollAtMin()) {
                     for (StickyNote currentNote : openStickyNotes) {
@@ -54,7 +55,6 @@ public class DayToolbar extends Toolbar {
                     }             
                 } 
         });
-
     }
 
     public void openDayToolbar(Day day) {
@@ -177,6 +177,14 @@ public class DayToolbar extends Toolbar {
 
     public Day getOpenDay() {
         return openDay;
+    }
+
+    public boolean isMouseOver() {
+        boolean contains = false;
+        if (App.getMousePosition().x > toolbarPane.getTranslateX()) {
+            contains = true;
+        } 
+        return contains;
     }
 
     @Override

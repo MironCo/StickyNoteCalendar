@@ -39,14 +39,14 @@ public class DayFactory {
         return weekdayString.substring(0, 3);
     }
 
-    public static Day buildDay(int day, int numberOfDays, int weekdayOffset) {
+    public static Day buildDay(final int day, final int numberOfDays, final int weekdayOffset) {
         Calendar calendar = Calendar.getInstance();
 
         Day newDay = new Day();
 
-        int numberOfRows = (int) Math.ceil((numberOfDays + weekdayOffset) / 7.0);
-         double size = (App.screenHeight - (((numberOfRows+1) * Calendar.dayOffset.y) + calendar.textHeight * 2)) / numberOfRows;
-        int adjustedDay = day + weekdayOffset;
+        final int numberOfRows = (int) Math.ceil((numberOfDays + weekdayOffset) / 7.0);
+        final double size = (App.screenHeight - (((numberOfRows+1) * Calendar.dayOffset.y) + calendar.textHeight * 2)) / numberOfRows;
+        final int adjustedDay = day + weekdayOffset;
 
         calendar.dayDimensions = new Vector2(size, size);
 
@@ -64,6 +64,13 @@ public class DayFactory {
         newDay.dayNumberText.setFill(ColorThemeManager.getCurrentColorTheme().textColor);
         newDay.addNode(newDay.dayNumberText);
 
+        newDay.stickyNoteNumberText = new Text("x0");
+        newDay.stickyNoteNumberText.setFont(FontManager.loadFont("Nunito-ExtraLight.ttf", 17));
+        newDay.stickyNoteNumberText.setX(position.x + calendar.dayDimensions.x - (Calendar.dayTextOffset.x + newDay.stickyNoteNumberText.getBoundsInLocal().getWidth()));
+        newDay.stickyNoteNumberText.setY(position.y + calendar.dayDimensions.y - (Calendar.dayTextOffset.x));
+        newDay.stickyNoteNumberText.setFill(ColorThemeManager.getCurrentColorTheme().textColor);
+        newDay.addNode(newDay.stickyNoteNumberText);
+
         newDay.rectangle = new Rectangle(position.x, position.y, calendar.dayDimensions.x, calendar.dayDimensions.y);
         newDay.rectangle.setFill(Color.TRANSPARENT);
         newDay.rectangle.setStroke(ColorThemeManager.getCurrentColorTheme().borderColor);
@@ -71,9 +78,9 @@ public class DayFactory {
         newDay.rectangle.setViewOrder(0);
         newDay.addNode(newDay.rectangle);
 
-        newDay.dayStickyNote = new DayStickyNoteGraphic(position);
-        newDay.dayStickyNote.setDay(newDay.getDay());
+        newDay.dayStickyNote = new DayStickyNoteGraphic(position, newDay);
         newDay.addNodeToFront(newDay.dayStickyNote.rectangle);
+        newDay.addNode(newDay.dayStickyNote.textArea);
         newDay.dayStickyNote.setVisible(false);
 
         App.addColorThemeChangeable(newDay);

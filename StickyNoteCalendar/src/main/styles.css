@@ -2,6 +2,12 @@
     -fx-background-color: transparent;
 }
 
+.text-area .scroll-bar:vertical {
+    -fx-pref-width: 1;
+    opacity: 0;
+    -fx-opacity: 0;
+}
+
 .text-field {
     -fx-background-color: transparent;
 }

@@ -52,6 +52,12 @@ public class DayTitleButton extends GUIButton implements PopuppableUIElement  {
         });
     }
 
+    @Override
+    public void updateColors() {
+        buttonText.setFill(ColorThemeManager.getCurrentColorTheme().textColor);
+        hackRectangle.setFill(ColorThemeManager.getCurrentColorTheme().toolbarColor);
+    }
+
     public void bringToFront() {
         getButtonPane().toFront();
     }

@@ -25,7 +25,9 @@ public class Day extends DrawableUIElement implements ColorThemeChangableUIEleme
     public Integer day = 0;
     public Rectangle rectangle = new Rectangle();
     public DayStickyNoteGraphic dayStickyNote = null;
-    public Text dayNumberText = new Text();
+    public Text dayNumberText;
+
+    public Text stickyNoteNumberText;
     public List<StickyNote> stickyNotes = new ArrayList<StickyNote>();
 
     public Day() {
@@ -34,9 +36,9 @@ public class Day extends DrawableUIElement implements ColorThemeChangableUIEleme
 
     public void AddStickyNote(StickyNote note) {
         stickyNotes.add(0, note);
+        note.setConnectedDay(this);
         note.hideMainStickyNote();
         updateStickyNoteGraphic();
-
     }
 
     public Day getDay() {
@@ -53,6 +55,7 @@ public class Day extends DrawableUIElement implements ColorThemeChangableUIEleme
 
         if (!isVisible) {
             dayStickyNote.setVisible(false);
+            stickyNoteNumberText.setVisible(false);
         }
     }
     
@@ -66,6 +69,7 @@ public class Day extends DrawableUIElement implements ColorThemeChangableUIEleme
     } 
 
     public void updateStickyNoteGraphic() {
+        updateStickyNoteNumberText();
         if (stickyNotes.isEmpty()) {
             rectangle.setMouseTransparent(false);
             dayStickyNote.setVisible(false);
@@ -73,6 +77,7 @@ public class Day extends DrawableUIElement implements ColorThemeChangableUIEleme
             rectangle.setMouseTransparent(true);
             dayStickyNote.setVisible(true);
             dayStickyNote.rectangle.setFill(stickyNotes.get(0).getRectangle().getFill());
+            dayStickyNote.textArea.setText(stickyNotes.get(0).getStickyNoteText());
             dayStickyNote.setStickyNote(stickyNotes.get(0));
         }
     }
@@ -94,6 +99,16 @@ public class Day extends DrawableUIElement implements ColorThemeChangableUIEleme
     public void removeStickyNote(StickyNote note) {
         stickyNotes.remove(note);
         updateStickyNoteGraphic();
+    }
+
+    public void updateStickyNoteNumberText() {
+        if (stickyNotes.isEmpty()) {
+            stickyNoteNumberText.setText("x0");
+            stickyNoteNumberText.setVisible(false);
+        } else {
+            stickyNoteNumberText.setVisible(true);
+            stickyNoteNumberText.setText("x" + stickyNotes.size());
+        }
     }
 
     @Override

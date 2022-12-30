@@ -49,4 +49,11 @@ public class MainToolbar extends Toolbar {
     public void setPresetTitle(String name) {
         presetTitleButton.setText(name);
     }
+
+    public void stopEditingText() {
+        presetTitleButton.stopEditingText();
+        PresetManager.getInstance().getCurrentPreset().presetStickyNotes.forEach(preset -> {
+            preset.stopEditingText();
+        });
+    }
 }
