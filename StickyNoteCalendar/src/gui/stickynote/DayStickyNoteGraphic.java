@@ -35,18 +35,20 @@ public class DayStickyNoteGraphic extends DraggableUIElement {
 
     public DayStickyNoteGraphic(Vector2 _pos, Day connectedDay) {
         Calendar calendar = Calendar.getInstance();
-        rectPosition = new Vector2(_pos.x + ((calendar.dayDimensions.x - Calendar.DAY_STICKY_NOTE_SIZE) / 2), 
-            _pos.y + padding.y + ((calendar.dayDimensions.y - Calendar.DAY_STICKY_NOTE_SIZE) / 2));
-        rectangle = new Rectangle(rectPosition.x, rectPosition.y, Calendar.DAY_STICKY_NOTE_SIZE,
-        Calendar.DAY_STICKY_NOTE_SIZE);
+        final double dayStickyNoteSize = calendar.dayDimensions.x * 0.625;
+
+        rectPosition = new Vector2(_pos.x + ((calendar.dayDimensions.x - dayStickyNoteSize) / 2), 
+            _pos.y + padding.y + ((calendar.dayDimensions.y - dayStickyNoteSize) / 2));
+        rectangle = new Rectangle(rectPosition.x, rectPosition.y, dayStickyNoteSize,
+        dayStickyNoteSize);
 
         textArea = new TextArea("");
         textArea.setTranslateX(rectangle.getX());
         textArea.setTranslateY(rectangle.getY());
-        textArea.setMaxWidth(Calendar.DAY_STICKY_NOTE_SIZE);
-        textArea.setMaxHeight(Calendar.DAY_STICKY_NOTE_SIZE);
+        textArea.setMaxWidth(dayStickyNoteSize);
+        textArea.setMaxHeight(dayStickyNoteSize);
         textArea.setWrapText(true);
-        textArea.setFont(FontManager.loadFont("Nunito-ExtraLight.ttf", 10));
+        textArea.setFont(FontManager.loadFont("Nunito-ExtraLight.ttf", (int)(10.0 * App.multiplier)));
         textArea.setEditable(false);
         textArea.setMouseTransparent(true);
 

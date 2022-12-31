@@ -33,16 +33,16 @@ public class Calendar extends DrawableUIElement implements ColorThemeChangableUI
    public double textHeight = 0;
 
    private List<Text> weekdayNames = new ArrayList<Text>();
-   public static final double WEEKDAY_NAMES_Y_PADDING = 20;
-   public static final int WEEKDAY_NAMES_SIZE = 30;
-   public static final float WEEKDAY_NAMES_EXTRA_OFFSET_X = 4;
+   public static final double WEEKDAY_NAMES_Y_PADDING = 20 * App.multiplier;
+   public static final int WEEKDAY_NAMES_SIZE = (int)(30 * App.multiplier);
+   public static final float WEEKDAY_NAMES_EXTRA_OFFSET_X = 4 * (float)App.multiplier;
    public double dayXCenterOffset = 10;
 
    public static final double DAY_Y_PADDING = 10;
-   public static final double DAY_STICKY_NOTE_SIZE = 60;
-   public static final Vector2 dayOffset = new Vector2(10, 10);
-   public static final Vector2 dayTextOffset = new Vector2(5, 20);
-   public Vector2 dayDimensions = new Vector2(100, 100);
+   public double DAY_STICKY_NOTE_SIZE = 60;
+   public static final Vector2 dayOffset = new Vector2(10 * App.multiplier * App.multiplier, 10 * App.multiplier);
+   public static final Vector2 dayTextOffset = new Vector2(5 * App.multiplier, 20 * App.multiplier);
+   public Vector2 dayDimensions = new Vector2(100 * App.multiplier, 100 * App.multiplier);
 
    private Calendar() {
       // singleton class - do nothing

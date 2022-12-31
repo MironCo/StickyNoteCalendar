@@ -26,7 +26,7 @@ import util.FontManager;
 import util.Vector2;
 
 public class StickyNote extends DraggableUIElement implements PopuppableUIElement {
-    public static final Vector2 DIMENSIONS = new Vector2(150, 150);
+    public static final Vector2 DIMENSIONS = new Vector2(150 * App.multiplier, 150 * App.multiplier);
     private Pane stickyNotePane;
     private Rectangle rectangle = new Rectangle();
     private Vector2 rectanglePadding = new Vector2(5, 5);

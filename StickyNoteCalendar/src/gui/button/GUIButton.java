@@ -15,7 +15,7 @@ import util.FontManager;
 import util.Vector2;
 
 public abstract class GUIButton extends DrawableUIElement implements ColorThemeChangableUIElement {
-    public static final double BUTTON_HEIGHT = 50.0;
+    public static final double BUTTON_HEIGHT = 50.0 * App.multiplier;
     private Pane buttonPane = new Pane();
     protected Rectangle graphic = new Rectangle();
     protected Text buttonText = new Text();
@@ -26,7 +26,7 @@ public abstract class GUIButton extends DrawableUIElement implements ColorThemeC
         originalColor = ColorThemeManager.getCurrentColorTheme().buttonColor;
 
         buttonText = new Text(buttonName);
-        buttonText.setFont(FontManager.loadFont("Nunito-Regular.ttf", 20));
+        buttonText.setFont(FontManager.loadFont("Nunito-Regular.ttf", (int)(20 * App.multiplier)));
         buttonText.setTextAlignment(TextAlignment.CENTER);
         buttonText.setTextOrigin(VPos.CENTER);
         buttonText.setTranslateX(graphic.getLayoutX() + (graphic.getWidth() - buttonText.getBoundsInLocal().getWidth()) / 2);

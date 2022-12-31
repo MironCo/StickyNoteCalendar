@@ -15,7 +15,7 @@ import gui.colors.ColorThemeManager;
 
 public abstract class Toolbar extends DrawableUIElement implements ColorThemeChangableUIElement {
 
-    public static final Vector2 DIMENSIONS = new Vector2(200, (int) App.screenHeight);
+    public static final Vector2 DIMENSIONS = new Vector2(200 * App.multiplier, (int) App.screenHeight);
     protected Pane toolbarPane;
     protected Rectangle toolbarGraphic;
 

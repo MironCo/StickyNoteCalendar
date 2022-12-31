@@ -20,7 +20,6 @@ import gui.colors.ColorTheme;
 import gui.colors.ColorThemeChangableUIElement;
 import gui.colors.ColorThemeManager;
 import gui.colors.DarkColorTheme;
-import gui.popupmenu.PopupMenu;
 import gui.toolbar.DayToolbar;
 import gui.toolbar.MainToolbar;
 import javafx.application.Application;
@@ -36,15 +35,15 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 public class App extends Application {
-    public static double screenWidth = 1280;
-    public static double screenHeight = 720;
+    public static final double screenWidth = 1600;
+    public static final double screenHeight = 900;
+    public static final double multiplier = screenWidth / 1280.0;
     private static Vector2 mousePosition = new Vector2(0, 0);
 
     private static Stage mainStage = null;
     private static Scene scene;
     private static ObservableList<Node> objectList = null;
     private static List<ColorThemeChangableUIElement> changeableUIElements = new ArrayList<>();
-    private static List<PopupMenu> popupMenus = new ArrayList<>();
     private static MainToolbar mainToolbar;
     private static DayToolbar dayToolbar;
     private static Rectangle backgroundRectangle;
@@ -67,7 +66,6 @@ public class App extends Application {
             scene = new Scene(layout, screenWidth, screenHeight);
             scene.getStylesheets().add(this.getClass().getResource("styles.css").toExternalForm());
             
-
             if (ColorThemeManager.getCurrentColorTheme() == null) {
                 ColorThemeManager.setCurrentColorTheme(new DarkColorTheme());
             }
@@ -133,10 +131,6 @@ public class App extends Application {
 
     public static void addColorThemeChangeable(ColorThemeChangableUIElement newElement) {
         changeableUIElements.add(newElement);
-    }
-
-    public static void addPopupMenu(PopupMenu popupMenu) {
-        popupMenus.add(popupMenu);
     }
 
     public static Stage getStage() {

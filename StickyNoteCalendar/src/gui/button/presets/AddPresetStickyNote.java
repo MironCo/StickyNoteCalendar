@@ -29,7 +29,7 @@ public class AddPresetStickyNote extends GUIButton implements PopuppableUIElemen
         buttonText.setVisible(false);
 
         textField = new TextField(textContents);
-        textField.setFont(FontManager.loadFont("Nunito-Regular.ttf", 20));
+        textField.setFont(FontManager.loadFont("Nunito-Regular.ttf", (int)(20* App.multiplier)));
         textField.setLayoutX(graphic.getLayoutX());
         textField.setMaxWidth(graphic.getWidth());
         textField.setLayoutY(graphic.getLayoutY());

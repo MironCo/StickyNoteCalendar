@@ -8,6 +8,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
+import main.App;
 import util.FontManager;
 import util.Vector2;
 
@@ -24,7 +25,7 @@ public class PresetTitleButton extends GUIButton implements PopuppableUIElement 
         buttonText.setVisible(false);
 
         textField = new TextField();
-        textField.setFont(FontManager.loadFont("Nunito-Regular.ttf", 20));
+        textField.setFont(FontManager.loadFont("Nunito-Regular.ttf", (int)(20 * App.multiplier)));
         textField.setLayoutX(graphic.getLayoutX());
         textField.setMaxWidth(graphic.getWidth());
         textField.setLayoutY(graphic.getLayoutY());
