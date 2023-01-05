@@ -4,9 +4,14 @@ import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.List;
 
+
 import gui.button.DayTitleButton;
 import gui.button.GUIButton;
+import gui.button.SwitchColorThemeButton;
+import gui.colors.DarkColorTheme;
+import gui.colors.LightColorTheme;
 import gui.stickynote.StickyNote;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -21,7 +26,10 @@ public class DayToolbar extends Toolbar {
 
     private Day openDay;
     private List<StickyNote> openStickyNotes = new ArrayList<>();
+
     private DayTitleButton dayTitleButton;
+    private SwitchColorThemeButton lightButton;
+    private SwitchColorThemeButton darkButton;
     private double dayTitleButtonY = 0;
 
     public DayToolbar() {
@@ -40,21 +48,28 @@ public class DayToolbar extends Toolbar {
 
         AddButtons();
 
-        toolbarPane.getChildren().add(scrollPane);
+        toolbarPane.getChildren().addAll(scrollPane);
 
         scrollPane.setOnScroll(e -> {
-                dayTitleButton.bringToFront();
-                double zoomFactor = e.getDeltaY() > 0 ? 1 : -1;
-                if (zoomFactor < 0 && scrollAtMin()) {
-                    for (StickyNote currentNote : openStickyNotes) {
-                        currentNote.getNodes().get(0).setTranslateY(currentNote.getNodes().get(0).getTranslateY() + SCROLL_AMOUNT);
-                    }
-                } else if (zoomFactor > 0 && !scrollAtMax()) {
-                    for (StickyNote currentNote : openStickyNotes) {
-                        currentNote.getNodes().get(0).setTranslateY(currentNote.getNodes().get(0).getTranslateY() - SCROLL_AMOUNT);
-                    }             
-                } 
+            scrollToolbar(e);
         });
+    }
+
+    public void scrollToolbar(ScrollEvent e) {
+        double zoomFactor = e.getDeltaY() > 0 ? 1 : -1;
+        if (zoomFactor < 0 && scrollAtMin()) {
+            for (StickyNote currentNote : openStickyNotes) {
+                currentNote.getNodes().get(0).setTranslateY(currentNote.getNodes().get(0).getTranslateY() + SCROLL_AMOUNT);
+            }
+        } else if (zoomFactor > 0 && !scrollAtMax()) {
+            for (StickyNote currentNote : openStickyNotes) {
+                currentNote.getNodes().get(0).setTranslateY(currentNote.getNodes().get(0).getTranslateY() - SCROLL_AMOUNT);
+            }             
+        } 
+
+        dayTitleButton.bringToFront();
+        darkButton.bringToFront();
+        lightButton.bringToFront();
     }
 
     public void openDayToolbar(Day day) {
@@ -70,6 +85,10 @@ public class DayToolbar extends Toolbar {
         dayTitleButton.setText(openedYearMonth.getMonthValue() + "/" + day.day + "/" + openedYearMonth.getYear());
         dayTitleButton.bringToFront();
         showDayToolbar();
+
+        dayTitleButton.bringToFront();
+        darkButton.bringToFront();
+        lightButton.bringToFront();
     }
 
     public void closeDayToolbar() {
@@ -129,6 +148,10 @@ public class DayToolbar extends Toolbar {
             refreshStickyNotePosition();
             dayTitleButton.bringToFront();
         }
+
+        dayTitleButton.bringToFront();
+        darkButton.bringToFront();
+        lightButton.bringToFront();
     }
 
     public void removeStickyNote(StickyNote note) {
@@ -192,5 +215,11 @@ public class DayToolbar extends Toolbar {
         dayTitleButton = new DayTitleButton(getButtonX(), 0, getButtonWidth());
         addButton(dayTitleButton);
         dayTitleButtonY = (dayTitleButton.getNodes().get(0).getLayoutY() + GUIButton.BUTTON_HEIGHT);
+
+        lightButton = new SwitchColorThemeButton(new LightColorTheme(), getButtonX(), getBottomY(), getButtonWidth()/2);
+        darkButton = new SwitchColorThemeButton(new DarkColorTheme(), lightButton.getPosition().x + getButtonWidth() / 2, getBottomY(), getButtonWidth()/2);
+
+        addButton(lightButton);
+        addButton(darkButton);
     }
 }

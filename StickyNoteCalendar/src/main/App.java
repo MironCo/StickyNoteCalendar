@@ -35,8 +35,8 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 public class App extends Application {
-    public static final double screenWidth = 1600;
-    public static final double screenHeight = 900;
+    public static final double screenWidth = 1280;
+    public static final double screenHeight = 720;
     public static final double multiplier = screenWidth / 1280.0;
     private static Vector2 mousePosition = new Vector2(0, 0);
 
@@ -57,6 +57,7 @@ public class App extends Application {
         Platform.runLater(() -> {
             mainStage = stage;
             stage.setTitle("Sticky Note Calendar");
+            stage.setResizable(false);
 
             Pane layout = new Pane();
             objectList = layout.getChildren();
@@ -65,7 +66,7 @@ public class App extends Application {
 
             scene = new Scene(layout, screenWidth, screenHeight);
             scene.getStylesheets().add(this.getClass().getResource("styles.css").toExternalForm());
-            
+
             if (ColorThemeManager.getCurrentColorTheme() == null) {
                 ColorThemeManager.setCurrentColorTheme(new DarkColorTheme());
             }

@@ -108,6 +108,12 @@ public class StickyNote extends DraggableUIElement implements PopuppableUIElemen
                 }
             }
         });
+
+        stickyNotePane.setOnScroll(e -> {
+            if (isOnToolbar) {
+                App.getDayToolbar().scrollToolbar(e);
+            }
+        });
     }
 
     public void startEditingText() {

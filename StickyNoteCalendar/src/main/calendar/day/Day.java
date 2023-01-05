@@ -3,7 +3,7 @@
  * File: Day.java
  * Usage: Contains data for the object Day
  * Author: Miron Sulicz
- * Copyright: 2022 Miron Sulicz, All Rights Reserved
+ * Copyright: 2022-2023 Miron Sulicz, All Rights Reserved
  */
 
 package main.calendar.day;
@@ -28,6 +28,8 @@ public class Day extends DrawableUIElement implements ColorThemeChangableUIEleme
     public Text dayNumberText;
 
     public Text stickyNoteNumberText;
+    public double baseStickyNoteNumberTextX;
+
     public List<StickyNote> stickyNotes = new ArrayList<StickyNote>();
 
     public Day() {
@@ -108,12 +110,14 @@ public class Day extends DrawableUIElement implements ColorThemeChangableUIEleme
         } else {
             stickyNoteNumberText.setVisible(true);
             stickyNoteNumberText.setText("x" + stickyNotes.size());
+            stickyNoteNumberText.setX(baseStickyNoteNumberTextX - stickyNoteNumberText.getBoundsInLocal().getWidth());
         }
     }
 
     @Override
     public void updateColors() {
         dayNumberText.setFill(ColorThemeManager.getCurrentColorTheme().textColor);
+        stickyNoteNumberText.setFill(ColorThemeManager.getCurrentColorTheme().textColor);
         rectangle.setStroke(ColorThemeManager.getCurrentColorTheme().borderColor);
     }
 }

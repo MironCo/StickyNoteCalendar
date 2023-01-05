@@ -65,10 +65,12 @@ public class DayFactory {
         newDay.addNode(newDay.dayNumberText);
 
         newDay.stickyNoteNumberText = new Text("x0");
-        newDay.stickyNoteNumberText.setFont(FontManager.loadFont("Nunito-ExtraLight.ttf", 17));
-        newDay.stickyNoteNumberText.setX(position.x + calendar.dayDimensions.x - (Calendar.dayTextOffset.x + newDay.stickyNoteNumberText.getBoundsInLocal().getWidth()));
+        newDay.stickyNoteNumberText.setFont(FontManager.loadFont("Nunito-ExtraLight.ttf", 15));
+        newDay.baseStickyNoteNumberTextX = position.x + calendar.dayDimensions.x - Calendar.dayTextOffset.x;
+        newDay.stickyNoteNumberText.setX(newDay.baseStickyNoteNumberTextX + newDay.stickyNoteNumberText.getBoundsInLocal().getWidth());
         newDay.stickyNoteNumberText.setY(position.y + calendar.dayDimensions.y - (Calendar.dayTextOffset.x));
         newDay.stickyNoteNumberText.setFill(ColorThemeManager.getCurrentColorTheme().textColor);
+        newDay.stickyNoteNumberText.setTextAlignment(TextAlignment.RIGHT);
         newDay.addNode(newDay.stickyNoteNumberText);
 
         newDay.rectangle = new Rectangle(position.x, position.y, calendar.dayDimensions.x, calendar.dayDimensions.y);
