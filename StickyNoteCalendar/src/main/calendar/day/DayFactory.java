@@ -1,3 +1,10 @@
+/*
+ * Program: StickyNoteCalendar
+ * File: DayFactory.java
+ * Usage: Factory for creating gui Days.
+ * Author: Miron Sulicz
+ * Copyright: 2022-2023 Miron Sulicz, All Rights Reserved
+ */
 package main.calendar.day;
 
 import gui.colors.ColorThemeManager;

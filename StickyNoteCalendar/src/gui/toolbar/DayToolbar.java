@@ -1,3 +1,10 @@
+/*
+ * Program: StickyNoteCalendar
+ * File: DayToolbar.java
+ * Usage: Class that creates a Toolbar which shows a list view of a certain day.
+ * Author: Miron Sulicz
+ * Copyright: 2022-2023 Miron Sulicz, All Rights Reserved
+ */
 package gui.toolbar;
 
 import java.time.YearMonth;

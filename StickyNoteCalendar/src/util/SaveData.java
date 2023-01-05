@@ -1,3 +1,10 @@
+/*
+ * Program: StickyNoteCalendar
+ * File: SaveData.java
+ * Usage: Utility class containing data for SNC saves.
+ * Author: Miron Sulicz
+ * Copyright: 2022-2023 Miron Sulicz, All Rights Reserved
+ */
 package util;
 
 public class SaveData {

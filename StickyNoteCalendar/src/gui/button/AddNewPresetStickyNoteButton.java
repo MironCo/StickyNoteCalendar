@@ -1,3 +1,10 @@
+/*
+ * Program: StickyNoteCalendar
+ * File: AddNewPresetStickyNoteButton.java
+ * Usage: Button to create a new preset sticky note in the current Preset.
+ * Author: Miron Sulicz
+ * Copyright: 2022-2023 Miron Sulicz, All Rights Reserved
+ */
 package gui.button;
 
 import gui.button.presets.PresetManager;

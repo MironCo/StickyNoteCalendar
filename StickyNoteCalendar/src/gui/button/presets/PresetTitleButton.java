@@ -1,3 +1,10 @@
+/*
+ * Program: StickyNoteCalendar
+ * File: PresetTitleButton.java
+ * Usage: Button to show the title of the open preset and open new ones.
+ * Author: Miron Sulicz
+ * Copyright: 2022-2023 Miron Sulicz, All Rights Reserved
+ */
 package gui.button.presets;
 
 import gui.button.GUIButton;

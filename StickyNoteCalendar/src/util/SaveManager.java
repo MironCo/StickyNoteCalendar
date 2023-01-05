@@ -1,3 +1,10 @@
+/*
+ * Program: StickyNoteCalendar
+ * File: SaveManager.java
+ * Usage: Utility class that saves the program state into custom data files.
+ * Author: Miron Sulicz
+ * Copyright: 2022-2023 Miron Sulicz, All Rights Reserved
+ */
 package util;
 
 import java.io.File;

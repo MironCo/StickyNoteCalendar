@@ -1,5 +1,11 @@
+/*
+ * Program: StickyNoteCalendar
+ * File: ColorThemeManager.java
+ * Usage: Manager of color themes that contains the current ColorTheme.
+ * Author: Miron Sulicz
+ * Copyright: 2022-2023 Miron Sulicz, All Rights Reserved
+ */
 package gui.colors;
-
 
 public class ColorThemeManager {
     private static ColorTheme currentColorTheme;

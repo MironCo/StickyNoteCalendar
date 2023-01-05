@@ -1,3 +1,10 @@
+/*
+ * Program: StickyNoteCalendar
+ * File: CalendarData.java
+ * Usage: Utility class for Calendar data.
+ * Author: Miron Sulicz
+ * Copyright: 2022-2023 Miron Sulicz, All Rights Reserved
+ */
 package main.calendar;
 
 import java.time.LocalDate;

@@ -1,3 +1,10 @@
+/*
+ * Program: StickyNoteCalendar
+ * File: ChangeStickyNoteColorMenuItem.java
+ * Usage: Class that contains the MenuItem to change the color of a sticky note.
+ * Author: Miron Sulicz
+ * Copyright: 2022-2023 Miron Sulicz, All Rights Reserved
+ */
 package gui.popupmenu.popupmenuitems;
 
 import gui.stickynote.NoteColor;

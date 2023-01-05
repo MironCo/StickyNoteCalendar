@@ -1,3 +1,10 @@
+/*
+ * Program: StickyNoteCalendar
+ * File: Preset.java
+ * Usage: Base class for built in presets and added presets.
+ * Author: Miron Sulicz
+ * Copyright: 2022-2023 Miron Sulicz, All Rights Reserved
+ */
 package gui.button.presets;
 
 import java.util.ArrayList;

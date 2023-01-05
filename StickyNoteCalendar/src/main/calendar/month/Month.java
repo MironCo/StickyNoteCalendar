@@ -1,3 +1,10 @@
+/*
+ * Program: StickyNoteCalendar
+ * File: Month.java
+ * Usage: Class that contains the data for Months and the guiDays in the month.
+ * Author: Miron Sulicz
+ * Copyright: 2022-2023 Miron Sulicz, All Rights Reserved
+ */
 package main.calendar.month;
 
 import java.time.YearMonth;

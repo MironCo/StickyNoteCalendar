@@ -1,3 +1,10 @@
+/*
+ * Program: StickyNoteCalendar
+ * File: DrawableUIElement.java
+ * Usage: Base Class for UI Elements in SNC.
+ * Author: Miron Sulicz
+ * Copyright: 2022-2023 Miron Sulicz, All Rights Reserved
+ */
 package gui;
 
 import java.util.ArrayList;

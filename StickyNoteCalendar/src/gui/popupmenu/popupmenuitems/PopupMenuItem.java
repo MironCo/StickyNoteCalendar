@@ -1,3 +1,10 @@
+/*
+ * Program: StickyNoteCalendar
+ * File: PopupMenuItem.java
+ * Usage: Base class of all MenuItems.
+ * Author: Miron Sulicz
+ * Copyright: 2022-2023 Miron Sulicz, All Rights Reserved
+ */
 package gui.popupmenu.popupmenuitems;
 
 import gui.DrawableUIElement;

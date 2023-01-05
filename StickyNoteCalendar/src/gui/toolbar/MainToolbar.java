@@ -1,3 +1,10 @@
+/*
+ * Program: StickyNoteCalendar
+ * File: MainToolbar.java
+ * Usage: Class that creates a Toolbar which shows the main buttons to control the program.
+ * Author: Miron Sulicz
+ * Copyright: 2022-2023 Miron Sulicz, All Rights Reserved
+ */
 package gui.toolbar;
 
 import gui.button.AddNewPresetStickyNoteButton;

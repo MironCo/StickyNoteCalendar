@@ -1,3 +1,10 @@
+/*
+ * Program: StickyNoteCalendar
+ * File: DarkColorTheme.java
+ * Usage: Class that defines the colors of the Dark color theme.
+ * Author: Miron Sulicz
+ * Copyright: 2022-2023 Miron Sulicz, All Rights Reserved
+ */
 package gui.colors;
 
 import javafx.scene.paint.Color;

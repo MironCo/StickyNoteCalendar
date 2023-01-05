@@ -1,3 +1,10 @@
+/*
+ * Program: StickyNoteCalendar
+ * File: PopupMenu.java
+ * Usage: Base class for all popupmenus.
+ * Author: Miron Sulicz
+ * Copyright: 2022-2023 Miron Sulicz, All Rights Reserved
+ */
 package gui.popupmenu;
 
 import javafx.scene.control.ContextMenu;

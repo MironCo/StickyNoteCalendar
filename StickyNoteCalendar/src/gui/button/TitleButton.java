@@ -1,3 +1,10 @@
+/*
+ * Program: StickyNoteCalendar
+ * File: TitleButton.java
+ * Usage: Button to show the title of the program.
+ * Author: Miron Sulicz
+ * Copyright: 2022-2023 Miron Sulicz, All Rights Reserved
+ */
 package gui.button;
 
 import gui.popupmenu.PopuppableUIElement;

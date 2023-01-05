@@ -1,3 +1,10 @@
+/*
+ * Program: StickyNoteCalendar
+ * File: PresetPopupMenu.java
+ * Usage: Class that contains the Context menu for Presets.
+ * Author: Miron Sulicz
+ * Copyright: 2022-2023 Miron Sulicz, All Rights Reserved
+ */
 package gui.popupmenu;
 
 import gui.popupmenu.popupmenuitems.AddPresetMenuItem;

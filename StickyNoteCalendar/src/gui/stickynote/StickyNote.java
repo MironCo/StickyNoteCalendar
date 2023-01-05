@@ -3,7 +3,7 @@
  * File: StickyNote.java
  * Usage: Contains data for the object StickyNote
  * Author: Miron Sulicz
- * Copyright: 2022 Miron Sulicz, All Rights Reserved
+ * Copyright: 2022-2023 Miron Sulicz, All Rights Reserved
  */
 
 package gui.stickynote;

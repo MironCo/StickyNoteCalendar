@@ -1,3 +1,10 @@
+/*
+ * Program: StickyNoteCalendar
+ * File: GUIButton.java
+ * Usage: Base class for GUIButtons.
+ * Author: Miron Sulicz
+ * Copyright: 2022-2023 Miron Sulicz, All Rights Reserved
+ */
 package gui.button;
 
 import gui.DrawableUIElement;

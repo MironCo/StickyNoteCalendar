@@ -1,3 +1,10 @@
+/*
+ * Program: StickyNoteCalendar
+ * File: FontManager.java
+ * Usage: Utility class for loading fonts.
+ * Author: Miron Sulicz
+ * Copyright: 2022-2023 Miron Sulicz, All Rights Reserved
+ */
 package util;
 
 import java.io.File;

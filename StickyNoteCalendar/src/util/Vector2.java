@@ -1,3 +1,10 @@
+/*
+ * Program: StickyNoteCalendar
+ * File: Vector2.java
+ * Usage: Utility class that contains two values, X and Y.
+ * Author: Miron Sulicz
+ * Copyright: 2022-2023 Miron Sulicz, All Rights Reserved
+ */
 package util;
 
 public class Vector2 {

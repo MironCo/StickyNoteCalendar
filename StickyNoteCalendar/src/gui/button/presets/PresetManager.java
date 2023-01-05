@@ -1,3 +1,10 @@
+/*
+ * Program: StickyNoteCalendar
+ * File: PresetManager.java
+ * Usage: Class to manage the loaded preset and preset sticky notes.
+ * Author: Miron Sulicz
+ * Copyright: 2022-2023 Miron Sulicz, All Rights Reserved
+ */
 package gui.button.presets;
 
 import java.util.ArrayList;

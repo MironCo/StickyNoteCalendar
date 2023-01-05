@@ -1,3 +1,10 @@
+/*
+ * Program: StickyNoteCalendar
+ * File: LoadManager.java
+ * Usage: Utility class for loading save data.
+ * Author: Miron Sulicz
+ * Copyright: 2022-2023 Miron Sulicz, All Rights Reserved
+ */
 package util;
 
 import java.io.BufferedReader;

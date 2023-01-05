@@ -1,3 +1,10 @@
+/*
+ * Program: StickyNoteCalendar
+ * File: StickyNotePopupMenu.java
+ * Usage: Class that contains the Context menu for StickyNotes.
+ * Author: Miron Sulicz
+ * Copyright: 2022-2023 Miron Sulicz, All Rights Reserved
+ */
 package gui.popupmenu;
 
 import gui.popupmenu.popupmenuitems.ChangeStickyNoteColorMenuItem;

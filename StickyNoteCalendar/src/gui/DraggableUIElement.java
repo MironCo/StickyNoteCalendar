@@ -1,3 +1,10 @@
+/*
+ * Program: StickyNoteCalendar
+ * File: DraggableUIElement.java
+ * Usage: Parent class for UI Elements meant to be draggable.
+ * Author: Miron Sulicz
+ * Copyright: 2022-2023 Miron Sulicz, All Rights Reserved
+ */
 package gui;
 
 import javafx.scene.Node;

@@ -1,3 +1,10 @@
+/*
+ * Program: StickyNoteCalendar
+ * File: OpenPresetMenuItem.java
+ * Usage: Class that contains the MenuItem to open a preset.
+ * Author: Miron Sulicz
+ * Copyright: 2022-2023 Miron Sulicz, All Rights Reserved
+ */
 package gui.popupmenu.popupmenuitems;
 
 import gui.button.presets.Preset;

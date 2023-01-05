@@ -1,3 +1,10 @@
+/*
+ * Program: StickyNoteCalendar
+ * File: DayManager.java
+ * Usage: Utility class for containing and managing gui Days.
+ * Author: Miron Sulicz
+ * Copyright: 2022-2023 Miron Sulicz, All Rights Reserved
+ */
 package main.calendar.day;
 
 import java.util.List;

@@ -3,7 +3,7 @@
  * File: App.java
  * Usage: Main file for the application
  * Author: Miron Sulicz
- * Copyright: 2022 Miron Sulicz, All Rights Reserved
+ * Copyright: 2022-2023 Miron Sulicz, All Rights Reserved
  */
 
 package main;

@@ -1,3 +1,10 @@
+/*
+ * Program: StickyNoteCalendar
+ * File: SwitchColorThemeButton.java
+ * Usage: Button to Switch to a new Color Theme.
+ * Author: Miron Sulicz
+ * Copyright: 2022-2023 Miron Sulicz, All Rights Reserved
+ */
 package gui.button;
 
 import gui.colors.ColorTheme;

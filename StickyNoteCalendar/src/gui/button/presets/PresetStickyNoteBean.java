@@ -1,3 +1,10 @@
+/*
+ * Program: StickyNoteCalendar
+ * File: PresetStickyNoteBean.java
+ * Usage: Bean to contain data for preset sticky notes.
+ * Author: Miron Sulicz
+ * Copyright: 2022-2023 Miron Sulicz, All Rights Reserved
+ */
 package gui.button.presets;
 
 import gui.stickynote.NoteColor;

@@ -1,3 +1,10 @@
+/*
+ * Program: StickyNoteCalendar
+ * File: Toolbar.java
+ * Usage: Base class for Toolbars.
+ * Author: Miron Sulicz
+ * Copyright: 2022-2023 Miron Sulicz, All Rights Reserved
+ */
 package gui.toolbar;
 
 import javafx.scene.layout.Pane;

@@ -1,3 +1,10 @@
+/*
+ * Program: StickyNoteCalendar
+ * File: DayTitleButton.java
+ * Usage: Button to show the title of the open day in the toolbar.
+ * Author: Miron Sulicz
+ * Copyright: 2022-2023 Miron Sulicz, All Rights Reserved
+ */
 package gui.button;
 
 import gui.colors.ColorThemeManager;

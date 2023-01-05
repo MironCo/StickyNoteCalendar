@@ -1,3 +1,10 @@
+/*
+ * Program: StickyNoteCalendar
+ * File: ColorTheme.java
+ * Usage: Base class of all ColorThemes.
+ * Author: Miron Sulicz
+ * Copyright: 2022-2023 Miron Sulicz, All Rights Reserved
+ */
 package gui.colors;
 
 import javafx.scene.paint.Color;
