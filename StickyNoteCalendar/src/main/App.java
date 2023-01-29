@@ -37,7 +37,7 @@ import javafx.stage.Stage;
 
 public class App extends Application {
 
-    private static final double referenceWidth = 1500.0;
+    private static final double referenceWidth = 1500.0; // not too big, not too small
     private static final double referenceHeight = 844.0;
     public static final double screenWidth = Screen.getPrimary().getBounds().getWidth()*(referenceWidth/1920.0);
     public static final double screenHeight = Screen.getPrimary().getBounds().getHeight()*(referenceHeight/1080.0);

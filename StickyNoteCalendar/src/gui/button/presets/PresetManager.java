@@ -12,6 +12,7 @@ import java.util.List;
 
 import gui.button.presets.defaults.DefaultPreset;
 import gui.button.presets.defaults.StudentPreset;
+import gui.button.presets.defaults.YoutuberPreset;
 import gui.popupmenu.PresetPopupMenu;
 import main.App;
 
@@ -76,7 +77,7 @@ public class PresetManager {
 
     public void loadDefaultPresets() {
         addPreset(new DefaultPreset());
-        addPreset(new StudentPreset());
+        addPreset(new YoutuberPreset());
     }
 
     public void setCurrentlyEditingStickyNote(AddPresetStickyNote note) {

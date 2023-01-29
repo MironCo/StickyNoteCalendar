@@ -16,6 +16,6 @@ public class DefaultPreset extends Preset {
         super("Default");
         
         addPresetStickyNote(new PresetStickyNoteBean("This is a test Sticky Note (:", NoteColor.BLUE));
-        addPresetStickyNote(new PresetStickyNoteBean("Other Test :D", NoteColor.GREEN));
+        addPresetStickyNote(new PresetStickyNoteBean("Drag us out to the calendar!", NoteColor.GREEN));
     }
 }
