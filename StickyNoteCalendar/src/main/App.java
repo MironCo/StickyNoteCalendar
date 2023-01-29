@@ -35,8 +35,8 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 public class App extends Application {
-    public static final double screenWidth = 1280;
-    public static final double screenHeight = 720;
+    public static final double screenWidth = 1366;
+    public static final double screenHeight = 768;
     public static final double multiplier = screenWidth / 1280.0;
     private static Vector2 mousePosition = new Vector2(0, 0);
 
