@@ -32,12 +32,16 @@ import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 public class App extends Application {
-    public static final double screenWidth = 1366;
-    public static final double screenHeight = 768;
-    public static final double multiplier = screenWidth / 1280.0;
+
+    private static final double referenceWidth = 1500.0;
+    private static final double referenceHeight = 844.0;
+    public static final double screenWidth = Screen.getPrimary().getBounds().getWidth()*(referenceWidth/1920.0);
+    public static final double screenHeight = Screen.getPrimary().getBounds().getHeight()*(referenceHeight/1080.0);
+    public static final double multiplier = screenWidth / 1280.0; // based off of 1280 screen size
     private static Vector2 mousePosition = new Vector2(0, 0);
 
     private static Stage mainStage = null;
@@ -61,7 +65,7 @@ public class App extends Application {
 
             Pane layout = new Pane();
             objectList = layout.getChildren();
-            backgroundRectangle = new Rectangle(0, 0, screenWidth, screenHeight);
+            backgroundRectangle = new Rectangle(0, 0, screenWidth+100, screenHeight+100); // fill in more than the background
             objectList.add(backgroundRectangle);
 
             scene = new Scene(layout, screenWidth, screenHeight);
@@ -77,7 +81,7 @@ public class App extends Application {
 
             Calendar.getInstance().Init();
 
-            mainToolbar = new MainToolbar();         
+            mainToolbar = new MainToolbar();
 
             PresetManager.getInstance().openDefaultPreset();
 
@@ -99,7 +103,7 @@ public class App extends Application {
             });
 
             KeyCombination saveCombination = new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_DOWN);
-            Runnable save = ()-> SaveManager.SaveData();
+            Runnable save = () -> SaveManager.SaveData();
             scene.getAccelerators().put(saveCombination, save);
 
             stage.setScene(scene);
@@ -115,7 +119,7 @@ public class App extends Application {
     public static void updateColorTheme(ColorTheme newColorTheme) {
         ColorThemeManager.setCurrentColorTheme(newColorTheme);
         getScene().setFill(ColorThemeManager.getCurrentColorTheme().backgroundColor);
-    
+
         backgroundRectangle.setFill(ColorThemeManager.getCurrentColorTheme().backgroundColor);
         for (ColorThemeChangableUIElement element : changeableUIElements) {
             element.updateColors();
