@@ -33,17 +33,12 @@ public class Day extends DrawableUIElement implements ColorThemeChangableUIEleme
     public List<StickyNote> stickyNotes = new ArrayList<StickyNote>();
 
     public Day() {
-
+        //empty as it is created in a factory
     }
 
-    public void AddStickyNote(StickyNote note) {
-        stickyNotes.add(0, note);
-        note.setConnectedDay(this);
-        note.hideMainStickyNote();
-        updateStickyNoteGraphic();
-    }
 
     public Day getDay() {
+        //getter method for lambda expressions
         return this;
     }
 
@@ -84,6 +79,8 @@ public class Day extends DrawableUIElement implements ColorThemeChangableUIEleme
         }
     }
 
+    // method to scroll through the sticky notes
+    // updates the dayStickyNoteGraphic
     public void scrollThroughStickyNotes(double direction) {
         if (direction > 0) {
             stickyNotes.add(stickyNotes.remove(0));
@@ -91,6 +88,13 @@ public class Day extends DrawableUIElement implements ColorThemeChangableUIEleme
             stickyNotes.add(0, stickyNotes.remove(stickyNotes.size()-1));
         }
         App.getDayToolbar().refreshStickyNotes();
+        updateStickyNoteGraphic();
+    }
+
+    public void AddStickyNote(StickyNote note) {
+        stickyNotes.add(0, note);
+        note.setConnectedDay(this);
+        note.hideMainStickyNote();
         updateStickyNoteGraphic();
     }
 

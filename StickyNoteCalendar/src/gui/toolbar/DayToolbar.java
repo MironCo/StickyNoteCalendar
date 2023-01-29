@@ -64,6 +64,7 @@ public class DayToolbar extends Toolbar {
 
     public void scrollToolbar(ScrollEvent e) {
         double zoomFactor = e.getDeltaY() > 0 ? 1 : -1;
+        //if its within the bounds, scroll all the sticky notes
         if (zoomFactor < 0 && scrollAtMin()) {
             for (StickyNote currentNote : openStickyNotes) {
                 currentNote.getNodes().get(0).setTranslateY(currentNote.getNodes().get(0).getTranslateY() + SCROLL_AMOUNT);
@@ -81,16 +82,20 @@ public class DayToolbar extends Toolbar {
 
     public void openDayToolbar(Day day) {
         openDay = day;
-        
+
+        //make sure that all already open sticky notes get marked as not open
         for (StickyNote note : openStickyNotes) {
             note.setVisible(false);
             note.isOnToolbar = false;
         }
 
+        //change open sticky notes to the day's sticky notes
         openStickyNotes = openDay.getStickyNotes();
+        //set title to day's date
         YearMonth openedYearMonth = Calendar.getInstance().getCurrentMonth().getYearMonth();
         dayTitleButton.setText(openedYearMonth.getMonthValue() + "/" + day.day + "/" + openedYearMonth.getYear());
         dayTitleButton.bringToFront();
+        //show the day toolbar and all the sticky notes
         showDayToolbar();
 
         dayTitleButton.bringToFront();

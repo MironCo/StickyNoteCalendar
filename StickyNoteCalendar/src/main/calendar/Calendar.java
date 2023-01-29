@@ -105,13 +105,16 @@ public class Calendar extends DrawableUIElement implements ColorThemeChangableUI
       currentMonth.hideMonth();
 
       YearMonth nextYearMonth = null;
+      //find the next month as a year month
       if (getCurrentMonth().getYearMonth().getMonthValue() + 1 >= 13) {
          nextYearMonth = YearMonth.of(getCurrentMonth().getYearMonth().getYear() + 1, 1);
       } else if (getCurrentMonth().getYearMonth().getMonthValue() + 1 < 13) {
+         //wrap around to the next year
          nextYearMonth = YearMonth.of(getCurrentMonth().getYearMonth().getYear(),
                getCurrentMonth().getYearMonth().getMonthValue() + 1);
       }
 
+      //if the monthname key returns a Month go to it, otherwise make a new one.
       if (nextYearMonth != null && months.get(MonthFactory.generateMonthName(nextYearMonth)) != null) {
          Month nextMonth = months.get(MonthFactory.generateMonthName(nextYearMonth));
          nextMonth.showMonth();

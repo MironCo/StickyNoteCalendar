@@ -27,13 +27,8 @@ public class Month {
         this.name = name;
 
         for (int i = 0; i < numberOfDays; i++) {
-            //long startTime = System.currentTimeMillis();
-
             Day day = DayFactory.buildDay(i, numberOfDays, weekdayOffset);
             daysInMonth.add(day);
-
-            //long endTime = System.currentTimeMillis();
-            //System.out.println("That took " + (endTime - startTime) + " milliseconds");
         }
         AddDaysToScene();
     }

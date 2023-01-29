@@ -69,15 +69,18 @@ public class LoadManager {
 
             while ((line = buffReader.readLine()) != null) {
                 if (line.contains(SaveData.MONTH_TYPE)) {
+                    //create the current month to add Days to
                     int year = Integer.parseInt(line.substring(line.indexOf(" ") + 1).replace("\n", ""));
                     int month = CalendarData.findMonthIndex(line.substring(line.indexOf(":") + 1, line.indexOf(" ")));
                     YearMonth mYearMonth = YearMonth.of(year, month);
                     newMonth = MonthFactory.buildMonth(mYearMonth);
                     loadedMonths.add(newMonth);
                 } else if (line.contains(SaveData.DAY_TYPE)) {
+                    //get the current Day to add Sticky Notes to (it is already created by Month)
                     int dayNumber = Integer.parseInt(line.substring(line.indexOf(":") + 1));
                     newDay = newMonth.getDays().get(dayNumber-1);
                 } else if (line.contains(SaveData.STICKY_NOTE_TYPE)) {
+                    //create the saved Sticky Note
                     String stickyNoteContents = line.substring(line.indexOf(":") + 1, line.indexOf(",")).replace("\\n", "\n");
                     NoteColor noteColor = StickyNoteManager.getNoteColorByName(line.substring(line.indexOf(",") + 1));
                     StickyNote newNote = new StickyNote(stickyNoteContents);
@@ -85,6 +88,7 @@ public class LoadManager {
                     newNote.setColor(noteColor);
                     newDay.AddStickyNote(newNote);
                 } else if (line.contains(SaveData.COLOR_THEME_TYPE)) {
+                    //find the color theme
                     String colorThemeName = line.substring(line.indexOf(":") + 1);
                     ColorThemeManager.setCurrentColorTheme(ColorThemeManager.getColorThemeFromName(colorThemeName));
                 }

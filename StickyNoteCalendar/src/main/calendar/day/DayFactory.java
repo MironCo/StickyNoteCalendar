@@ -51,17 +51,21 @@ public class DayFactory {
 
         Day newDay = new Day();
 
+        //calculate the size of the day
         final int numberOfRows = (int) Math.ceil((numberOfDays + weekdayOffset) / 7.0);
         final double size = (App.screenHeight - (((numberOfRows+1) * Calendar.dayOffset.y) + calendar.textHeight * 2)) / numberOfRows;
         final int adjustedDay = day + weekdayOffset;
 
         calendar.dayDimensions = new Vector2(size, size);
 
+        //set the position
         Vector2 position = new Vector2(
                 Calendar.getInstance().getWeekdayNames().get(adjustedDay % 7).getX(),
                 ((calendar.dayDimensions.y + Calendar.dayOffset.y) * (adjustedDay / 7)) + (Calendar.dayOffset.y + calendar.textHeight + Calendar.DAY_Y_PADDING + Calendar.WEEKDAY_NAMES_Y_PADDING));
                         
         newDay.setPosition(position);
+        
+        //set the number of the day 
         newDay.day = day + 1;
 
         newDay.dayNumberText = new Text(newDay.day.toString());

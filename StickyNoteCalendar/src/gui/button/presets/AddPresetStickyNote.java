@@ -71,10 +71,13 @@ public class AddPresetStickyNote extends GUIButton implements PopuppableUIElemen
 
         getButtonPane().setOnMouseDragged(e -> {
             if (e.getButton() == MouseButton.PRIMARY) {
+                //if outside of toolbar
                 if (!App.getMainToolbar().getToolbarGraphic().contains(new Point2D(App.getMousePosition().x, App.getMousePosition().y))) {
                     double centerOffset = 0;
                     
+                    //and the created sticky note is not yet created
                     if (createdStickyNote == null) {
+                        //create a new sticky note
                         createdStickyNote = new StickyNote(textContents);
                         if (buttonColor != null) createdStickyNote.setColor(buttonColor);
                         StickyNoteManager.getInstance().addStickyNote(createdStickyNote);

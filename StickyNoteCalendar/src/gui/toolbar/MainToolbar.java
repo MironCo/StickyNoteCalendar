@@ -42,6 +42,7 @@ public class MainToolbar extends Toolbar {
         if (PresetManager.getInstance().getPresets().isEmpty()) {
             PresetManager.getInstance().loadDefaultPresets();
         }
+        //add preset to toolbar
         for (Preset preset : PresetManager.getInstance().getPresets()) {
             addPreset(preset);
         }

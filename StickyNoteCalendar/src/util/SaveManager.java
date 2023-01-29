@@ -71,12 +71,14 @@ public class SaveManager {
         int numberOfDays = month.getDays().size();
         int actuallyWritten = 0;
 
+        //check beforehand if all the days are empty
         for (int i = 0; i < numberOfDays; i++) {
             if (!month.getDays().get(i).getStickyNotes().isEmpty()) {
                 actuallyWritten ++;
             }
         }
 
+        //if there is at least one day with a sticky note, write the month.
         if (actuallyWritten > 0) {
             writer.write(SaveData.MONTH_TYPE);
             writer.write(monthName);

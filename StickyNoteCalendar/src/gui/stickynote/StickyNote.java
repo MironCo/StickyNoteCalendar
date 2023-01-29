@@ -118,9 +118,11 @@ public class StickyNote extends DraggableUIElement implements PopuppableUIElemen
 
     public void startEditingText() {
         isEditing = true;
+        // clear default text
         if (textArea.getText().equals("Sticky Note")) {
             textArea.setText("");
         }
+        //make text area editable
         textArea.setMouseTransparent(false);
         textArea.setEditable(true);
         StickyNoteManager.getInstance().setCurrentlyEditingStickyNote(this);
@@ -146,8 +148,10 @@ public class StickyNote extends DraggableUIElement implements PopuppableUIElemen
         boolean isOnStickyNote = false;
 
         if (isOnToolbar) { 
+            //check if dropped on other sticky note
             for (StickyNote other : App.getDayToolbar().getOpenDay().getStickyNotes()) {
                 if (other != this && other.isOnToolbar && other.isMouseOver()) {
+                    //swap sticky notes
                     isOnStickyNote = true;
                     Day currentDay = App.getDayToolbar().getOpenDay();
                     int index = currentDay.getStickyNotes().indexOf(this);
@@ -158,13 +162,16 @@ public class StickyNote extends DraggableUIElement implements PopuppableUIElemen
                     break;
                 }
             }
-        
+            
+            //if not on another sticky note, either remove it from the toolbar
+            //or refresh the sticky notees
             if (!isOnStickyNote && !App.getDayToolbar().isMouseOver()) {
                 isOnToolbar = false; 
                 App.getDayToolbar().removeStickyNote(this);
             } else if (!isOnStickyNote) {
                 App.getDayToolbar().refreshStickyNotes();
             }
+        //if not already on toolbar, add it to the toolbar.
         } else if (!isOnToolbar && App.getDayToolbar().isMouseOver()) {
             App.getDayToolbar().getOpenDay().AddStickyNote(this);
             App.getDayToolbar().refreshStickyNotes();
