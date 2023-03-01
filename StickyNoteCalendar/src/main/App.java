@@ -65,6 +65,7 @@ public class App extends Application {
 
             Pane layout = new Pane();
             objectList = layout.getChildren();
+            //rectangle to cover up the background
             backgroundRectangle = new Rectangle(0, 0, screenWidth+100, screenHeight+100); // fill in more than the background
             objectList.add(backgroundRectangle);
 

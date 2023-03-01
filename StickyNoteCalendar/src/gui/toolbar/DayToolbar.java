@@ -106,6 +106,8 @@ public class DayToolbar extends Toolbar {
 
     private void showDayToolbar() {
         toolbarPane.setVisible(true);
+        toolbarPane.setMouseTransparent(false);
+
         int index = 0;
 
         for (GUIButton button : getButtons()) {
@@ -123,6 +125,7 @@ public class DayToolbar extends Toolbar {
 
     private void hideDayToolbar() {
         toolbarPane.setVisible(false);
+        toolbarPane.setMouseTransparent(true);
         
         for (GUIButton button : getButtons()) {
             button.setVisible(false);
@@ -211,7 +214,7 @@ public class DayToolbar extends Toolbar {
 
     public boolean isMouseOver() {
         boolean contains = false;
-        if (App.getMousePosition().x > toolbarPane.getTranslateX()) {
+        if (isVisible() && App.getMousePosition().x > toolbarPane.getTranslateX()) {
             contains = true;
         } 
         return contains;

@@ -25,7 +25,7 @@ public class DayStickyNoteGraphic extends DraggableUIElement {
     public Rectangle rectangle = null;
     private Day connectedDay = null;
     private StickyNote connectedStickyNote = null;
-    private boolean isOnDay = true;
+    private boolean isOnDay = true; 
 
     private Vector2 rectPosition;
     private Vector2 connectedOffset = new Vector2(0, 0);
