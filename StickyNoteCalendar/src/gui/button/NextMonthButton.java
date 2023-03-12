@@ -7,6 +7,7 @@
  */
 package gui.button;
 
+import main.App;
 import main.calendar.Calendar;
 
 public class NextMonthButton extends GUIButton {
@@ -18,6 +19,7 @@ public class NextMonthButton extends GUIButton {
     @Override
     public void performAction() {
         Calendar.getInstance().goToNextMonth();
+        App.getDayToolbar().closeDayToolbar();
     }
     
 }
