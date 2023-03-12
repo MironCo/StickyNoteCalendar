@@ -32,6 +32,7 @@ public class DayStickyNoteGraphic extends DraggableUIElement {
     private final Vector2 padding = new Vector2(0, 3);
 
     public TextArea textArea = null;
+    private StickyNote copy = null;
 
     public DayStickyNoteGraphic(Vector2 _pos, Day connectedDay) {
         Calendar calendar = Calendar.getInstance();
@@ -57,16 +58,20 @@ public class DayStickyNoteGraphic extends DraggableUIElement {
         setMouseActions();        
     }
 
+    public StickyNote copyStickyNote() {
+        return new StickyNote(connectedStickyNote);
+    }
+
     public void setMouseActions() {
         rectangle.setOnMousePressed(e -> {
-            if (e.getButton() == MouseButton.PRIMARY) {
+            if (e.getButton() == MouseButton.PRIMARY || e.getButton() == MouseButton.MIDDLE) {
                 if (e.getClickCount() == 1) {
                     startX = e.getSceneX() - rectPosition.x; 
                     startY = e.getSceneY() - rectPosition.y;
 
                     connectedOffset.x = (startX / rectangle.getBoundsInLocal().getWidth()) * connectedStickyNote.getRectangle().getBoundsInLocal().getWidth();
                     connectedOffset.y = (startY / rectangle.getBoundsInLocal().getHeight()) * connectedStickyNote.getRectangle().getBoundsInLocal().getHeight();
-                } else if (e.getClickCount() > 1) {
+                } else if (e.getButton() == MouseButton.PRIMARY && e.getClickCount() > 1) {
                     App.getDayToolbar().openDayToolbar(connectedDay);
                 }
             }
@@ -84,12 +89,25 @@ public class DayStickyNoteGraphic extends DraggableUIElement {
                     draggedNote.getNodes().get(0).setTranslateX(e.getSceneX() - connectedOffset.x);
                     draggedNote.getNodes().get(0).setTranslateY(e.getSceneY() - connectedOffset.y);
                 }
+            } else if (e.getButton() == MouseButton.MIDDLE) {
+                if (!connectedDay.rectangle.contains(new Point2D(App.getMousePosition().x, App.getMousePosition().y))
+                && copy == null) {
+                    copy = copyStickyNote();
+                    StickyNoteManager.getInstance().addStickyNote(copy);
+                    StickyNoteManager.getInstance().setDraggedStickyNote(copy);
+                } 
+                StickyNote draggedNote = StickyNoteManager.getInstance().getDraggedStickyNote();
+                if (draggedNote != null) {
+                    draggedNote.getNodes().get(0).setTranslateX(e.getSceneX() - connectedOffset.x);
+                    draggedNote.getNodes().get(0).setTranslateY(e.getSceneY() - connectedOffset.y);
+                }
             }
         });
 
         rectangle.setOnMouseReleased(e -> {
-            if (e.getButton() == MouseButton.PRIMARY) {
+            if (e.getButton() == MouseButton.PRIMARY || e.getButton() == MouseButton.MIDDLE) {
                 if (StickyNoteManager.getInstance().getDraggedStickyNote() != null) {
+                    if (copy != null) copy = null;
                     StickyNoteManager.getInstance().getDraggedStickyNote().ReleaseStickyNote();
                 }
             }

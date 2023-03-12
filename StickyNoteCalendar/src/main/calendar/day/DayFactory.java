@@ -7,6 +7,8 @@
  */
 package main.calendar.day;
 
+import java.lang.invoke.StringConcatFactory;
+
 import gui.colors.ColorThemeManager;
 import gui.stickynote.DayStickyNoteGraphic;
 import gui.toolbar.Toolbar;
@@ -21,6 +23,7 @@ import util.FontManager;
 import util.Vector2;
 
 public class DayFactory {
+
     public static Text buildDayOfWeekText(int day) {
         Calendar calendar = Calendar.getInstance();
 
@@ -61,37 +64,38 @@ public class DayFactory {
                 Calendar.getInstance().getWeekdayNames().get(adjustedDay % 7).getX(),
                 ((calendar.dayDimensions.y + Calendar.dayOffset.y) * (adjustedDay / 7)) + (Calendar.dayOffset.y + calendar.textHeight + Calendar.DAY_Y_PADDING + Calendar.WEEKDAY_NAMES_Y_PADDING));
                         
-        newDay.setPosition(position);
         newDay.day = day + 1;
 
-        newDay.dayNumberText = new Text(newDay.day.toString());
-        newDay.dayNumberText.setFont(FontManager.loadFont("Nunito-ExtraLight.ttf", 20));
-        newDay.dayNumberText.setX(position.x + Calendar.dayTextOffset.x);
-        newDay.dayNumberText.setY(position.y + Calendar.dayTextOffset.y);
-        newDay.dayNumberText.setFill(ColorThemeManager.getCurrentColorTheme().textColor);
-        newDay.addNode(newDay.dayNumberText);
+        Text dayNumberText = new Text(position.x + Calendar.dayTextOffset.x, position.y + Calendar.dayTextOffset.y, newDay.day.toString());
+        dayNumberText.setFont(FontManager.loadFont("Nunito-ExtraLight.ttf", 20));
+        dayNumberText.setFill(ColorThemeManager.getCurrentColorTheme().textColor);
+        newDay.dayNumberText = dayNumberText;
 
-        newDay.stickyNoteNumberText = new Text("x0");
-        newDay.stickyNoteNumberText.setFont(FontManager.loadFont("Nunito-ExtraLight.ttf", 15));
+        Text stickyNoteNumberText = new Text("x0");
+        stickyNoteNumberText.setId("number-text");
+        stickyNoteNumberText.setFont(FontManager.loadFont("Nunito-ExtraLight.ttf", 15));
         newDay.baseStickyNoteNumberTextX = position.x + calendar.dayDimensions.x - Calendar.dayTextOffset.x;
-        newDay.stickyNoteNumberText.setX(newDay.baseStickyNoteNumberTextX + newDay.stickyNoteNumberText.getBoundsInLocal().getWidth());
-        newDay.stickyNoteNumberText.setY(position.y + calendar.dayDimensions.y - (Calendar.dayTextOffset.x));
-        newDay.stickyNoteNumberText.setFill(ColorThemeManager.getCurrentColorTheme().textColor);
-        newDay.stickyNoteNumberText.setTextAlignment(TextAlignment.RIGHT);
-        newDay.addNode(newDay.stickyNoteNumberText);
+        stickyNoteNumberText.setX(newDay.baseStickyNoteNumberTextX + stickyNoteNumberText.getBoundsInLocal().getWidth());
+        stickyNoteNumberText.setY(position.y + calendar.dayDimensions.y - (Calendar.dayTextOffset.x));
+        stickyNoteNumberText.setFill(ColorThemeManager.getCurrentColorTheme().textColor);
+        stickyNoteNumberText.setTextAlignment(TextAlignment.RIGHT);
+        newDay.stickyNoteNumberText = stickyNoteNumberText;
 
-        newDay.rectangle = new Rectangle(position.x, position.y, calendar.dayDimensions.x, calendar.dayDimensions.y);
-        newDay.rectangle.setFill(Color.TRANSPARENT);
-        newDay.rectangle.setStroke(ColorThemeManager.getCurrentColorTheme().borderColor);
-        newDay.rectangle.setStrokeWidth(2);
-        newDay.rectangle.setViewOrder(0);
-        newDay.addNode(newDay.rectangle);
+        Rectangle rectangle = new Rectangle(position.x, position.y, calendar.dayDimensions.x, calendar.dayDimensions.y);
+        rectangle.setId("day-rect");
+        rectangle.setFill(Color.TRANSPARENT);
+        rectangle.setStroke(ColorThemeManager.getCurrentColorTheme().borderColor);
+        newDay.rectangle = rectangle;
 
-        newDay.dayStickyNote = new DayStickyNoteGraphic(position, newDay);
+        DayStickyNoteGraphic dayStickyNote = new DayStickyNoteGraphic(position, newDay);
+        dayStickyNote.setVisible(false);
+        newDay.dayStickyNote = dayStickyNote;
+        
         newDay.addNodeToFront(newDay.dayStickyNote.rectangle);
+        newDay.addNode(newDay.stickyNoteNumberText);
+        newDay.addNode(newDay.rectangle);
         newDay.addNode(newDay.dayStickyNote.textArea);
-        newDay.dayStickyNote.setVisible(false);
-
+        newDay.addNode(newDay.dayNumberText);
         App.addColorThemeChangeable(newDay);
         return newDay;
     }

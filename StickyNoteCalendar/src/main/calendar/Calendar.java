@@ -81,6 +81,9 @@ public class Calendar extends DrawableUIElement implements ColorThemeChangableUI
          setCurrentMonth(months.get(MonthFactory.generateMonthName(todayYearMonth)));
       }
 
+      //highlight today
+      getCurrentMonth().getDays().get(today.getDayOfMonth()-1).highlightDay();
+
       nodes.add(monthName);
       nodes.addAll(weekdayNames);
 

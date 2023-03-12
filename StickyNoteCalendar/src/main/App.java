@@ -52,8 +52,15 @@ public class App extends Application {
     private static DayToolbar dayToolbar;
     private static Rectangle backgroundRectangle;
 
+    public static boolean shiftPressed = false;
+
     public static void main(String[] args) {
         launch(args);
+    }
+
+    @Override
+    public void init() {
+        
     }
 
     @Override
@@ -87,6 +94,10 @@ public class App extends Application {
             PresetManager.getInstance().openDefaultPreset();
 
             updateColorTheme(ColorThemeManager.getCurrentColorTheme());
+            
+            scene.setOnKeyReleased(e -> {
+                if (e.getCode() == KeyCode.SHIFT) shiftPressed = false;
+            });
 
             scene.setOnMouseMoved(e -> {
                 mousePosition.x = e.getX();

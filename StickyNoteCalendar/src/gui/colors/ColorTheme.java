@@ -19,4 +19,5 @@ public abstract class ColorTheme {
     public Color buttonHighlightColor;
     public Color popupMenuColor;
     public Color popupMenuTextColor;
+    public Color highlightedColor;
 }

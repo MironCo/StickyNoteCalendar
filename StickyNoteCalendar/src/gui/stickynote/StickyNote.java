@@ -77,6 +77,11 @@ public class StickyNote extends DraggableUIElement implements PopuppableUIElemen
         this.textArea.setText(noteText);
     }
 
+    public StickyNote(StickyNote stickyNote) {
+        this(stickyNote.getStickyNoteText());
+        setColor(stickyNote.getColor());
+    }
+
     private void setReleaseAction() {
         stickyNotePane.setOnMouseReleased(e -> {
             if (e.getButton() == MouseButton.PRIMARY) {

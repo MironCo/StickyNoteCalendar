@@ -16,7 +16,7 @@ import java.nio.file.FileSystems;
 import javafx.scene.text.Font;
 
 public class FontManager {
-    private static final String FONT_FOLDER_PATH = FileSystems.getDefault().getPath("").toAbsolutePath().toString() + File.separatorChar + "Fonts";
+    public static final String FONT_FOLDER_PATH = FileSystems.getDefault().getPath("").toAbsolutePath().toString() + File.separatorChar + "Fonts";
 
     public static Font loadFont(String name, int size) {
         try {

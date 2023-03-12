@@ -17,6 +17,7 @@ import gui.colors.ColorThemeManager;
 import gui.stickynote.DayStickyNoteGraphic;
 import gui.stickynote.StickyNote;
 import javafx.scene.Node;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import main.App;
@@ -31,6 +32,8 @@ public class Day extends DrawableUIElement implements ColorThemeChangableUIEleme
     public double baseStickyNoteNumberTextX;
 
     public List<StickyNote> stickyNotes = new ArrayList<StickyNote>();
+
+    private boolean highlighted = false;
 
     public Day() {
 
@@ -114,10 +117,17 @@ public class Day extends DrawableUIElement implements ColorThemeChangableUIEleme
         }
     }
 
+    public void highlightDay() {
+        Color highlight = ColorThemeManager.getCurrentColorTheme().highlightedColor;
+        rectangle.setFill(new Color(highlight.getRed(), highlight.getGreen(), highlight.getBlue(), 0.25));
+        highlighted = true;
+    }
+
     @Override
     public void updateColors() {
         dayNumberText.setFill(ColorThemeManager.getCurrentColorTheme().textColor);
         stickyNoteNumberText.setFill(ColorThemeManager.getCurrentColorTheme().textColor);
         rectangle.setStroke(ColorThemeManager.getCurrentColorTheme().borderColor);
+        if (highlighted) highlightDay();
     }
 }

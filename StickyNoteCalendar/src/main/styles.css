@@ -11,3 +11,8 @@
 .text-field {
     -fx-background-color: transparent;
 }
+
+.day-rect {
+    -fx-stroke-width: 2;
+    
+}

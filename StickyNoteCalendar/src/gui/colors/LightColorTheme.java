@@ -20,5 +20,6 @@ public class LightColorTheme extends ColorTheme {
         buttonHighlightColor = Color.rgb(210, 210, 250);
         popupMenuColor = Color.rgb(200, 200, 230);
         popupMenuTextColor = Color.BLACK;
+        highlightedColor = Color.rgb(244, 252, 3);
     }
 } 
